@@ -200,15 +200,20 @@
 
         .task-item, .project-item, .goal-item, .note-item {
             background: var(--light);
-            padding: 15px;
+            padding: 20px;
             margin-bottom: 10px;
             border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             transition: all 0.3s ease;
-            cursor: pointer;
+            cursor: grab;
             user-select: none;
+            min-height: 60px;
+        }
+
+        .note-item:active {
+            cursor: grabbing;
         }
 
         .note-item.dragging {
@@ -218,7 +223,19 @@
 
         .note-item.drag-over {
             background: #e5e7eb;
-            border: 2px dashed var(--primary);
+            border: 3px dashed var(--primary);
+            transform: scale(1.02);
+            margin: 5px 0;
+        }
+
+        .note-item.drag-over-above {
+            border-top: 4px solid var(--primary);
+            margin-top: 10px;
+        }
+
+        .note-item.drag-over-below {
+            border-bottom: 4px solid var(--primary);
+            margin-bottom: 10px;
         }
 
         .task-item:hover, .project-item:hover, .goal-item:hover, .note-item:hover {
@@ -1259,6 +1276,22 @@
                 e.preventDefault();
             }
             e.dataTransfer.dropEffect = 'move';
+            
+            // Update visual feedback based on mouse position
+            const rect = this.getBoundingClientRect();
+            const midY = rect.top + rect.height / 2;
+            const position = e.clientY < midY ? 'above' : 'below';
+            
+            // Remove existing position classes
+            this.classList.remove('drag-over-above', 'drag-over-below');
+            
+            // Add appropriate class
+            if (position === 'above') {
+                this.classList.add('drag-over-above');
+            } else {
+                this.classList.add('drag-over-below');
+            }
+            
             return false;
         }
 
@@ -1269,7 +1302,7 @@
         }
 
         function handleDragLeave(e) {
-            this.classList.remove('drag-over');
+            this.classList.remove('drag-over', 'drag-over-above', 'drag-over-below');
         }
 
         function handleDrop(e) {
@@ -1285,9 +1318,26 @@
                 const targetIndex = appData.notes.findIndex(n => n.id === targetId);
                 
                 if (draggedIndex !== -1 && targetIndex !== -1) {
-                    // Remove dragged item and insert at new position
+                    // Determine if drop should be above or below target
+                    const rect = this.getBoundingClientRect();
+                    const midY = rect.top + rect.height / 2;
+                    const dropPosition = e.clientY < midY ? 'above' : 'below';
+                    
+                    // Remove dragged item
                     const [draggedNote] = appData.notes.splice(draggedIndex, 1);
-                    appData.notes.splice(targetIndex, 0, draggedNote);
+                    
+                    // Calculate new position
+                    let newIndex = targetIndex;
+                    if (draggedIndex < targetIndex) {
+                        // Dragging down - adjust target index
+                        newIndex = dropPosition === 'above' ? targetIndex : targetIndex + 1;
+                    } else {
+                        // Dragging up - adjust target index
+                        newIndex = dropPosition === 'above' ? targetIndex : targetIndex + 1;
+                    }
+                    
+                    // Insert at new position
+                    appData.notes.splice(newIndex, 0, draggedNote);
                     
                     saveData();
                     renderNotes();
