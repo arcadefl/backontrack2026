@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#6366f1">
+    <meta name="theme-color" content="#ff6b35">
     <title>Back On Track 26</title>
     <link rel="manifest" href="./pwa-files/manifest.json">
     <link rel="apple-touch-icon" href="./pwa-files/icon-192.svg">
@@ -16,24 +16,27 @@
         }
 
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --dark: #1f2937;
-            --light: #f3f4f6;
+            --primary: #ff6b35;
+            --primary-dark: #e55a2b;
+            --secondary: #ff6b6b;
+            --success: #51cf66;
+            --warning: #ffd43b;
+            --danger: #ff6b6b;
+            --dark: #0f0f0f;
+            --light: #272727;
             --white: #ffffff;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --gray: #aaaaaa;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
+            --radius: 12px;
+            --transition: all 0.3s ease;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #0f0f0f;
             min-height: 100vh;
-            color: var(--dark);
+            color: var(--white);
         }
 
         .container {
@@ -94,8 +97,8 @@
         }
 
         .nav-tab {
-            background: var(--white);
-            border: none;
+            background: #1a1a1a;
+            border: 1px solid #303030;
             padding: 15px;
             border-radius: 12px;
             cursor: pointer;
@@ -108,6 +111,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--white);
         }
 
         .nav-tab:hover {
@@ -116,8 +120,9 @@
         }
 
         .nav-tab.active {
-            background: var(--primary);
+            background: linear-gradient(135deg, #ff6b35 0%, #e55a2b 50%, #cc4d25 100%);
             color: var(--white);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
         }
 
         .content-section {
@@ -130,12 +135,14 @@
         }
 
         .section-card {
-            background: var(--white);
+            background: #1a1a1a;
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 20px;
             box-shadow: var(--shadow-lg);
             transition: transform 0.3s ease;
+            border: 1px solid;
+            border-image: linear-gradient(90deg, rgba(204, 77, 37, 0.5) 0%, rgba(255, 107, 53, 0.5) 50%, rgba(204, 77, 37, 0.5) 100%) 1;
         }
 
         .section-card:hover {
@@ -148,17 +155,17 @@
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 2px solid var(--light);
+            border-bottom: 2px solid #303030;
         }
 
         .section-title {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--dark);
+            color: var(--white);
         }
 
         .add-btn {
-            background: var(--primary);
+            background: linear-gradient(135deg, #ff6b35 0%, #e55a2b 50%, #cc4d25 100%);
             color: var(--white);
             border: none;
             padding: 10px 20px;
@@ -170,11 +177,57 @@
             display: flex;
             align-items: center;
             gap: 5px;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
         }
 
         .add-btn:hover {
-            background: var(--primary-dark);
+            background: linear-gradient(135deg, #e55a2b 0%, #cc4d25 50%, #b84220 100%);
             transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Current button - Dark Orange (default) */
+        .add-btn.current-btn {
+            background: linear-gradient(135deg, #ff6b35 0%, #e55a2b 50%, #cc4d25 100%);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .add-btn.current-btn:hover {
+            background: linear-gradient(135deg, #e55a2b 0%, #cc4d25 50%, #b84220 100%);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Stream button - Blue gradient */
+        .add-btn.stream-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .add-btn.stream-btn:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Vision button - Purple gradient */
+        .add-btn.vision-btn {
+            background: linear-gradient(135deg, #a855f7 0%, #9333ea 50%, #7c3aed 100%);
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+        }
+
+        .add-btn.vision-btn:hover {
+            background: linear-gradient(135deg, #9333ea 0%, #7c3aed 50%, #6d28d9 100%);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+        }
+
+        /* Spark button - Grey gradient */
+        .add-btn.spark-btn {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 50%, #374151 100%);
+            box-shadow: 0 4px 15px rgba(107, 114, 128, 0.3);
+        }
+
+        .add-btn.spark-btn:hover {
+            background: linear-gradient(135deg, #4b5563 0%, #374151 50%, #1f2937 100%);
+            box-shadow: 0 6px 20px rgba(107, 114, 128, 0.4);
         }
 
         .input-group {
@@ -186,12 +239,15 @@
         .input-field {
             flex: 1;
             padding: 12px;
-            border: 2px solid var(--light);
+            border: 2px solid;
+            border-image: linear-gradient(90deg, rgba(204, 77, 37, 0.5) 0%, rgba(255, 107, 53, 0.5) 50%, rgba(204, 77, 37, 0.5) 100%) 1;
             border-radius: 10px;
             font-size: 1rem;
             transition: border-color 0.3s ease;
             width: 100%;
             box-sizing: border-box;
+            background: #1a1a1a;
+            color: var(--white);
         }
 
         .input-field:focus {
@@ -204,7 +260,7 @@
         }
 
         .task-item, .project-item, .goal-item, .note-item {
-            background: var(--light);
+            background: #1a1a1a;
             padding: 20px;
             margin-bottom: 10px;
             border-radius: 10px;
@@ -215,6 +271,8 @@
             cursor: grab;
             user-select: none;
             min-height: 60px;
+            border: 1px solid;
+            border-image: linear-gradient(90deg, rgba(204, 77, 37, 0.5) 0%, rgba(255, 107, 53, 0.5) 50%, rgba(204, 77, 37, 0.5) 100%) 1;
         }
 
         .note-item:active {
@@ -244,7 +302,7 @@
         }
 
         .task-item:hover, .project-item:hover, .goal-item:hover, .note-item:hover {
-            background: #e5e7eb;
+            background: #303030;
             transform: translateX(5px);
         }
 
@@ -276,16 +334,16 @@
         }
 
         .modal-content {
-            background-color: var(--white);
+            background-color: #1a1a1a;
             margin: 5% auto;
             padding: 30px;
             border-radius: 15px;
             width: 90%;
             max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
             box-shadow: var(--shadow-lg);
-            animation: slideIn 0.3s ease;
+            border: 1px solid;
+            border-image: linear-gradient(90deg, rgba(204, 77, 37, 0.5) 0%, rgba(255, 107, 53, 0.5) 50%, rgba(204, 77, 37, 0.5) 100%) 1;
+            animation: fadeIn 0.3s ease;
         }
 
         .modal-header {
@@ -294,19 +352,20 @@
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 2px solid var(--light);
+            border-bottom: 2px solid;
+            border-image: linear-gradient(90deg, rgba(204, 77, 37, 0.5) 0%, rgba(255, 107, 53, 0.5) 50%, rgba(204, 77, 37, 0.5) 100%) 1;
         }
 
         .modal-title {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--dark);
+            color: var(--white);
         }
 
         .modal-title-input {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--dark);
+            color: var(--white);
             border: none;
             background: transparent;
             flex: 1;
@@ -317,7 +376,7 @@
         }
 
         .modal-title-input:focus {
-            background: var(--light);
+            background: #303030;
         }
 
         .formatting-toolbar {
@@ -325,20 +384,21 @@
             gap: 5px;
             margin-bottom: 15px;
             padding: 10px;
-            background: var(--light);
+            background: #303030;
             border-radius: 8px;
             flex-wrap: wrap;
         }
 
         .format-btn {
-            background: var(--white);
-            border: 1px solid #d1d5db;
+            background: #1a1a1a;
+            border: 1px solid #404040;
             padding: 8px 12px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.9rem;
             transition: all 0.3s ease;
             min-width: 40px;
+            color: var(--white);
         }
 
         .format-btn:hover {
@@ -354,7 +414,8 @@
         .modal-content-input {
             width: 100%;
             padding: 15px;
-            border: 2px solid var(--light);
+            border: 2px solid;
+            border-image: linear-gradient(90deg, rgba(204, 77, 37, 0.5) 0%, rgba(255, 107, 53, 0.5) 50%, rgba(204, 77, 37, 0.5) 100%) 1;
             border-radius: 10px;
             font-size: 1rem;
             font-family: inherit;
@@ -362,7 +423,8 @@
             min-height: 200px;
             outline: none;
             transition: border-color 0.3s ease;
-            background: var(--white);
+            background: #1a1a1a;
+            color: var(--white);
         }
 
         .modal-content-input:focus {
@@ -447,7 +509,7 @@
         }
 
         .image-option-btn {
-            background: var(--primary);
+            background: linear-gradient(135deg, #ff6b35 0%, #e55a2b 50%, #cc4d25 100%);
             color: var(--white);
             border: none;
             padding: 15px 20px;
@@ -459,11 +521,13 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
         }
 
         .image-option-btn:hover {
-            background: var(--primary-dark);
+            background: linear-gradient(135deg, #e55a2b 0%, #cc4d25 50%, #b84220 100%);
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
         }
 
         .lightbox-content {
@@ -513,11 +577,22 @@
             color: var(--primary);
             text-decoration: underline;
             transition: color 0.3s ease;
+            pointer-events: auto;
         }
 
         .modal-content-input a:hover {
             color: var(--primary-dark);
             text-decoration: none;
+        }
+
+        /* Make links clickable in contenteditable */
+        .modal-content-input {
+            pointer-events: auto;
+        }
+
+        .modal-content-input a {
+            pointer-events: auto;
+            cursor: pointer;
         }
 
         .item-meta a {
@@ -584,7 +659,7 @@
         }
 
         .task-item:hover, .project-item:hover, .goal-item:hover, .note-item:hover {
-            background: #e5e7eb;
+            background: #303030;
             transform: translateX(5px);
         }
 
@@ -614,11 +689,12 @@
         }
 
         .accordion {
-            background: var(--white);
+            background: #1a1a1a;
             border-radius: 10px;
             margin-bottom: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid;
+            border-image: linear-gradient(90deg, rgba(204, 77, 37, 0.5) 0%, rgba(255, 107, 53, 0.5) 50%, rgba(204, 77, 37, 0.5) 100%) 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .accordion-header {
@@ -631,12 +707,13 @@
         }
 
         .accordion-header:hover {
-            background: var(--light);
+            background: #303030;
         }
 
         .accordion-icon {
             transition: transform 0.3s ease;
             font-size: 1.2rem;
+            color: var(--white);
         }
 
         .accordion.active .accordion-icon {
@@ -647,7 +724,7 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
-            background: #f9fafb;
+            background: #0f0f0f;
         }
 
         .accordion.active .accordion-content {
@@ -659,7 +736,7 @@
         }
 
         .sub-goal-item {
-            background: var(--white);
+            background: #1a1a1a;
             padding: 10px;
             margin-bottom: 8px;
             border-radius: 8px;
@@ -667,6 +744,9 @@
             justify-content: space-between;
             align-items: center;
             border-left: 3px solid var(--primary);
+            border: 1px solid;
+            border-image: linear-gradient(90deg, rgba(204, 77, 37, 0.5) 0%, rgba(255, 107, 53, 0.5) 50%, rgba(204, 77, 37, 0.5) 100%) 1;
+            color: var(--white);
         }
 
         .sub-goal-item span {
@@ -691,24 +771,30 @@
         .sub-goal-input {
             flex: 1;
             padding: 8px;
-            border: 1px solid #d1d5db;
+            border: 1px solid;
+            border-image: linear-gradient(90deg, rgba(204, 77, 37, 0.5) 0%, rgba(255, 107, 53, 0.5) 50%, rgba(204, 77, 37, 0.5) 100%) 1;
             border-radius: 6px;
             font-size: 0.9rem;
+            background: #1a1a1a;
+            color: var(--white);
         }
 
         .add-sub-btn {
-            background: var(--primary);
+            background: linear-gradient(135deg, #ff6b35 0%, #e55a2b 50%, #cc4d25 100%);
             color: var(--white);
             border: none;
             padding: 8px 15px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.85rem;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
         }
 
         .add-sub-btn:hover {
-            background: var(--primary-dark);
+            background: linear-gradient(135deg, #e55a2b 0%, #cc4d25 50%, #b84220 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
         }
 
         .convert-btn {
@@ -737,7 +823,18 @@
         }
 
         .action-btn:hover {
+            background: #303030;
+        }
+
+        .action-btn.white-btn {
+            color: var(--white);
+            background: transparent;
+            border: 1px solid var(--white);
+        }
+
+        .action-btn.white-btn:hover {
             background: var(--white);
+            color: var(--dark);
         }
 
         .priority-badge {
@@ -748,19 +845,183 @@
             text-transform: uppercase;
         }
 
-        .priority-high {
-            background: var(--danger);
+        .priority-red {
+            background: rgba(239, 68, 68, 0.8);
             color: var(--white);
+            border: 1px solid rgba(239, 68, 68, 0.5);
         }
 
-        .priority-medium {
-            background: var(--warning);
+        .priority-yellow {
+            background: rgba(245, 158, 11, 0.8);
             color: var(--white);
+            border: 1px solid rgba(245, 158, 11, 0.5);
         }
 
-        .priority-low {
-            background: var(--success);
+        .priority-green {
+            background: rgba(34, 197, 94, 0.8);
             color: var(--white);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+        }
+
+        /* Task card colors based on priority */
+        .task-item.priority-red {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+            border-left: 4px solid rgba(239, 68, 68, 0.8);
+        }
+
+        .task-item.priority-yellow {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
+            border-left: 4px solid rgba(245, 158, 11, 0.8);
+        }
+
+        .task-item.priority-green {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);
+            border-left: 4px solid rgba(34, 197, 94, 0.8);
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+            background: #2a2a2a !important;
+            border-left: 4px solid #6b7280 !important;
+        }
+
+        .task-item.completed .item-title {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+
+        .completed-text {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+
+        /* Task completion animations */
+        @keyframes taskComplete {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px rgba(34, 197, 94, 0.6);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes taskRestore {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px rgba(255, 107, 53, 0.6);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideToOcean {
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(20px);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes slideToCurrent {
+            0% {
+                transform: translateX(0);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateX(-20px);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .task-item.completing {
+            animation: taskComplete 0.6s ease-out;
+        }
+
+        .task-item.restoring {
+            animation: taskRestore 0.6s ease-out;
+        }
+
+        .task-item.sliding-to-ocean {
+            animation: slideToOcean 0.8s ease-out;
+        }
+
+        .task-item.sliding-to-current {
+            animation: slideToCurrent 0.8s ease-out;
+        }
+
+        /* Priority circle selector */
+        .priority-selector {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .priority-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            position: relative;
+        }
+
+        .priority-circle.red {
+            background: #ef4444;
+        }
+
+        .priority-circle.yellow {
+            background: #f59e0b;
+        }
+
+        .priority-circle.green {
+            background: #22c55e;
+        }
+
+        .priority-circle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .priority-circle.selected {
+            border-color: rgba(255, 255, 255, 0.8);
+            transform: scale(1.15);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+        }
+
+        .priority-circle.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
         }
 
         .empty-state {
@@ -886,29 +1147,29 @@
         </header>
 
         <nav class="nav-tabs">
-            <button class="nav-tab active" onclick="switchTab('daily')" title="Daily Tasks">📋</button>
-            <button class="nav-tab" onclick="switchTab('projects')" title="Ongoing Projects">🚀</button>
-            <button class="nav-tab" onclick="switchTab('goals')" title="Long Term Goals">🎯</button>
-            <button class="nav-tab" onclick="switchTab('notes')" title="Notes">📝</button>
+            <button class="nav-tab active" onclick="switchTab('daily')" title="Current">📋</button>
+            <button class="nav-tab" onclick="switchTab('projects')" title="Stream">🚀</button>
+            <button class="nav-tab" onclick="switchTab('goals')" title="Vision">🎯</button>
+            <button class="nav-tab" onclick="switchTab('notes')" title="Sparks">📝</button>
         </nav>
 
         <!-- Daily Tasks Section -->
         <section id="daily" class="content-section active">
             <div class="section-card">
                 <div class="section-header">
-                    <h2 class="section-title">Today's Tasks</h2>
-                    <button class="add-btn" onclick="toggleAddForm('daily')">
-                        <span>+</span> Add Task
+                    <h2 class="section-title">Current</h2>
+                    <button class="add-btn current-btn" onclick="toggleAddForm('daily')">
+                        <span>+</span> Add Current
                     </button>
                 </div>
                 
                 <div id="dailyAddForm" class="input-group" style="display: none;">
                     <input type="text" class="input-field" id="dailyInput" placeholder="What needs to be done today?">
-                    <select class="input-field" id="dailyPriority" style="flex: 0.3;">
-                        <option value="low">Low</option>
-                        <option value="medium" selected>Medium</option>
-                        <option value="high">High</option>
-                    </select>
+                    <div class="priority-selector">
+                        <div class="priority-circle red" data-priority="red" onclick="selectPriority('red')"></div>
+                        <div class="priority-circle yellow selected" data-priority="yellow" onclick="selectPriority('yellow')"></div>
+                        <div class="priority-circle green" data-priority="green" onclick="selectPriority('green')"></div>
+                    </div>
                     <button class="add-btn" onclick="addDailyTask()">Add</button>
                 </div>
 
@@ -923,15 +1184,33 @@
                     <p>No tasks yet. Add your first task to get started!</p>
                 </div>
             </div>
+
+            <!-- Ocean Section -->
+            <div class="section-card" style="margin-top: 20px;">
+                <div class="section-header">
+                    <h2 class="section-title">Ocean</h2>
+                </div>
+                
+                <ul id="oceanTasks" class="task-list">
+                    <!-- Completed tasks will be added here dynamically -->
+                </ul>
+
+                <div id="oceanEmpty" class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <p>No completed tasks yet. Finish some tasks to see them here!</p>
+                </div>
+            </div>
         </section>
 
         <!-- Ongoing Projects Section -->
         <section id="projects" class="content-section">
             <div class="section-card">
                 <div class="section-header">
-                    <h2 class="section-title">Ongoing Projects</h2>
-                    <button class="add-btn" onclick="toggleAddForm('projects')">
-                        <span>+</span> Add Project
+                    <h2 class="section-title">Stream</h2>
+                    <button class="add-btn stream-btn" onclick="toggleAddForm('projects')">
+                        <span>+</span> Add Stream
                     </button>
                 </div>
                 
@@ -958,9 +1237,9 @@
         <section id="goals" class="content-section">
             <div class="section-card">
                 <div class="section-header">
-                    <h2 class="section-title">Long Term Goals</h2>
-                    <button class="add-btn" onclick="toggleAddForm('goals')">
-                        <span>+</span> Add Goal
+                    <h2 class="section-title">Vision</h2>
+                    <button class="add-btn vision-btn" onclick="toggleAddForm('goals')">
+                        <span>+</span> Add Vision
                     </button>
                 </div>
                 
@@ -986,9 +1265,9 @@
         <section id="notes" class="content-section">
             <div class="section-card">
                 <div class="section-header">
-                    <h2 class="section-title">Notes</h2>
-                    <button class="add-btn" onclick="addNote()">
-                        <span>+</span> Add Note
+                    <h2 class="section-title">Sparks</h2>
+                    <button class="add-btn spark-btn" onclick="addNote()">
+                        <span>+</span> Add Spark
                     </button>
                 </div>
                 
@@ -1052,7 +1331,7 @@
                 </div>
                 <div class="modal-actions">
                     <button class="add-btn" onclick="saveEditedNote()">Save Changes</button>
-                    <button class="action-btn" onclick="deleteNoteFromModal()">🗑️ Delete</button>
+                    <button class="action-btn white-btn" onclick="deleteNoteFromModal()">🗑️ Delete</button>
                 </div>
             </div>
         </div>
@@ -1099,14 +1378,14 @@
             </div>
             <div class="modal-body">
                 <input type="text" id="editTaskInput" class="input-field" placeholder="Task description" style="margin-bottom: 15px;">
-                <select id="editTaskPriority" class="input-field" style="margin-bottom: 20px;">
-                    <option value="low">Low Priority</option>
-                    <option value="medium">Medium Priority</option>
-                    <option value="high">High Priority</option>
-                </select>
+                <div class="priority-selector" style="margin-bottom: 20px;">
+                    <div class="priority-circle red" data-priority="red" onclick="selectEditPriority('red')"></div>
+                    <div class="priority-circle yellow" data-priority="yellow" onclick="selectEditPriority('yellow')"></div>
+                    <div class="priority-circle green" data-priority="green" onclick="selectEditPriority('green')"></div>
+                </div>
                 <div class="modal-actions">
                     <button class="add-btn" onclick="saveEditedTask()">Save Changes</button>
-                    <button class="action-btn" onclick="closeEditTaskModal()">Cancel</button>
+                    <button class="action-btn white-btn" onclick="closeEditTaskModal()">Cancel</button>
                 </div>
             </div>
         </div>
@@ -1124,7 +1403,7 @@
                 <textarea id="editProjectDesc" class="input-field" placeholder="Project description" rows="3" style="margin-bottom: 20px;"></textarea>
                 <div class="modal-actions">
                     <button class="add-btn" onclick="saveEditedProject()">Save Changes</button>
-                    <button class="action-btn" onclick="closeEditProjectModal()">Cancel</button>
+                    <button class="action-btn white-btn" onclick="closeEditProjectModal()">Cancel</button>
                 </div>
             </div>
         </div>
@@ -1141,7 +1420,7 @@
                 <input type="text" id="editGoalInput" class="input-field" placeholder="Goal description" style="margin-bottom: 20px;">
                 <div class="modal-actions">
                     <button class="add-btn" onclick="saveEditedGoal()">Save Changes</button>
-                    <button class="action-btn" onclick="closeEditGoalModal()">Cancel</button>
+                    <button class="action-btn white-btn" onclick="closeEditGoalModal()">Cancel</button>
                 </div>
             </div>
         </div>
@@ -1158,7 +1437,7 @@
                 <input type="text" id="editSubGoalInput" class="input-field" placeholder="Sub-goal description" style="margin-bottom: 20px;">
                 <div class="modal-actions">
                     <button class="add-btn" onclick="saveEditedSubGoal()">Save Changes</button>
-                    <button class="action-btn" onclick="closeEditSubGoalModal()">Cancel</button>
+                    <button class="action-btn white-btn" onclick="closeEditSubGoalModal()">Cancel</button>
                 </div>
             </div>
         </div>
@@ -1181,6 +1460,88 @@
         let currentEditingGoalId = null;
         let currentEditingSubGoalId = null;
         let currentEditingSubGoalParentId = null;
+        let selectedPriority = 'yellow'; // Default priority
+
+        // Sound effects using Web Audio API
+        function playCompletionSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Create first oscillator (C3)
+            const oscillator1 = audioContext.createOscillator();
+            const gainNode1 = audioContext.createGain();
+            
+            // Create second oscillator (C4 - one octave higher)
+            const oscillator2 = audioContext.createOscillator();
+            const gainNode2 = audioContext.createGain();
+            
+            // Set frequencies
+            oscillator1.frequency.setValueAtTime(130.81, audioContext.currentTime); // C3
+            oscillator2.frequency.setValueAtTime(261.63, audioContext.currentTime); // C4
+            oscillator1.type = 'sine';
+            oscillator2.type = 'sine';
+            
+            // Connect nodes
+            oscillator1.connect(gainNode1);
+            oscillator2.connect(gainNode2);
+            gainNode1.connect(audioContext.destination);
+            gainNode2.connect(audioContext.destination);
+            
+            // First tone envelope (immediate)
+            gainNode1.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode1.gain.linearRampToValueAtTime(0.4, audioContext.currentTime + 0.005);
+            gainNode1.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+            
+            // Second tone envelope (starts after 0.1s)
+            gainNode2.gain.setValueAtTime(0, audioContext.currentTime + 0.1);
+            gainNode2.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.105);
+            gainNode2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.25);
+            
+            // Start and stop oscillators
+            oscillator1.start(audioContext.currentTime);
+            oscillator1.stop(audioContext.currentTime + 0.15);
+            oscillator2.start(audioContext.currentTime + 0.1);
+            oscillator2.stop(audioContext.currentTime + 0.25);
+        }
+
+        function playRestoreSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Create first oscillator (G4 - higher octave, plays first)
+            const oscillator1 = audioContext.createOscillator();
+            const gainNode1 = audioContext.createGain();
+            
+            // Create second oscillator (G3 - lower octave, plays second)
+            const oscillator2 = audioContext.createOscillator();
+            const gainNode2 = audioContext.createGain();
+            
+            // Set frequencies
+            oscillator1.frequency.setValueAtTime(392.00, audioContext.currentTime); // G4
+            oscillator2.frequency.setValueAtTime(196.00, audioContext.currentTime); // G3
+            oscillator1.type = 'sine';
+            oscillator2.type = 'sine';
+            
+            // Connect nodes
+            oscillator1.connect(gainNode1);
+            oscillator2.connect(gainNode2);
+            gainNode1.connect(audioContext.destination);
+            gainNode2.connect(audioContext.destination);
+            
+            // First tone envelope (immediate - higher tone)
+            gainNode1.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode1.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.005);
+            gainNode1.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.12);
+            
+            // Second tone envelope (starts after 0.08s - lower tone)
+            gainNode2.gain.setValueAtTime(0, audioContext.currentTime + 0.08);
+            gainNode2.gain.linearRampToValueAtTime(0.25, audioContext.currentTime + 0.085);
+            gainNode2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+            
+            // Start and stop oscillators
+            oscillator1.start(audioContext.currentTime);
+            oscillator1.stop(audioContext.currentTime + 0.12);
+            oscillator2.start(audioContext.currentTime + 0.08);
+            oscillator2.stop(audioContext.currentTime + 0.2);
+        }
 
         // IndexedDB setup for image storage
         function initImageDatabase() {
@@ -1328,14 +1689,13 @@
         // Add daily task
         function addDailyTask() {
             const input = document.getElementById('dailyInput');
-            const priority = document.getElementById('dailyPriority').value;
             const text = input.value.trim();
             
             if (text) {
                 const task = {
                     id: Date.now(),
                     text: text,
-                    priority: priority,
+                    priority: selectedPriority,
                     completed: false,
                     createdAt: new Date().toISOString()
                 };
@@ -1346,47 +1706,163 @@
                 
                 input.value = '';
                 toggleAddForm('daily');
+                // Reset priority selection to default
+                resetPrioritySelection();
             }
+        }
+
+        // Priority selection functions
+        function selectPriority(priority) {
+            selectedPriority = priority;
+            
+            // Update UI
+            document.querySelectorAll('#dailyAddForm .priority-circle').forEach(circle => {
+                circle.classList.remove('selected');
+            });
+            document.querySelector(`#dailyAddForm .priority-circle[data-priority="${priority}"]`).classList.add('selected');
+        }
+
+        function selectEditPriority(priority) {
+            selectedPriority = priority;
+            
+            // Update UI
+            document.querySelectorAll('#editTaskModal .priority-circle').forEach(circle => {
+                circle.classList.remove('selected');
+            });
+            document.querySelector(`#editTaskModal .priority-circle[data-priority="${priority}"]`).classList.add('selected');
+        }
+
+        function resetPrioritySelection() {
+            selectedPriority = 'yellow';
+            document.querySelectorAll('.priority-circle').forEach(circle => {
+                circle.classList.remove('selected');
+            });
+            document.querySelectorAll('.priority-circle.yellow').forEach(circle => {
+                circle.classList.add('selected');
+            });
         }
 
         // Render daily tasks
         function renderDailyTasks() {
-            const container = document.getElementById('dailyTasks');
-            const emptyState = document.getElementById('dailyEmpty');
+            const activeContainer = document.getElementById('dailyTasks');
+            const oceanContainer = document.getElementById('oceanTasks');
+            const activeEmpty = document.getElementById('dailyEmpty');
+            const oceanEmpty = document.getElementById('oceanEmpty');
             
-            if (appData.dailyTasks.length === 0) {
-                container.style.display = 'none';
-                emptyState.style.display = 'block';
-                return;
+            // Separate tasks into active and completed
+            const activeTasks = appData.dailyTasks.filter(task => !task.completed);
+            const completedTasks = appData.dailyTasks.filter(task => task.completed);
+            
+            // Render active tasks
+            if (activeTasks.length === 0) {
+                activeContainer.innerHTML = '';
+                activeEmpty.style.display = 'block';
+            } else {
+                activeEmpty.style.display = 'none';
+                activeContainer.innerHTML = activeTasks.map(task => `
+                    <li class="task-item priority-${task.priority}" data-task-id="${task.id}" onclick="toggleTask(${task.id})">
+                        <div class="item-content">
+                            <div class="item-title">${task.text}</div>
+                            <div class="item-meta">
+                                <span style="margin-left: 10px;">${new Date(task.createdAt).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="action-btn" onclick="editTask(event, ${task.id})">✏️</button>
+                            <button class="action-btn" onclick="deleteTask(event, ${task.id})">🗑️</button>
+                        </div>
+                    </li>
+                `).join('');
             }
             
-            container.style.display = 'block';
-            emptyState.style.display = 'none';
-            
-            container.innerHTML = appData.dailyTasks.map(task => `
-                <li class="task-item ${task.completed ? 'completed' : ''}" onclick="toggleTask(${task.id})">
-                    <div class="item-content">
-                        <div class="item-title">${task.text}</div>
-                        <div class="item-meta">
-                            <span class="priority-badge priority-${task.priority}">${task.priority}</span>
-                            <span style="margin-left: 10px;">${new Date(task.createdAt).toLocaleDateString()}</span>
+            // Render completed tasks (Ocean)
+            if (completedTasks.length === 0) {
+                oceanContainer.innerHTML = '';
+                oceanEmpty.style.display = 'block';
+            } else {
+                oceanEmpty.style.display = 'none';
+                oceanContainer.innerHTML = completedTasks.map(task => `
+                    <li class="task-item priority-${task.priority} completed" data-task-id="${task.id}" onclick="toggleTask(${task.id})">
+                        <div class="item-content">
+                            <div class="item-title completed-text">${task.text}</div>
+                            <div class="item-meta">
+                                <span style="margin-left: 10px;">${new Date(task.createdAt).toLocaleDateString()}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="item-actions">
-                        <button class="action-btn" onclick="editTask(event, ${task.id})">✏️</button>
-                        <button class="action-btn" onclick="deleteTask(event, ${task.id})">🗑️</button>
-                    </div>
-                </li>
-            `).join('');
+                        <div class="item-actions">
+                            <button class="action-btn" onclick="editTask(event, ${task.id})">✏️</button>
+                            <button class="action-btn" onclick="deleteTask(event, ${task.id})">🗑️</button>
+                        </div>
+                    </li>
+                `).join('');
+            }
+            
+            // Add drag and drop event listeners
+            setupDragAndDrop();
         }
 
         // Toggle task completion
         function toggleTask(id) {
             const task = appData.dailyTasks.find(t => t.id === id);
             if (task) {
+                const wasCompleted = task.completed;
                 task.completed = !task.completed;
+                
+                // Play sound effect
+                try {
+                    if (task.completed) {
+                        playCompletionSound();
+                    } else {
+                        playRestoreSound();
+                    }
+                } catch (error) {
+                    // Silently fail if audio is not supported
+                    console.log('Audio not supported:', error);
+                }
+                
+                // Find the task element and add animation
+                const taskElement = document.querySelector(`[data-task-id="${id}"]`);
+                if (taskElement) {
+                    // Remove any existing animation classes
+                    taskElement.classList.remove('completing', 'restoring', 'sliding-to-ocean', 'sliding-to-current');
+                    
+                    if (task.completed) {
+                        // Task is being completed
+                        taskElement.classList.add('completing');
+                        
+                        // After completion animation, add slide animation and re-render
+                        setTimeout(() => {
+                            renderDailyTasks();
+                            // Add slide animation to the task in Ocean
+                            setTimeout(() => {
+                                const oceanTaskElement = document.querySelector(`#oceanTasks [data-task-id="${id}"]`);
+                                if (oceanTaskElement) {
+                                    oceanTaskElement.classList.add('sliding-to-ocean');
+                                }
+                            }, 50);
+                        }, 600);
+                    } else {
+                        // Task is being restored
+                        taskElement.classList.add('restoring');
+                        
+                        // After restore animation, add slide animation and re-render
+                        setTimeout(() => {
+                            renderDailyTasks();
+                            // Add slide animation to the task in Current
+                            setTimeout(() => {
+                                const currentTaskElement = document.querySelector(`#dailyTasks [data-task-id="${id}"]`);
+                                if (currentTaskElement) {
+                                    currentTaskElement.classList.add('sliding-to-current');
+                                }
+                            }, 50);
+                        }, 600);
+                    }
+                } else {
+                    // Fallback if element not found
+                    renderDailyTasks();
+                }
+                
                 saveData();
-                renderDailyTasks();
             }
         }
 
@@ -1471,7 +1947,7 @@
                 const task = {
                     id: Date.now(),
                     text: `Work on: ${project.name}`,
-                    priority: 'medium',
+                    priority: 'yellow',
                     completed: false,
                     createdAt: new Date().toISOString(),
                     fromProject: projectId
@@ -1832,15 +2308,35 @@
             if (note) {
                 currentEditingNoteId = id;
                 document.getElementById('modalNoteTitle').value = note.title;
-                // Make links clickable in content
+                
+                // Convert URLs to clickable links
                 const contentWithLinks = makeLinksClickable(note.content || '');
                 document.getElementById('modalNoteContent').innerHTML = contentWithLinks;
+                
                 document.getElementById('modalNoteDate').textContent = new Date(note.createdAt).toLocaleString();
                 document.getElementById('noteModal').style.display = 'block';
+                
+                // Add click handler for links in contenteditable
+                setupLinkClickHandlers();
                 
                 // Load images for this note
                 await loadNoteImages(id);
             }
+        }
+
+        // Setup click handlers for links in contenteditable
+        function setupLinkClickHandlers() {
+            const contentDiv = document.getElementById('modalNoteContent');
+            const links = contentDiv.querySelectorAll('a');
+            
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Open link in new tab
+                    window.open(this.href, '_blank', 'noopener,noreferrer');
+                });
+            });
         }
 
         // Close note modal
@@ -2025,7 +2521,14 @@
             if (task) {
                 currentEditingTaskId = taskId;
                 document.getElementById('editTaskInput').value = task.text;
-                document.getElementById('editTaskPriority').value = task.priority;
+                selectedPriority = task.priority;
+                
+                // Update priority circles
+                document.querySelectorAll('#editTaskModal .priority-circle').forEach(circle => {
+                    circle.classList.remove('selected');
+                });
+                document.querySelector(`#editTaskModal .priority-circle[data-priority="${task.priority}"]`).classList.add('selected');
+                
                 document.getElementById('editTaskModal').style.display = 'block';
             }
         }
@@ -2037,13 +2540,12 @@
 
         function saveEditedTask() {
             const newText = document.getElementById('editTaskInput').value.trim();
-            const newPriority = document.getElementById('editTaskPriority').value;
             
             if (newText && currentEditingTaskId) {
                 const task = appData.dailyTasks.find(t => t.id === currentEditingTaskId);
                 if (task) {
                     task.text = newText;
-                    task.priority = newPriority;
+                    task.priority = selectedPriority;
                     saveData();
                     renderDailyTasks();
                     closeEditTaskModal();
