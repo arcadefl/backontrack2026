@@ -466,6 +466,89 @@
             transform: translateY(-2px);
         }
 
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--dark);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .lightbox-close:hover {
+            background: var(--white);
+            transform: scale(1.1);
+        }
+
+        #lightboxImage {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Link styling in notes */
+        .modal-content-input a {
+            color: var(--primary);
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+
+        .modal-content-input a:hover {
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .item-meta a {
+            color: var(--primary);
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+
+        .item-meta a:hover {
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-content {
+                max-width: 95vw;
+                max-height: 95vh;
+            }
+
+            .lightbox-close {
+                top: -35px;
+                width: 35px;
+                height: 35px;
+                font-size: 1.2rem;
+            }
+
+            #lightboxImage {
+                max-height: 85vh;
+            }
+        }
+
         .close-btn {
             background: none;
             border: none;
@@ -584,6 +667,14 @@
             justify-content: space-between;
             align-items: center;
             border-left: 3px solid var(--primary);
+        }
+
+        .sub-goal-item span {
+            flex: 1;
+        }
+
+        .sub-goal-item .action-btn {
+            margin-left: 5px;
         }
 
         .sub-goal-item.completed {
@@ -991,6 +1082,88 @@
     <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageSelection(event)">
     <input type="file" id="cameraInput" accept="image/*" capture="camera" style="display: none;" onchange="handleImageSelection(event)">
 
+    <!-- Image Lightbox Modal -->
+    <div id="imageLightbox" class="modal" onclick="closeImageLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeImageLightbox()">&times;</button>
+            <img id="lightboxImage" src="" alt="Enlarged image">
+        </div>
+    </div>
+
+    <!-- Edit Task Modal -->
+    <div id="editTaskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Task</h2>
+                <button class="close-btn" onclick="closeEditTaskModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="editTaskInput" class="input-field" placeholder="Task description" style="margin-bottom: 15px;">
+                <select id="editTaskPriority" class="input-field" style="margin-bottom: 20px;">
+                    <option value="low">Low Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="high">High Priority</option>
+                </select>
+                <div class="modal-actions">
+                    <button class="add-btn" onclick="saveEditedTask()">Save Changes</button>
+                    <button class="action-btn" onclick="closeEditTaskModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Project Modal -->
+    <div id="editProjectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Project</h2>
+                <button class="close-btn" onclick="closeEditProjectModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="editProjectName" class="input-field" placeholder="Project name" style="margin-bottom: 15px;">
+                <textarea id="editProjectDesc" class="input-field" placeholder="Project description" rows="3" style="margin-bottom: 20px;"></textarea>
+                <div class="modal-actions">
+                    <button class="add-btn" onclick="saveEditedProject()">Save Changes</button>
+                    <button class="action-btn" onclick="closeEditProjectModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Goal Modal -->
+    <div id="editGoalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Goal</h2>
+                <button class="close-btn" onclick="closeEditGoalModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="editGoalInput" class="input-field" placeholder="Goal description" style="margin-bottom: 20px;">
+                <div class="modal-actions">
+                    <button class="add-btn" onclick="saveEditedGoal()">Save Changes</button>
+                    <button class="action-btn" onclick="closeEditGoalModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Sub-Goal Modal -->
+    <div id="editSubGoalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Sub-Goal</h2>
+                <button class="close-btn" onclick="closeEditSubGoalModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="editSubGoalInput" class="input-field" placeholder="Sub-goal description" style="margin-bottom: 20px;">
+                <div class="modal-actions">
+                    <button class="add-btn" onclick="saveEditedSubGoal()">Save Changes</button>
+                    <button class="action-btn" onclick="closeEditSubGoalModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Data storage
         let appData = {
@@ -1003,6 +1176,11 @@
         let currentEditingNoteId = null;
         let currentNoteImages = [];
         let imageDatabase = null;
+        let currentEditingTaskId = null;
+        let currentEditingProjectId = null;
+        let currentEditingGoalId = null;
+        let currentEditingSubGoalId = null;
+        let currentEditingSubGoalParentId = null;
 
         // IndexedDB setup for image storage
         function initImageDatabase() {
@@ -1195,6 +1373,7 @@
                         </div>
                     </div>
                     <div class="item-actions">
+                        <button class="action-btn" onclick="editTask(event, ${task.id})">✏️</button>
                         <button class="action-btn" onclick="deleteTask(event, ${task.id})">🗑️</button>
                     </div>
                 </li>
@@ -1266,6 +1445,7 @@
                         <div class="item-meta">${project.description || 'No description'}</div>
                     </div>
                     <div class="item-actions">
+                        <button class="action-btn" onclick="editProject(event, ${project.id})">✏️</button>
                         <button class="convert-btn" onclick="convertProjectToTask(event, ${project.id})">→ Task</button>
                         <button class="action-btn" onclick="deleteProject(event, ${project.id})">🗑️</button>
                     </div>
@@ -1375,6 +1555,7 @@
                         </div>
                         <div class="item-actions">
                             <span class="accordion-icon">▼</span>
+                            <button class="action-btn" onclick="editGoal(event, ${goal.id})">✏️</button>
                             <button class="action-btn" onclick="deleteGoal(event, ${goal.id})">🗑️</button>
                         </div>
                     </div>
@@ -1388,6 +1569,7 @@
                                 ${goal.subGoals.map(subGoal => `
                                     <div class="sub-goal-item ${subGoal.completed ? 'completed' : ''}" onclick="toggleSubGoal(${goal.id}, ${subGoal.id})">
                                         <span>${subGoal.text}</span>
+                                        <button class="action-btn" onclick="editSubGoal(event, ${goal.id}, ${subGoal.id})">✏️</button>
                                         <button class="action-btn" onclick="deleteSubGoal(event, ${goal.id}, ${subGoal.id})">🗑️</button>
                                     </div>
                                 `).join('')}
@@ -1494,17 +1676,22 @@
             
             emptyState.style.display = 'none';
             
-            container.innerHTML = appData.notes.map(note => `
+            container.innerHTML = appData.notes.map(note => {
+                // Make links clickable in preview
+                const contentPreview = note.content ? makeLinksClickable(note.content.substring(0, 50) + (note.content.length > 50 ? '...' : '')) : 'No content';
+                
+                return `
                 <li class="note-item" draggable="true" data-note-id="${note.id}" onclick="openNoteModal(${note.id})">
                     <div class="item-content">
                         <div class="item-title">${note.title}</div>
-                        <div class="item-meta">${note.content ? note.content.substring(0, 50) + (note.content.length > 50 ? '...' : '') : 'No content'} • ${new Date(note.createdAt).toLocaleDateString()}</div>
+                        <div class="item-meta">${contentPreview} • ${new Date(note.createdAt).toLocaleDateString()}</div>
                     </div>
                     <div class="item-actions">
                         <button class="action-btn" onclick="deleteNote(event, ${note.id})">🗑️</button>
                     </div>
                 </li>
-            `).join('');
+            `;
+            }).join('');
             
             // Add drag and drop event listeners
             setupDragAndDrop();
@@ -1620,13 +1807,21 @@
             return false;
         }
 
+        // Convert text to clickable links
+        function makeLinksClickable(text) {
+            const urlPattern = /(https?:\/\/[^\s]+)/g;
+            return text.replace(urlPattern, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+        }
+
         // Open note modal
         async function openNoteModal(id) {
             const note = appData.notes.find(n => n.id === id);
             if (note) {
                 currentEditingNoteId = id;
                 document.getElementById('modalNoteTitle').value = note.title;
-                document.getElementById('modalNoteContent').innerHTML = note.content || '';
+                // Make links clickable in content
+                const contentWithLinks = makeLinksClickable(note.content || '');
+                document.getElementById('modalNoteContent').innerHTML = contentWithLinks;
                 document.getElementById('modalNoteDate').textContent = new Date(note.createdAt).toLocaleString();
                 document.getElementById('noteModal').style.display = 'block';
                 
@@ -1755,11 +1950,20 @@
             imageDiv.id = 'img_' + imageId;
             
             imageDiv.innerHTML = `
-                <img src="${imageData}" alt="Note image">
+                <img src="${imageData}" alt="Note image" onclick="openImageLightbox('${imageData}')" style="cursor: pointer;">
                 <button class="image-delete-btn" onclick="deleteImage('${imageId}')">×</button>
             `;
             
             container.appendChild(imageDiv);
+        }
+
+        function openImageLightbox(imageData) {
+            document.getElementById('lightboxImage').src = imageData;
+            document.getElementById('imageLightbox').style.display = 'block';
+        }
+
+        function closeImageLightbox() {
+            document.getElementById('imageLightbox').style.display = 'none';
         }
 
         async function deleteImage(imageId) {
@@ -1795,6 +1999,140 @@
                 });
             } catch (error) {
                 console.error('Error loading images:', error);
+            }
+        }
+
+        // Edit Task Functions
+        function editTask(event, taskId) {
+            event.stopPropagation();
+            const task = appData.dailyTasks.find(t => t.id === taskId);
+            if (task) {
+                currentEditingTaskId = taskId;
+                document.getElementById('editTaskInput').value = task.text;
+                document.getElementById('editTaskPriority').value = task.priority;
+                document.getElementById('editTaskModal').style.display = 'block';
+            }
+        }
+
+        function closeEditTaskModal() {
+            document.getElementById('editTaskModal').style.display = 'none';
+            currentEditingTaskId = null;
+        }
+
+        function saveEditedTask() {
+            const newText = document.getElementById('editTaskInput').value.trim();
+            const newPriority = document.getElementById('editTaskPriority').value;
+            
+            if (newText && currentEditingTaskId) {
+                const task = appData.dailyTasks.find(t => t.id === currentEditingTaskId);
+                if (task) {
+                    task.text = newText;
+                    task.priority = newPriority;
+                    saveData();
+                    renderDailyTasks();
+                    closeEditTaskModal();
+                }
+            }
+        }
+
+        // Edit Project Functions
+        function editProject(event, projectId) {
+            event.stopPropagation();
+            const project = appData.projects.find(p => p.id === projectId);
+            if (project) {
+                currentEditingProjectId = projectId;
+                document.getElementById('editProjectName').value = project.name;
+                document.getElementById('editProjectDesc').value = project.description || '';
+                document.getElementById('editProjectModal').style.display = 'block';
+            }
+        }
+
+        function closeEditProjectModal() {
+            document.getElementById('editProjectModal').style.display = 'none';
+            currentEditingProjectId = null;
+        }
+
+        function saveEditedProject() {
+            const newName = document.getElementById('editProjectName').value.trim();
+            const newDesc = document.getElementById('editProjectDesc').value.trim();
+            
+            if (newName && currentEditingProjectId) {
+                const project = appData.projects.find(p => p.id === currentEditingProjectId);
+                if (project) {
+                    project.name = newName;
+                    project.description = newDesc;
+                    saveData();
+                    renderProjects();
+                    closeEditProjectModal();
+                }
+            }
+        }
+
+        // Edit Goal Functions
+        function editGoal(event, goalId) {
+            event.stopPropagation();
+            const goal = appData.goals.find(g => g.id === goalId);
+            if (goal) {
+                currentEditingGoalId = goalId;
+                document.getElementById('editGoalInput').value = goal.text;
+                document.getElementById('editGoalModal').style.display = 'block';
+            }
+        }
+
+        function closeEditGoalModal() {
+            document.getElementById('editGoalModal').style.display = 'none';
+            currentEditingGoalId = null;
+        }
+
+        function saveEditedGoal() {
+            const newText = document.getElementById('editGoalInput').value.trim();
+            
+            if (newText && currentEditingGoalId) {
+                const goal = appData.goals.find(g => g.id === currentEditingGoalId);
+                if (goal) {
+                    goal.text = newText;
+                    saveData();
+                    renderGoals();
+                    closeEditGoalModal();
+                }
+            }
+        }
+
+        // Edit Sub-Goal Functions
+        function editSubGoal(event, goalId, subGoalId) {
+            event.stopPropagation();
+            const goal = appData.goals.find(g => g.id === goalId);
+            if (goal) {
+                const subGoal = goal.subGoals.find(sg => sg.id === subGoalId);
+                if (subGoal) {
+                    currentEditingSubGoalId = subGoalId;
+                    currentEditingSubGoalParentId = goalId;
+                    document.getElementById('editSubGoalInput').value = subGoal.text;
+                    document.getElementById('editSubGoalModal').style.display = 'block';
+                }
+            }
+        }
+
+        function closeEditSubGoalModal() {
+            document.getElementById('editSubGoalModal').style.display = 'none';
+            currentEditingSubGoalId = null;
+            currentEditingSubGoalParentId = null;
+        }
+
+        function saveEditedSubGoal() {
+            const newText = document.getElementById('editSubGoalInput').value.trim();
+            
+            if (newText && currentEditingSubGoalId && currentEditingSubGoalParentId) {
+                const goal = appData.goals.find(g => g.id === currentEditingSubGoalParentId);
+                if (goal) {
+                    const subGoal = goal.subGoals.find(sg => sg.id === currentEditingSubGoalId);
+                    if (subGoal) {
+                        subGoal.text = newText;
+                        saveData();
+                        renderGoals();
+                        closeEditSubGoalModal();
+                    }
+                }
             }
         }
 
