@@ -185,6 +185,8 @@
             border-radius: 10px;
             font-size: 1rem;
             transition: border-color 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .input-field:focus {
@@ -206,6 +208,17 @@
             align-items: center;
             transition: all 0.3s ease;
             cursor: pointer;
+            user-select: none;
+        }
+
+        .note-item.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+        }
+
+        .note-item.drag-over {
+            background: #e5e7eb;
+            border: 2px dashed var(--primary);
         }
 
         .task-item:hover, .project-item:hover, .goal-item:hover, .note-item:hover {
@@ -526,7 +539,7 @@
 
         @media (max-width: 768px) {
             .container {
-                padding: 15px;
+                padding: 10px;
             }
 
             h1 {
@@ -534,20 +547,36 @@
             }
 
             .nav-tabs {
+                flex-direction: column;
                 gap: 5px;
             }
 
             .nav-tab {
-                padding: 10px 15px;
-                font-size: 0.85rem;
-            }
-
-            .section-card {
-                padding: 20px;
+                width: 100%;
             }
 
             .input-group {
                 flex-direction: column;
+            }
+
+            #notesAddForm {
+                display: none !important;
+            }
+
+            #notesAddForm.show {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 15px;
+            }
+
+            #notesAddForm .input-field {
+                width: 100% !important;
+                min-height: 44px;
+            }
+
+            #notesAddForm textarea {
+                min-height: 100px;
+                resize: vertical;
             }
 
             .stats-grid {
@@ -689,11 +718,9 @@
                 </div>
                 
                 <div id="notesAddForm" style="display: none;">
-                    <div class="input-group">
-                        <input type="text" class="input-field" id="noteTitle" placeholder="Note title">
-                        <button class="add-btn" onclick="addNote()">Add</button>
-                    </div>
+                    <input type="text" class="input-field" id="noteTitle" placeholder="Note title" style="margin-bottom: 15px;">
                     <textarea class="input-field" id="noteContent" placeholder="Write your note here..." rows="4" style="margin-bottom: 20px;"></textarea>
+                    <button class="add-btn" onclick="addNote()" style="width: 100%;">Save Note</button>
                 </div>
 
                 <ul id="noteList" class="note-list">
@@ -782,15 +809,28 @@
 
             // Hide all add forms
             document.querySelectorAll('[id$="AddForm"]').forEach(form => {
-                form.style.display = 'none';
+                if (form.id === 'notesAddForm') {
+                    form.classList.remove('show');
+                } else {
+                    form.style.display = 'none';
+                }
             });
         }
 
         // Toggle add form visibility
         function toggleAddForm(section) {
             const form = document.getElementById(section + 'AddForm');
-            form.style.display = form.style.display === 'none' ? 'flex' : 'none';
-            if (form.style.display === 'flex') {
+            
+            if (section === 'notes') {
+                // Use class toggle for notes to work with mobile CSS
+                form.classList.toggle('show');
+            } else {
+                // Use inline styles for other sections
+                form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+            }
+            
+            const isVisible = section === 'notes' ? form.classList.contains('show') : form.style.display === 'flex';
+            if (isVisible) {
                 const firstInput = form.querySelector('input, textarea');
                 if (firstInput) firstInput.focus();
             }
@@ -1139,7 +1179,7 @@
                     createdAt: new Date().toISOString()
                 };
                 
-                appData.notes.push(note);
+                appData.notes.unshift(note);
                 saveData();
                 renderNotes();
                 
@@ -1165,7 +1205,7 @@
             emptyState.style.display = 'none';
             
             container.innerHTML = appData.notes.map(note => `
-                <li class="note-item" onclick="openNoteModal(${note.id})">
+                <li class="note-item" draggable="true" data-note-id="${note.id}" onclick="openNoteModal(${note.id})">
                     <div class="item-content">
                         <div class="item-title">${note.title}</div>
                         <div class="item-meta">${note.content ? note.content.substring(0, 50) + (note.content.length > 50 ? '...' : '') : 'No content'} • ${new Date(note.createdAt).toLocaleDateString()}</div>
@@ -1176,7 +1216,85 @@
                 </li>
             `).join('');
             
+            // Add drag and drop event listeners
+            setupDragAndDrop();
+            
             console.log('Notes rendered'); // Debug log
+        }
+
+        // Setup drag and drop for notes
+        function setupDragAndDrop() {
+            const noteItems = document.querySelectorAll('.note-item');
+            
+            noteItems.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+                item.addEventListener('dragover', handleDragOver);
+                item.addEventListener('drop', handleDrop);
+                item.addEventListener('dragenter', handleDragEnter);
+                item.addEventListener('dragleave', handleDragLeave);
+            });
+        }
+
+        let draggedElement = null;
+
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            
+            // Remove all drag-over classes
+            document.querySelectorAll('.note-item').forEach(item => {
+                item.classList.remove('drag-over');
+            });
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDragEnter(e) {
+            if (this !== draggedElement) {
+                this.classList.add('drag-over');
+            }
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            
+            if (draggedElement !== this) {
+                const draggedId = parseInt(draggedElement.dataset.noteId);
+                const targetId = parseInt(this.dataset.noteId);
+                
+                const draggedIndex = appData.notes.findIndex(n => n.id === draggedId);
+                const targetIndex = appData.notes.findIndex(n => n.id === targetId);
+                
+                if (draggedIndex !== -1 && targetIndex !== -1) {
+                    // Remove dragged item and insert at new position
+                    const [draggedNote] = appData.notes.splice(draggedIndex, 1);
+                    appData.notes.splice(targetIndex, 0, draggedNote);
+                    
+                    saveData();
+                    renderNotes();
+                }
+            }
+            
+            return false;
         }
 
         // Open note modal
