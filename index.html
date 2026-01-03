@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6366f1">
+    <title>Back On Track 26</title>
+    <link rel="manifest" href="./pwa-files/manifest.json">
+    <link rel="apple-touch-icon" href="./pwa-files/icon-192.svg">
+    <link rel="icon" type="image/svg+xml" href="./pwa-files/icon-192.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 30px;
+            position: relative;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .install-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .install-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .install-btn.hidden {
+            display: none;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            background: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-tab.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .add-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .add-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .task-list, .project-list, .goal-list, .note-list {
+            list-style: none;
+        }
+
+        .task-item, .project-item, .goal-item, .note-item {
+            background: var(--light);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .task-item:hover, .project-item:hover, .goal-item:hover, .note-item:hover {
+            background: #e5e7eb;
+            transform: translateX(5px);
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .project-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .goal-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: slideIn 0.3s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6b7280;
+            padding: 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .modal-body {
+            line-height: 1.6;
+            color: var(--dark);
+        }
+
+        .modal-meta {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--light);
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .task-item:hover, .project-item:hover, .goal-item:hover, .note-item:hover {
+            background: #e5e7eb;
+            transform: translateX(5px);
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .item-content {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .item-meta {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .accordion {
+            background: var(--white);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .accordion-header {
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background: var(--light);
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .accordion.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #f9fafb;
+        }
+
+        .accordion.active .accordion-content {
+            max-height: 500px;
+        }
+
+        .sub-goals {
+            padding: 15px;
+        }
+
+        .sub-goal-item {
+            background: var(--white);
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 3px solid var(--primary);
+        }
+
+        .sub-goal-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .add-sub-goal {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .sub-goal-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .add-sub-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.3s ease;
+        }
+
+        .add-sub-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .convert-btn {
+            background: var(--success);
+            color: var(--white);
+            border: none;
+            padding: 5px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .convert-btn:hover {
+            background: #059669;
+            transform: scale(1.05);
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--white);
+        }
+
+        .priority-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .priority-medium {
+            background: var(--warning);
+            color: var(--white);
+        }
+
+        .priority-low {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #9ca3af;
+        }
+
+        .empty-state svg {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .nav-tabs {
+                gap: 5px;
+            }
+
+            .nav-tab {
+                padding: 10px 15px;
+                font-size: 0.85rem;
+            }
+
+            .section-card {
+                padding: 20px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Back On Track 26</h1>
+            <p class="subtitle">Organize your tasks, projects, goals, and notes</p>
+            <button id="installBtn" class="install-btn hidden" onclick="installPWA()">
+                📱 Install App
+            </button>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab('daily')">📋 Daily Tasks</button>
+            <button class="nav-tab" onclick="switchTab('projects')">🚀 Ongoing Projects</button>
+            <button class="nav-tab" onclick="switchTab('goals')">🎯 Long Term Goals</button>
+            <button class="nav-tab" onclick="switchTab('notes')">📝 Notes</button>
+        </nav>
+
+        <!-- Daily Tasks Section -->
+        <section id="daily" class="content-section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="taskCount">0</div>
+                    <div class="stat-label">Total Tasks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="completedCount">0</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="pendingCount">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">
+                    <h2 class="section-title">Today's Tasks</h2>
+                    <button class="add-btn" onclick="toggleAddForm('daily')">
+                        <span>+</span> Add Task
+                    </button>
+                </div>
+                
+                <div id="dailyAddForm" class="input-group" style="display: none;">
+                    <input type="text" class="input-field" id="dailyInput" placeholder="What needs to be done today?">
+                    <select class="input-field" id="dailyPriority" style="flex: 0.3;">
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                    <button class="add-btn" onclick="addDailyTask()">Add</button>
+                </div>
+
+                <ul id="dailyTasks" class="task-list">
+                    <!-- Tasks will be added here dynamically -->
+                </ul>
+
+                <div id="dailyEmpty" class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    </svg>
+                    <p>No tasks yet. Add your first task to get started!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ongoing Projects Section -->
+        <section id="projects" class="content-section">
+            <div class="section-card">
+                <div class="section-header">
+                    <h2 class="section-title">Ongoing Projects</h2>
+                    <button class="add-btn" onclick="toggleAddForm('projects')">
+                        <span>+</span> Add Project
+                    </button>
+                </div>
+                
+                <div id="projectsAddForm" class="input-group" style="display: none;">
+                    <input type="text" class="input-field" id="projectInput" placeholder="Project name">
+                    <input type="text" class="input-field" id="projectDesc" placeholder="Brief description">
+                    <button class="add-btn" onclick="addProject()">Add</button>
+                </div>
+
+                <ul id="projectList" class="project-list">
+                    <!-- Projects will be added here dynamically -->
+                </ul>
+
+                <div id="projectsEmpty" class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                    <p>No projects yet. Start by adding your first project!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Long Term Goals Section -->
+        <section id="goals" class="content-section">
+            <div class="section-card">
+                <div class="section-header">
+                    <h2 class="section-title">Long Term Goals</h2>
+                    <button class="add-btn" onclick="toggleAddForm('goals')">
+                        <span>+</span> Add Goal
+                    </button>
+                </div>
+                
+                <div id="goalsAddForm" class="input-group" style="display: none;">
+                    <input type="text" class="input-field" id="goalInput" placeholder="What's your long term goal?">
+                    <button class="add-btn" onclick="addGoal()">Add</button>
+                </div>
+
+                <div id="goalList" class="goal-list">
+                    <!-- Goals will be added here dynamically -->
+                </div>
+
+                <div id="goalsEmpty" class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    <p>No goals set yet. What do you want to achieve?</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notes Section -->
+        <section id="notes" class="content-section">
+            <div class="section-card">
+                <div class="section-header">
+                    <h2 class="section-title">Notes</h2>
+                    <button class="add-btn" onclick="toggleAddForm('notes')">
+                        <span>+</span> Add Note
+                    </button>
+                </div>
+                
+                <div id="notesAddForm" style="display: none;">
+                    <div class="input-group">
+                        <input type="text" class="input-field" id="noteTitle" placeholder="Note title">
+                        <button class="add-btn" onclick="addNote()">Add</button>
+                    </div>
+                    <textarea class="input-field" id="noteContent" placeholder="Write your note here..." rows="4" style="margin-bottom: 20px;"></textarea>
+                </div>
+
+                <ul id="noteList" class="note-list">
+                    <!-- Notes will be added here dynamically -->
+                </ul>
+
+                <div id="notesEmpty" class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    <p>No notes yet. Start capturing your thoughts!</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Note Modal -->
+    <div id="noteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalNoteTitle">Note Title</h2>
+                <button class="close-btn" onclick="closeNoteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalNoteContent">Note content goes here...</div>
+                <div class="modal-meta">
+                    <strong>Created:</strong> <span id="modalNoteDate"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage
+        let appData = {
+            dailyTasks: [],
+            projects: [],
+            goals: [],
+            notes: []
+        };
+
+        // Load data from localStorage
+        function loadData() {
+            const saved = localStorage.getItem('productivityHubData');
+            if (saved) {
+                appData = JSON.parse(saved);
+                // Ensure new properties exist for existing data
+                appData.goals = appData.goals || [];
+                appData.goals.forEach(goal => {
+                    goal.subGoals = goal.subGoals || [];
+                });
+                appData.projects = appData.projects || [];
+                appData.projects.forEach(project => {
+                    project.completed = project.completed !== undefined ? project.completed : false;
+                });
+            }
+            console.log('Data loaded:', appData);
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('productivityHubData', JSON.stringify(appData));
+        }
+
+        // Initialize app
+        function init() {
+            loadData();
+            console.log('Loaded data:', appData); // Debug log
+            renderAllSections();
+            updateTaskStats();
+        }
+
+        // Switch between tabs
+        function switchTab(tabName) {
+            // Update nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+
+            // Hide all add forms
+            document.querySelectorAll('[id$="AddForm"]').forEach(form => {
+                form.style.display = 'none';
+            });
+        }
+
+        // Toggle add form visibility
+        function toggleAddForm(section) {
+            const form = document.getElementById(section + 'AddForm');
+            form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+            if (form.style.display === 'flex') {
+                const firstInput = form.querySelector('input, textarea');
+                if (firstInput) firstInput.focus();
+            }
+        }
+
+        // Add daily task
+        function addDailyTask() {
+            const input = document.getElementById('dailyInput');
+            const priority = document.getElementById('dailyPriority').value;
+            const text = input.value.trim();
+            
+            if (text) {
+                const task = {
+                    id: Date.now(),
+                    text: text,
+                    priority: priority,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                };
+                
+                appData.dailyTasks.push(task);
+                saveData();
+                renderDailyTasks();
+                updateTaskStats();
+                
+                input.value = '';
+                toggleAddForm('daily');
+            }
+        }
+
+        // Render daily tasks
+        function renderDailyTasks() {
+            const container = document.getElementById('dailyTasks');
+            const emptyState = document.getElementById('dailyEmpty');
+            
+            if (appData.dailyTasks.length === 0) {
+                container.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            container.style.display = 'block';
+            emptyState.style.display = 'none';
+            
+            container.innerHTML = appData.dailyTasks.map(task => `
+                <li class="task-item ${task.completed ? 'completed' : ''}" onclick="toggleTask(${task.id})">
+                    <div class="item-content">
+                        <div class="item-title">${task.text}</div>
+                        <div class="item-meta">
+                            <span class="priority-badge priority-${task.priority}">${task.priority}</span>
+                            <span style="margin-left: 10px;">${new Date(task.createdAt).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="action-btn" onclick="deleteTask(event, ${task.id})">🗑️</button>
+                    </div>
+                </li>
+            `).join('');
+        }
+
+        // Toggle task completion
+        function toggleTask(id) {
+            const task = appData.dailyTasks.find(t => t.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                saveData();
+                renderDailyTasks();
+                updateTaskStats();
+            }
+        }
+
+        // Delete task
+        function deleteTask(event, id) {
+            event.stopPropagation();
+            appData.dailyTasks = appData.dailyTasks.filter(t => t.id !== id);
+            saveData();
+            renderDailyTasks();
+            updateTaskStats();
+        }
+
+        // Update task statistics
+        function updateTaskStats() {
+            const total = appData.dailyTasks.length;
+            const completed = appData.dailyTasks.filter(t => t.completed).length;
+            const pending = total - completed;
+            
+            document.getElementById('taskCount').textContent = total;
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('pendingCount').textContent = pending;
+        }
+
+        // Add project
+        function addProject() {
+            const nameInput = document.getElementById('projectInput');
+            const descInput = document.getElementById('projectDesc');
+            const name = nameInput.value.trim();
+            const desc = descInput.value.trim();
+            
+            if (name) {
+                const project = {
+                    id: Date.now(),
+                    name: name,
+                    description: desc,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                };
+                
+                appData.projects.push(project);
+                saveData();
+                renderProjects();
+                
+                nameInput.value = '';
+                descInput.value = '';
+                toggleAddForm('projects');
+            }
+        }
+
+        // Render projects
+        function renderProjects() {
+            const container = document.getElementById('projectList');
+            const emptyState = document.getElementById('projectsEmpty');
+            
+            if (appData.projects.length === 0) {
+                container.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            container.style.display = 'block';
+            emptyState.style.display = 'none';
+            
+            container.innerHTML = appData.projects.map(project => `
+                <li class="project-item ${project.completed ? 'completed' : ''}" onclick="toggleProject(${project.id})">
+                    <div class="item-content">
+                        <div class="item-title">${project.name}</div>
+                        <div class="item-meta">${project.description || 'No description'}</div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="convert-btn" onclick="convertProjectToTask(event, ${project.id})">→ Task</button>
+                        <button class="action-btn" onclick="deleteProject(event, ${project.id})">🗑️</button>
+                    </div>
+                </li>
+            `).join('');
+        }
+
+        // Toggle project completion
+        function toggleProject(id) {
+            const project = appData.projects.find(p => p.id === id);
+            if (project) {
+                project.completed = !project.completed;
+                saveData();
+                renderProjects();
+            }
+        }
+
+        // Convert project to daily task
+        function convertProjectToTask(event, projectId) {
+            event.stopPropagation();
+            const project = appData.projects.find(p => p.id === projectId);
+            if (project) {
+                const task = {
+                    id: Date.now(),
+                    text: `Work on: ${project.name}`,
+                    priority: 'medium',
+                    completed: false,
+                    createdAt: new Date().toISOString(),
+                    fromProject: projectId
+                };
+                
+                appData.dailyTasks.push(task);
+                saveData();
+                renderDailyTasks();
+                updateTaskStats();
+                
+                // Switch to daily tasks tab to show the new task
+                document.querySelectorAll('.nav-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelectorAll('.nav-tab')[0].classList.add('active');
+                
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById('daily').classList.add('active');
+            }
+        }
+
+        // Delete project
+        function deleteProject(event, id) {
+            event.stopPropagation();
+            appData.projects = appData.projects.filter(p => p.id !== id);
+            saveData();
+            renderProjects();
+        }
+
+        // Add goal
+        function addGoal() {
+            const input = document.getElementById('goalInput');
+            const text = input.value.trim();
+            
+            if (text) {
+                const goal = {
+                    id: Date.now(),
+                    text: text,
+                    completed: false,
+                    subGoals: [],
+                    createdAt: new Date().toISOString()
+                };
+                
+                appData.goals.push(goal);
+                saveData();
+                renderGoals();
+                
+                input.value = '';
+                toggleAddForm('goals');
+            }
+        }
+
+        // Render goals
+        function renderGoals() {
+            const container = document.getElementById('goalList');
+            const emptyState = document.getElementById('goalsEmpty');
+            
+            console.log('Rendering goals, count:', appData.goals.length); // Debug log
+            
+            // Store which accordions are open before re-rendering
+            const openAccordions = [];
+            document.querySelectorAll('.accordion.active').forEach(acc => {
+                openAccordions.push(acc.id);
+            });
+            
+            if (appData.goals.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            container.innerHTML = appData.goals.map(goal => `
+                <div class="accordion ${goal.completed ? 'completed' : ''} ${openAccordions.includes(`goal-${goal.id}`) ? 'active' : ''}" id="goal-${goal.id}">
+                    <div class="accordion-header" onclick="toggleAccordion(${goal.id})">
+                        <div class="item-content">
+                            <div class="item-title">${goal.text}</div>
+                            <div class="item-meta">${goal.subGoals.length} sub-goal${goal.subGoals.length !== 1 ? 's' : ''}</div>
+                        </div>
+                        <div class="item-actions">
+                            <span class="accordion-icon">▼</span>
+                            <button class="action-btn" onclick="deleteGoal(event, ${goal.id})">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="sub-goals">
+                            <div class="add-sub-goal">
+                                <input type="text" class="sub-goal-input" id="subGoal-${goal.id}" placeholder="Add a sub-goal or task...">
+                                <button class="add-sub-btn" onclick="addSubGoal(${goal.id})">Add</button>
+                            </div>
+                            <div id="subGoals-${goal.id}">
+                                ${goal.subGoals.map(subGoal => `
+                                    <div class="sub-goal-item ${subGoal.completed ? 'completed' : ''}" onclick="toggleSubGoal(${goal.id}, ${subGoal.id})">
+                                        <span>${subGoal.text}</span>
+                                        <button class="action-btn" onclick="deleteSubGoal(event, ${goal.id}, ${subGoal.id})">🗑️</button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            console.log('Goals rendered'); // Debug log
+        }
+
+        // Toggle accordion
+        function toggleAccordion(goalId) {
+            const accordion = document.getElementById(`goal-${goalId}`);
+            accordion.classList.toggle('active');
+        }
+
+        // Add sub-goal
+        function addSubGoal(goalId) {
+            const input = document.getElementById(`subGoal-${goalId}`);
+            const text = input.value.trim();
+            
+            if (text) {
+                const goal = appData.goals.find(g => g.id === goalId);
+                if (goal) {
+                    const subGoal = {
+                        id: Date.now(),
+                        text: text,
+                        completed: false,
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    goal.subGoals.push(subGoal);
+                    saveData();
+                    renderGoals();
+                }
+            }
+        }
+
+        // Toggle sub-goal completion
+        function toggleSubGoal(goalId, subGoalId) {
+            const goal = appData.goals.find(g => g.id === goalId);
+            if (goal) {
+                const subGoal = goal.subGoals.find(sg => sg.id === subGoalId);
+                if (subGoal) {
+                    subGoal.completed = !subGoal.completed;
+                    saveData();
+                    renderGoals();
+                }
+            }
+        }
+
+        // Delete sub-goal
+        function deleteSubGoal(event, goalId, subGoalId) {
+            event.stopPropagation();
+            const goal = appData.goals.find(g => g.id === goalId);
+            if (goal) {
+                goal.subGoals = goal.subGoals.filter(sg => sg.id !== subGoalId);
+                saveData();
+                renderGoals();
+            }
+        }
+
+        // Delete goal
+        function deleteGoal(event, id) {
+            event.stopPropagation();
+            appData.goals = appData.goals.filter(g => g.id !== id);
+            saveData();
+            renderGoals();
+        }
+
+        // Add note
+        function addNote() {
+            const titleInput = document.getElementById('noteTitle');
+            const contentInput = document.getElementById('noteContent');
+            const title = titleInput.value.trim();
+            const content = contentInput.value.trim();
+            
+            if (title) {
+                const note = {
+                    id: Date.now(),
+                    title: title,
+                    content: content,
+                    createdAt: new Date().toISOString()
+                };
+                
+                appData.notes.push(note);
+                saveData();
+                renderNotes();
+                
+                titleInput.value = '';
+                contentInput.value = '';
+                toggleAddForm('notes');
+            }
+        }
+
+        // Render notes
+        function renderNotes() {
+            const container = document.getElementById('noteList');
+            const emptyState = document.getElementById('notesEmpty');
+            
+            console.log('Rendering notes, count:', appData.notes.length); // Debug log
+            
+            if (appData.notes.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            container.innerHTML = appData.notes.map(note => `
+                <li class="note-item" onclick="openNoteModal(${note.id})">
+                    <div class="item-content">
+                        <div class="item-title">${note.title}</div>
+                        <div class="item-meta">${note.content ? note.content.substring(0, 50) + (note.content.length > 50 ? '...' : '') : 'No content'} • ${new Date(note.createdAt).toLocaleDateString()}</div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="action-btn" onclick="deleteNote(event, ${note.id})">🗑️</button>
+                    </div>
+                </li>
+            `).join('');
+            
+            console.log('Notes rendered'); // Debug log
+        }
+
+        // Open note modal
+        function openNoteModal(id) {
+            const note = appData.notes.find(n => n.id === id);
+            if (note) {
+                document.getElementById('modalNoteTitle').textContent = note.title;
+                document.getElementById('modalNoteContent').innerHTML = note.content ? note.content.replace(/\n/g, '<br>') : 'No content';
+                document.getElementById('modalNoteDate').textContent = new Date(note.createdAt).toLocaleString();
+                document.getElementById('noteModal').style.display = 'block';
+            }
+        }
+
+        // Close note modal
+        function closeNoteModal() {
+            document.getElementById('noteModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('noteModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Delete note
+        function deleteNote(event, id) {
+            event.stopPropagation();
+            appData.notes = appData.notes.filter(n => n.id !== id);
+            saveData();
+            renderNotes();
+        }
+
+        // Render all sections
+        function renderAllSections() {
+            renderDailyTasks();
+            renderProjects();
+            renderGoals();
+            renderNotes();
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + Enter to submit forms
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                const activeSection = document.querySelector('.content-section.active').id;
+                const form = document.getElementById(activeSection + 'AddForm');
+                if (form && form.style.display !== 'none') {
+                    if (activeSection === 'daily') addDailyTask();
+                    else if (activeSection === 'projects') addProject();
+                    else if (activeSection === 'goals') addGoal();
+                    else if (activeSection === 'notes') addNote();
+                }
+            }
+        });
+
+        // Initialize the app when page loads
+        init();
+
+        // PWA Install functionality
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.classList.remove('hidden');
+        });
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                        installBtn.classList.add('hidden');
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        // Hide install button if app is already installed
+        window.addEventListener('appinstalled', () => {
+            installBtn.classList.add('hidden');
+            console.log('PWA was installed');
+        });
+
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./pwa-files/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registered:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
