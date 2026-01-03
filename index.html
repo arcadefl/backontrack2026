@@ -1809,8 +1809,21 @@
 
         // Convert text to clickable links
         function makeLinksClickable(text) {
-            const urlPattern = /(https?:\/\/[^\s]+)/g;
+            // Only convert if text doesn't already contain HTML links
+            if (text.includes('<a href=')) {
+                return text; // Already has links, don't convert again
+            }
+            
+            // Convert URLs to links
+            const urlPattern = /(https?:\/\/[^\s<]+)/g;
             return text.replace(urlPattern, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+        }
+
+        // Strip HTML tags for plain text storage
+        function stripHtml(html) {
+            const div = document.createElement('div');
+            div.innerHTML = html;
+            return div.textContent || div.innerText || '';
         }
 
         // Open note modal
@@ -1850,6 +1863,9 @@
             const title = document.getElementById('modalNoteTitle').value.trim();
             const content = document.getElementById('modalNoteContent').innerHTML;
             
+            // Strip HTML tags for storage (keep plain text with URLs)
+            const plainContent = stripHtml(content);
+            
             if (currentEditingNoteId) {
                 const note = appData.notes.find(n => n.id === currentEditingNoteId);
                 if (note) {
@@ -1858,7 +1874,7 @@
                         appData.notes = appData.notes.filter(n => n.id !== currentEditingNoteId);
                     } else {
                         note.title = title;
-                        note.content = content;
+                        note.content = plainContent;
                     }
                     saveData();
                     renderNotes();
