@@ -90,19 +90,24 @@
             justify-content: center;
             gap: 10px;
             margin-bottom: 30px;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
         }
 
         .nav-tab {
             background: var(--white);
             border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
+            padding: 15px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 1.5rem;
             font-weight: 600;
             transition: all 0.3s ease;
             box-shadow: var(--shadow);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .nav-tab:hover {
@@ -296,6 +301,169 @@
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--dark);
+        }
+
+        .modal-title-input {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            border: none;
+            background: transparent;
+            flex: 1;
+            outline: none;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .modal-title-input:focus {
+            background: var(--light);
+        }
+
+        .formatting-toolbar {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: var(--light);
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+
+        .format-btn {
+            background: var(--white);
+            border: 1px solid #d1d5db;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            min-width: 40px;
+        }
+
+        .format-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-1px);
+        }
+
+        .format-btn:active {
+            transform: translateY(0);
+        }
+
+        .modal-content-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 200px;
+            outline: none;
+            transition: border-color 0.3s ease;
+            background: var(--white);
+        }
+
+        .modal-content-input:focus {
+            border-color: var(--primary);
+        }
+
+        .modal-content-input[contenteditable="true"]:empty:before {
+            content: attr(placeholder);
+            color: #9ca3af;
+        }
+
+        .modal-content-input ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .modal-content-input li {
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+
+        .modal-content-input ul, .modal-content-input ol {
+            list-style-position: inside;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: space-between;
+        }
+
+        .image-attachments {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .image-attachment {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--light);
+            background: var(--light);
+        }
+
+        .image-attachment img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .image-delete-btn:hover {
+            background: rgba(220, 38, 38, 1);
+        }
+
+        .image-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .image-option-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .image-option-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
         .close-btn {
@@ -564,12 +732,16 @@
             }
 
             .nav-tabs {
-                flex-direction: column;
+                flex-direction: row;
                 gap: 5px;
+                padding: 0 10px;
             }
 
             .nav-tab {
-                width: 100%;
+                width: calc(25% - 4px);
+                height: 70px;
+                font-size: 1.8rem;
+                padding: 15px;
             }
 
             .input-group {
@@ -596,6 +768,16 @@
                 resize: vertical;
             }
 
+            .modal-content-input ul {
+                padding-left: 15px !important;
+                margin: 8px 0 !important;
+            }
+
+            .modal-content-input li {
+                margin: 3px 0 !important;
+                font-size: 0.95rem;
+            }
+
             .stats-grid {
                 grid-template-columns: 1fr;
             }
@@ -605,7 +787,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>Back On Track 26</h1>
+            <h1>Back On Track 26 v2</h1>
             <p class="subtitle">Organize your tasks, projects, goals, and notes</p>
             <button id="installBtn" class="install-btn hidden" onclick="installPWA()">
                 📱 Install App
@@ -613,29 +795,14 @@
         </header>
 
         <nav class="nav-tabs">
-            <button class="nav-tab active" onclick="switchTab('daily')">📋 Daily Tasks</button>
-            <button class="nav-tab" onclick="switchTab('projects')">🚀 Ongoing Projects</button>
-            <button class="nav-tab" onclick="switchTab('goals')">🎯 Long Term Goals</button>
-            <button class="nav-tab" onclick="switchTab('notes')">📝 Notes</button>
+            <button class="nav-tab active" onclick="switchTab('daily')" title="Daily Tasks">📋</button>
+            <button class="nav-tab" onclick="switchTab('projects')" title="Ongoing Projects">🚀</button>
+            <button class="nav-tab" onclick="switchTab('goals')" title="Long Term Goals">🎯</button>
+            <button class="nav-tab" onclick="switchTab('notes')" title="Notes">📝</button>
         </nav>
 
         <!-- Daily Tasks Section -->
         <section id="daily" class="content-section active">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="taskCount">0</div>
-                    <div class="stat-label">Total Tasks</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="completedCount">0</div>
-                    <div class="stat-label">Completed</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="pendingCount">0</div>
-                    <div class="stat-label">Pending</div>
-                </div>
-            </div>
-
             <div class="section-card">
                 <div class="section-header">
                     <h2 class="section-title">Today's Tasks</h2>
@@ -729,7 +896,7 @@
             <div class="section-card">
                 <div class="section-header">
                     <h2 class="section-title">Notes</h2>
-                    <button class="add-btn" onclick="toggleAddForm('notes')">
+                    <button class="add-btn" onclick="addNote()">
                         <span>+</span> Add Note
                     </button>
                 </div>
@@ -758,17 +925,71 @@
     <div id="noteModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title" id="modalNoteTitle">Note Title</h2>
+                <input type="text" id="modalNoteTitle" class="modal-title-input" placeholder="Note title">
                 <button class="close-btn" onclick="closeNoteModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <div id="modalNoteContent">Note content goes here...</div>
+                <div class="formatting-toolbar">
+                    <button class="format-btn" onclick="formatText('bold')" title="Bold">
+                        <strong>B</strong>
+                    </button>
+                    <button class="format-btn" onclick="formatText('italic')" title="Italic">
+                        <em>I</em>
+                    </button>
+                    <button class="format-btn" onclick="formatText('underline')" title="Underline">
+                        <u>U</u>
+                    </button>
+                    <button class="format-btn" onclick="formatText('strikeThrough')" title="Strikethrough">
+                        <s>S</s>
+                    </button>
+                    <button class="format-btn" onclick="insertBulletList()" title="Bullet List">
+                        • List
+                    </button>
+                    <button class="format-btn" onclick="clearFormatting()" title="Clear Formatting">
+                        Clear
+                    </button>
+                    <button class="format-btn" onclick="showImageOptions()" title="Add Image">
+                        📷 Image
+                    </button>
+                </div>
+                <div id="modalNoteContent" class="modal-content-input" contenteditable="true" placeholder="Write your note here..."></div>
+                <div id="imageAttachments" class="image-attachments">
+                    <!-- Images will be displayed here -->
+                </div>
                 <div class="modal-meta">
                     <strong>Created:</strong> <span id="modalNoteDate"></span>
+                </div>
+                <div class="modal-actions">
+                    <button class="add-btn" onclick="saveEditedNote()">Save Changes</button>
+                    <button class="action-btn" onclick="deleteNoteFromModal()">🗑️ Delete</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Image Options Modal -->
+    <div id="imageOptionsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add Image</h2>
+                <button class="close-btn" onclick="closeImageOptions()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="image-options">
+                    <button class="image-option-btn" onclick="selectImageFromGallery()">
+                        📷 Choose from Gallery
+                    </button>
+                    <button class="image-option-btn" onclick="takePhotoWithCamera()">
+                        📸 Take Photo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file input for image selection -->
+    <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageSelection(event)">
+    <input type="file" id="cameraInput" accept="image/*" capture="camera" style="display: none;" onchange="handleImageSelection(event)">
 
     <script>
         // Data storage
@@ -778,6 +999,79 @@
             goals: [],
             notes: []
         };
+
+        let currentEditingNoteId = null;
+        let currentNoteImages = [];
+        let imageDatabase = null;
+
+        // IndexedDB setup for image storage
+        function initImageDatabase() {
+            const request = indexedDB.open('NoteImagesDB', 1);
+            
+            request.onerror = function(event) {
+                console.error('IndexedDB error:', event.target.error);
+            };
+            
+            request.onsuccess = function(event) {
+                imageDatabase = event.target.result;
+                console.log('Image database initialized');
+            };
+            
+            request.onupgradeneeded = function(event) {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains('images')) {
+                    const objectStore = db.createObjectStore('images', { keyPath: 'id' });
+                    objectStore.createIndex('noteId', 'noteId', { unique: false });
+                }
+            };
+        }
+
+        // Store image in IndexedDB
+        function storeImageInDB(imageId, noteId, imageData) {
+            return new Promise((resolve, reject) => {
+                const transaction = imageDatabase.transaction(['images'], 'readwrite');
+                const store = transaction.objectStore('images');
+                
+                const imageRecord = {
+                    id: imageId,
+                    noteId: noteId,
+                    data: imageData,
+                    timestamp: Date.now()
+                };
+                
+                const request = store.put(imageRecord);
+                
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // Get images from IndexedDB
+        function getImagesFromDB(noteId) {
+            return new Promise((resolve, reject) => {
+                const transaction = imageDatabase.transaction(['images'], 'readonly');
+                const store = transaction.objectStore('images');
+                const index = store.index('noteId');
+                
+                const request = index.getAll(noteId);
+                
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // Delete image from IndexedDB
+        function deleteImageFromDB(imageId) {
+            return new Promise((resolve, reject) => {
+                const transaction = imageDatabase.transaction(['images'], 'readwrite');
+                const store = transaction.objectStore('images');
+                
+                const request = store.delete(imageId);
+                
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            });
+        }
 
         // Load data from localStorage
         function loadData() {
@@ -804,10 +1098,10 @@
 
         // Initialize app
         function init() {
+            initImageDatabase();
             loadData();
             console.log('Loaded data:', appData); // Debug log
             renderAllSections();
-            updateTaskStats();
         }
 
         // Switch between tabs
@@ -871,7 +1165,6 @@
                 appData.dailyTasks.push(task);
                 saveData();
                 renderDailyTasks();
-                updateTaskStats();
                 
                 input.value = '';
                 toggleAddForm('daily');
@@ -915,7 +1208,6 @@
                 task.completed = !task.completed;
                 saveData();
                 renderDailyTasks();
-                updateTaskStats();
             }
         }
 
@@ -925,18 +1217,6 @@
             appData.dailyTasks = appData.dailyTasks.filter(t => t.id !== id);
             saveData();
             renderDailyTasks();
-            updateTaskStats();
-        }
-
-        // Update task statistics
-        function updateTaskStats() {
-            const total = appData.dailyTasks.length;
-            const completed = appData.dailyTasks.filter(t => t.completed).length;
-            const pending = total - completed;
-            
-            document.getElementById('taskCount').textContent = total;
-            document.getElementById('completedCount').textContent = completed;
-            document.getElementById('pendingCount').textContent = pending;
         }
 
         // Add project
@@ -1020,7 +1300,6 @@
                 appData.dailyTasks.push(task);
                 saveData();
                 renderDailyTasks();
-                updateTaskStats();
                 
                 // Switch to daily tasks tab to show the new task
                 document.querySelectorAll('.nav-tab').forEach(tab => {
@@ -1183,27 +1462,21 @@
 
         // Add note
         function addNote() {
-            const titleInput = document.getElementById('noteTitle');
-            const contentInput = document.getElementById('noteContent');
-            const title = titleInput.value.trim();
-            const content = contentInput.value.trim();
+            // Create a new note and open it in the modal for editing
+            const newNote = {
+                id: Date.now(),
+                title: '',
+                content: '',
+                createdAt: new Date().toISOString()
+            };
             
-            if (title) {
-                const note = {
-                    id: Date.now(),
-                    title: title,
-                    content: content,
-                    createdAt: new Date().toISOString()
-                };
-                
-                appData.notes.unshift(note);
-                saveData();
-                renderNotes();
-                
-                titleInput.value = '';
-                contentInput.value = '';
-                toggleAddForm('notes');
-            }
+            // Add to the beginning of notes array
+            appData.notes.unshift(newNote);
+            saveData();
+            renderNotes();
+            
+            // Open the modal for editing
+            openNoteModal(newNote.id);
         }
 
         // Render notes
@@ -1348,19 +1621,181 @@
         }
 
         // Open note modal
-        function openNoteModal(id) {
+        async function openNoteModal(id) {
             const note = appData.notes.find(n => n.id === id);
             if (note) {
-                document.getElementById('modalNoteTitle').textContent = note.title;
-                document.getElementById('modalNoteContent').innerHTML = note.content ? note.content.replace(/\n/g, '<br>') : 'No content';
+                currentEditingNoteId = id;
+                document.getElementById('modalNoteTitle').value = note.title;
+                document.getElementById('modalNoteContent').innerHTML = note.content || '';
                 document.getElementById('modalNoteDate').textContent = new Date(note.createdAt).toLocaleString();
                 document.getElementById('noteModal').style.display = 'block';
+                
+                // Load images for this note
+                await loadNoteImages(id);
             }
         }
 
         // Close note modal
         function closeNoteModal() {
+            if (currentEditingNoteId) {
+                const note = appData.notes.find(n => n.id === currentEditingNoteId);
+                // If note is empty (no title), remove it
+                if (note && !note.title.trim()) {
+                    appData.notes = appData.notes.filter(n => n.id !== currentEditingNoteId);
+                    saveData();
+                    renderNotes();
+                }
+            }
             document.getElementById('noteModal').style.display = 'none';
+            currentEditingNoteId = null;
+        }
+
+        // Save edited note
+        function saveEditedNote() {
+            const title = document.getElementById('modalNoteTitle').value.trim();
+            const content = document.getElementById('modalNoteContent').innerHTML;
+            
+            if (currentEditingNoteId) {
+                const note = appData.notes.find(n => n.id === currentEditingNoteId);
+                if (note) {
+                    // If title is empty, delete the note
+                    if (!title) {
+                        appData.notes = appData.notes.filter(n => n.id !== currentEditingNoteId);
+                    } else {
+                        note.title = title;
+                        note.content = content;
+                    }
+                    saveData();
+                    renderNotes();
+                    closeNoteModal();
+                }
+            }
+        }
+
+        // Delete note from modal
+        function deleteNoteFromModal() {
+            if (currentEditingNoteId) {
+                deleteNote(event, currentEditingNoteId);
+                closeNoteModal();
+            }
+        }
+
+        // Text formatting functions
+        function formatText(command) {
+            document.execCommand(command, false, null);
+            document.getElementById('modalNoteContent').focus();
+        }
+
+        function insertBulletList() {
+            document.execCommand('insertUnorderedList', false, null);
+            document.getElementById('modalNoteContent').focus();
+        }
+
+        function clearFormatting() {
+            document.execCommand('removeFormat', false, null);
+            document.getElementById('modalNoteContent').focus();
+        }
+
+        // Image handling functions
+        function showImageOptions() {
+            document.getElementById('imageOptionsModal').style.display = 'block';
+        }
+
+        function closeImageOptions() {
+            document.getElementById('imageOptionsModal').style.display = 'none';
+        }
+
+        function selectImageFromGallery() {
+            document.getElementById('imageInput').click();
+            closeImageOptions();
+        }
+
+        function takePhotoWithCamera() {
+            document.getElementById('cameraInput').click();
+            closeImageOptions();
+        }
+
+        async function handleImageSelection(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            try {
+                // Read image as base64
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    const imageData = e.target.result;
+                    const imageId = 'img_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    
+                    // Store in IndexedDB
+                    await storeImageInDB(imageId, currentEditingNoteId, imageData);
+                    
+                    // Add to current note images
+                    currentNoteImages.push({
+                        id: imageId,
+                        data: imageData
+                    });
+                    
+                    // Display image
+                    displayImage(imageId, imageData);
+                };
+                reader.readAsDataURL(file);
+            } catch (error) {
+                console.error('Error handling image:', error);
+                alert('Failed to add image. Please try again.');
+            }
+            
+            // Clear file input
+            event.target.value = '';
+        }
+
+        function displayImage(imageId, imageData) {
+            const container = document.getElementById('imageAttachments');
+            const imageDiv = document.createElement('div');
+            imageDiv.className = 'image-attachment';
+            imageDiv.id = 'img_' + imageId;
+            
+            imageDiv.innerHTML = `
+                <img src="${imageData}" alt="Note image">
+                <button class="image-delete-btn" onclick="deleteImage('${imageId}')">×</button>
+            `;
+            
+            container.appendChild(imageDiv);
+        }
+
+        async function deleteImage(imageId) {
+            try {
+                // Remove from IndexedDB
+                await deleteImageFromDB(imageId);
+                
+                // Remove from current note images
+                currentNoteImages = currentNoteImages.filter(img => img.id !== imageId);
+                
+                // Remove from display
+                const imageElement = document.getElementById('img_' + imageId);
+                if (imageElement) {
+                    imageElement.remove();
+                }
+            } catch (error) {
+                console.error('Error deleting image:', error);
+                alert('Failed to delete image. Please try again.');
+            }
+        }
+
+        async function loadNoteImages(noteId) {
+            try {
+                const images = await getImagesFromDB(noteId);
+                currentNoteImages = images;
+                
+                // Clear existing images
+                document.getElementById('imageAttachments').innerHTML = '';
+                
+                // Display images
+                images.forEach(image => {
+                    displayImage(image.id, image.data);
+                });
+            } catch (error) {
+                console.error('Error loading images:', error);
+            }
         }
 
         // Close modal when clicking outside
