@@ -214,6 +214,16 @@
             box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
         }
 
+        .nav-tab.active[data-tab="projects"] {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-tab.active[data-tab="goals"] {
+            background: linear-gradient(135deg, #a855f7 0%, #9333ea 50%, #7e22ce 100%);
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+        }
+
         .content-section {
             display: none;
             animation: fadeIn 0.5s ease;
@@ -236,6 +246,24 @@
 
         .section-card:hover {
             transform: translateY(-2px);
+        }
+
+        #projects .section-card {
+            border-image: linear-gradient(90deg, rgba(59, 130, 246, 0.55) 0%, rgba(59, 130, 246, 0.55) 50%, rgba(59, 130, 246, 0.55) 100%) 1;
+        }
+
+        #goals .section-card {
+            border-image: linear-gradient(90deg, rgba(168, 85, 247, 0.55) 0%, rgba(168, 85, 247, 0.55) 50%, rgba(168, 85, 247, 0.55) 100%) 1;
+        }
+
+        #projects .convert-btn {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #1e40af 100%);
+            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.35);
+        }
+
+        #projects .convert-btn:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #1e3a8a 100%);
+            transform: scale(1.05);
         }
 
         .section-header {
@@ -1110,7 +1138,15 @@
             animation: taskComplete 0.6s ease-out;
         }
 
+        .project-item.completing {
+            animation: taskComplete 0.6s ease-out;
+        }
+
         .task-item.restoring {
+            animation: taskRestore 0.6s ease-out;
+        }
+
+        .project-item.restoring {
             animation: taskRestore 0.6s ease-out;
         }
 
@@ -1118,7 +1154,15 @@
             animation: slideToOcean 0.8s ease-out;
         }
 
+        .project-item.sliding-to-ocean {
+            animation: slideToOcean 0.8s ease-out;
+        }
+
         .task-item.sliding-to-current {
+            animation: slideToCurrent 0.8s ease-out;
+        }
+
+        .project-item.sliding-to-current {
             animation: slideToCurrent 0.8s ease-out;
         }
 
@@ -1156,6 +1200,18 @@
             background: #22c55e !important;
         }
 
+        .modal .priority-circle.grey {
+            background: #4b5563 !important;
+        }
+
+        .modal .priority-circle.purple {
+            background: #a855f7 !important;
+        }
+
+        .modal .priority-circle.blue {
+            background: #3b82f6 !important;
+        }
+
         .priority-circle:hover {
             transform: scale(1.1);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -1176,6 +1232,56 @@
             color: white;
             font-weight: bold;
             font-size: 14px;
+        }
+
+        .note-item.note-color-grey {
+            background: linear-gradient(0deg, rgba(75, 85, 99, 0.15), rgba(75, 85, 99, 0.15)), #1a1a1a;
+            border-image: linear-gradient(90deg, rgba(75, 85, 99, 0.45) 0%, rgba(75, 85, 99, 0.45) 50%, rgba(75, 85, 99, 0.45) 100%) 1;
+            border-left: 4px solid rgba(75, 85, 99, 0.85) !important;
+        }
+
+        .note-item.note-color-grey:hover {
+            background: linear-gradient(0deg, rgba(75, 85, 99, 0.15), rgba(75, 85, 99, 0.15)), #303030;
+        }
+
+        .note-item.note-color-green {
+            background: linear-gradient(0deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.15)), #1a1a1a;
+            border-image: linear-gradient(90deg, rgba(34, 197, 94, 0.45) 0%, rgba(34, 197, 94, 0.45) 50%, rgba(34, 197, 94, 0.45) 100%) 1;
+            border-left: 4px solid rgba(34, 197, 94, 0.85) !important;
+        }
+
+        .note-item.note-color-green:hover {
+            background: linear-gradient(0deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.15)), #303030;
+        }
+
+        .note-item.note-color-red {
+            background: linear-gradient(0deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.15)), #1a1a1a;
+            border-image: linear-gradient(90deg, rgba(239, 68, 68, 0.45) 0%, rgba(239, 68, 68, 0.45) 50%, rgba(239, 68, 68, 0.45) 100%) 1;
+            border-left: 4px solid rgba(239, 68, 68, 0.85) !important;
+        }
+
+        .note-item.note-color-red:hover {
+            background: linear-gradient(0deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.15)), #303030;
+        }
+
+        .note-item.note-color-purple {
+            background: linear-gradient(0deg, rgba(168, 85, 247, 0.15), rgba(168, 85, 247, 0.15)), #1a1a1a;
+            border-image: linear-gradient(90deg, rgba(168, 85, 247, 0.45) 0%, rgba(168, 85, 247, 0.45) 50%, rgba(168, 85, 247, 0.45) 100%) 1;
+            border-left: 4px solid rgba(168, 85, 247, 0.85) !important;
+        }
+
+        .note-item.note-color-purple:hover {
+            background: linear-gradient(0deg, rgba(168, 85, 247, 0.15), rgba(168, 85, 247, 0.15)), #303030;
+        }
+
+        .note-item.note-color-blue {
+            background: linear-gradient(0deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.15)), #1a1a1a;
+            border-image: linear-gradient(90deg, rgba(59, 130, 246, 0.45) 0%, rgba(59, 130, 246, 0.45) 50%, rgba(59, 130, 246, 0.45) 100%) 1;
+            border-left: 4px solid rgba(59, 130, 246, 0.85) !important;
+        }
+
+        .note-item.note-color-blue:hover {
+            background: linear-gradient(0deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.15)), #303030;
         }
 
         .empty-state {
@@ -1300,11 +1406,11 @@
         </header>
 
         <nav class="nav-tabs">
-            <button class="nav-tab active" onclick="switchTab('daily')" title="Current">📋</button>
-            <button class="nav-tab" onclick="switchTab('projects')" title="Stream">🚀</button>
-            <button class="nav-tab" onclick="switchTab('goals')" title="Vision">🎯</button>
-            <button class="nav-tab" onclick="switchTab('visual')" title="Visual">🎨</button>
-            <button class="nav-tab" onclick="switchTab('notes')" title="Sparks">📝</button>
+            <button class="nav-tab active" data-tab="daily" onclick="switchTab('daily')" title="Current">⚡</button>
+            <button class="nav-tab" data-tab="projects" onclick="switchTab('projects')" title="Stream">🌊</button>
+            <button class="nav-tab" data-tab="goals" onclick="switchTab('goals')" title="Vision">🎯</button>
+            <button class="nav-tab" data-tab="visual" onclick="switchTab('visual')" title="Visual">🎨</button>
+            <button class="nav-tab" data-tab="notes" onclick="switchTab('notes')" title="Sparks">📝</button>
         </nav>
 
         <!-- Daily Tasks Section -->
@@ -1519,6 +1625,14 @@
                         📷 Image
                     </button>
                 </div>
+                <div class="priority-selector" style="margin: 12px 0 14px; display: flex !important; gap: 12px; align-items: center; padding: 8px 0;">
+                    <div style="min-width: 60px; color: #9ca3af; font-size: 0.9rem;">Color</div>
+                    <div class="priority-circle grey selected" data-note-color="grey" onclick="selectNoteColor('grey')"></div>
+                    <div class="priority-circle green" data-note-color="green" onclick="selectNoteColor('green')"></div>
+                    <div class="priority-circle red" data-note-color="red" onclick="selectNoteColor('red')"></div>
+                    <div class="priority-circle purple" data-note-color="purple" onclick="selectNoteColor('purple')"></div>
+                    <div class="priority-circle blue" data-note-color="blue" onclick="selectNoteColor('blue')"></div>
+                </div>
                 <div id="modalNoteContent" class="modal-content-input" contenteditable="true" placeholder="Write your note here..."></div>
                 <div id="imageAttachments" class="image-attachments">
                     <!-- Images will be displayed here -->
@@ -1698,6 +1812,7 @@
 
         let currentEditingNoteId = null;
         let currentNoteImages = [];
+        let selectedNoteColor = 'grey';
         let imageDatabase = null;
         let currentEditingTaskId = null;
         let currentEditingProjectId = null;
@@ -2225,7 +2340,7 @@
                 activeEmpty.style.display = 'none';
                 
                 activeContainer.innerHTML = activeProjects.map(project => `
-                <li class="project-item" onclick="toggleProject(${project.id})">
+                <li class="project-item" data-project-id="${project.id}" onclick="toggleProject(${project.id})">
                     <div class="item-content">
                         <div class="item-title">${project.name}</div>
                         <div class="item-meta">${project.description || 'No description'}</div>
@@ -2248,7 +2363,7 @@
                 oceanEmpty.style.display = 'none';
                 
                 oceanContainer.innerHTML = completedProjects.map(project => `
-                <li class="project-item completed" onclick="toggleProject(${project.id})">
+                <li class="project-item completed" data-project-id="${project.id}" onclick="toggleProject(${project.id})">
                     <div class="item-content">
                         <div class="item-title">${project.name}</div>
                         <div class="item-meta">${project.description || 'No description'}</div>
@@ -2267,9 +2382,54 @@
         function toggleProject(id) {
             const project = appData.projects.find(p => p.id === id);
             if (project) {
+                const wasCompleted = project.completed;
                 project.completed = !project.completed;
+
+                // Play sound effect
+                try {
+                    if (project.completed) {
+                        playCompletionSound();
+                    } else {
+                        playRestoreSound();
+                    }
+                } catch (e) {
+                    console.log('Sound playback error:', e);
+                }
+
+                const projectElement = document.querySelector(`[data-project-id="${id}"]`);
+                if (projectElement) {
+                    // Remove any existing animation classes
+                    projectElement.classList.remove('completing', 'restoring', 'sliding-to-ocean', 'sliding-to-current');
+
+                    if (project.completed) {
+                        projectElement.classList.add('completing');
+                        setTimeout(() => {
+                            renderProjects();
+                            setTimeout(() => {
+                                const oceanProjectElement = document.querySelector(`#oceanProjects [data-project-id="${id}"]`);
+                                if (oceanProjectElement) {
+                                    oceanProjectElement.classList.add('sliding-to-ocean');
+                                }
+                            }, 50);
+                        }, 600);
+                    } else {
+                        projectElement.classList.add('restoring');
+                        setTimeout(() => {
+                            renderProjects();
+                            setTimeout(() => {
+                                const currentProjectElement = document.querySelector(`#projectList [data-project-id="${id}"]`);
+                                if (currentProjectElement) {
+                                    currentProjectElement.classList.add('sliding-to-current');
+                                }
+                            }, 50);
+                        }, 600);
+                    }
+                } else {
+                    // Fallback if element not found
+                    renderProjects();
+                }
+
                 saveData();
-                renderProjects();
             }
         }
 
@@ -2459,6 +2619,7 @@
                 id: Date.now(),
                 title: '',
                 content: '',
+                color: 'grey',
                 createdAt: new Date().toISOString()
             };
             
@@ -2515,9 +2676,10 @@
             container.innerHTML = filteredNotes.map(note => {
                 // Make links clickable in preview
                 const contentPreview = note.content ? makeLinksClickable(note.content.substring(0, 50) + (note.content.length > 50 ? '...' : '')) : 'No content';
+                const noteColorClass = `note-color-${(note.color || 'grey')}`;
                 
                 return `
-                <li class="note-item" draggable="true" data-note-id="${note.id}" onclick="openNoteModal(${note.id})">
+                <li class="note-item ${noteColorClass}" draggable="true" data-note-id="${note.id}" onclick="openNoteModal(${note.id})">
                     <div class="item-content">
                         <div class="item-title">${note.title}</div>
                         <div class="item-meta">${contentPreview} • ${new Date(note.createdAt).toLocaleDateString()}</div>
@@ -2676,6 +2838,9 @@
                 
                 // Load HTML content directly (preserves formatting)
                 document.getElementById('modalNoteContent').innerHTML = note.content || '';
+
+                selectedNoteColor = note.color || 'grey';
+                selectNoteColor(selectedNoteColor);
                 
                 document.getElementById('modalNoteDate').textContent = new Date(note.createdAt).toLocaleString();
                 document.getElementById('noteModal').style.display = 'block';
@@ -2685,6 +2850,23 @@
                 
                 // Load images for this note
                 await loadNoteImages(id);
+            }
+        }
+
+        function selectNoteColor(color) {
+            selectedNoteColor = color;
+
+            document.querySelectorAll('#noteModal .priority-circle[data-note-color]').forEach(circle => {
+                circle.classList.remove('selected');
+                circle.style.transform = 'scale(1)';
+                circle.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            });
+
+            const selected = document.querySelector(`#noteModal .priority-circle[data-note-color="${color}"]`);
+            if (selected) {
+                selected.classList.add('selected');
+                selected.style.transform = 'scale(1.15)';
+                selected.style.borderColor = 'rgba(255, 255, 255, 0.8)';
             }
         }
 
@@ -2720,6 +2902,7 @@
                     // Always save the note, even without title
                     note.title = title; // Can be empty
                     note.content = content; // Save HTML content directly
+                    note.color = selectedNoteColor || note.color || 'grey';
                     saveData();
                     renderNotes();
                     closeNoteModal();
