@@ -48,7 +48,8 @@
         header {
             text-align: center;
             color: var(--white);
-            margin-bottom: 30px;
+            margin-bottom: 18px;
+            padding: 14px 0;
             position: relative;
             animation: fadeInDown 0.8s ease;
         }
@@ -78,14 +79,81 @@
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 3.4rem;
+            margin-bottom: 0;
+            line-height: 1;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.04em;
+            color: var(--white);
+            text-shadow:
+                0 2px 0 rgba(0, 0, 0, 0.35),
+                2px 0 0 rgba(0, 229, 255, 0.32),
+                -2px 0 0 rgba(255, 61, 242, 0.28);
+            animation: titleGlitch 4.5s infinite;
         }
 
-        .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
+        h1::before,
+        h1::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        h1::before {
+            color: rgba(0, 229, 255, 0.7);
+            transform: translate(2px, 0);
+        }
+
+        h1::after {
+            color: rgba(255, 61, 242, 0.6);
+            transform: translate(-2px, 0);
+        }
+
+        @keyframes titleGlitch {
+            0%, 100% {
+                text-shadow:
+                    0 2px 0 rgba(0, 0, 0, 0.35),
+                    2px 0 0 rgba(0, 229, 255, 0.32),
+                    -2px 0 0 rgba(255, 61, 242, 0.28);
+            }
+            7% {
+                text-shadow:
+                    0 2px 0 rgba(0, 0, 0, 0.35),
+                    4px 0 0 rgba(0, 229, 255, 0.34),
+                    -4px 0 0 rgba(255, 61, 242, 0.3);
+            }
+            8% {
+                text-shadow:
+                    0 2px 0 rgba(0, 0, 0, 0.35),
+                    1px 0 0 rgba(0, 229, 255, 0.3),
+                    -3px 0 0 rgba(255, 61, 242, 0.28);
+            }
+            40% {
+                text-shadow:
+                    0 2px 0 rgba(0, 0, 0, 0.35),
+                    2px 0 0 rgba(0, 229, 255, 0.32),
+                    -2px 0 0 rgba(255, 61, 242, 0.28);
+            }
+            42% {
+                text-shadow:
+                    0 2px 0 rgba(0, 0, 0, 0.35),
+                    5px 0 0 rgba(0, 229, 255, 0.36),
+                    -1px 0 0 rgba(255, 61, 242, 0.24);
+            }
+            43% {
+                text-shadow:
+                    0 2px 0 rgba(0, 0, 0, 0.35),
+                    2px 0 0 rgba(0, 229, 255, 0.32),
+                    -2px 0 0 rgba(255, 61, 242, 0.28);
+            }
         }
 
         .nav-tabs {
@@ -94,6 +162,27 @@
             gap: 10px;
             margin-bottom: 30px;
             flex-wrap: nowrap;
+        }
+
+        .visual-canvas {
+            width: 100%;
+            height: 60vh;
+            background: #ffffff;
+            border-radius: 10px;
+            border: 2px solid #e5e7eb;
+            touch-action: none;
+        }
+
+        .visual-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+            margin: 12px 0 18px;
+        }
+
+        .visual-controls .input-field {
+            margin-bottom: 0 !important;
         }
 
         .nav-tab {
@@ -642,7 +731,7 @@
 
         .modal-body {
             line-height: 1.6;
-            color: var(--dark);
+            color: var(--white);
         }
 
         .modal-meta {
@@ -735,6 +824,32 @@
             padding: 15px;
         }
 
+        .sub-g.project-item {
+            background: #1e3a8a;
+            padding: 20px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid;
+            border-image: linear-gradient(90deg, rgba(59, 130, 246, 0.5) 0%, rgba(59, 130, 246, 0.5) 50%, rgba(59, 130, 246, 0.5) 100%) 1;
+            transition: all 0.3s ease;
+            cursor: grab;
+            user-select: none;
+            min-height: 60px;
+        }
+
+        .project-item.completed {
+            opacity: 0.6;
+            background: #2a2a2a !important;
+            border-left: 4px solid #6b7280 !important;
+        }
+
+        .sub-goal-item .action-btn {
+            margin-left: 5px;
+        }
+
         .sub-goal-item {
             background: #1a1a1a;
             padding: 10px;
@@ -753,9 +868,6 @@
             flex: 1;
         }
 
-        .sub-goal-item .action-btn {
-            margin-left: 5px;
-        }
 
         .sub-goal-item.completed {
             opacity: 0.6;
@@ -879,6 +991,44 @@
             border-left: 4px solid rgba(34, 197, 94, 0.8);
         }
 
+        #projects #projectList .project-item {
+            border-image: none;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            background:
+                linear-gradient(135deg, rgba(30, 64, 175, 0.07) 0%, rgba(30, 64, 175, 0.03) 100%) padding-box,
+                linear-gradient(#1a1a1a, #1a1a1a) padding-box,
+                linear-gradient(90deg, rgba(96, 165, 250, 0.75) 0%, rgba(147, 197, 253, 0.65) 50%, rgba(96, 165, 250, 0.75) 100%) border-box;
+            box-shadow: inset 4px 0 0 rgba(96, 165, 250, 0.9);
+        }
+
+        #projects #projectList .project-item:hover {
+            background:
+                linear-gradient(135deg, rgba(30, 64, 175, 0.09) 0%, rgba(30, 64, 175, 0.04) 100%) padding-box,
+                linear-gradient(#303030, #303030) padding-box,
+                linear-gradient(90deg, rgba(96, 165, 250, 0.85) 0%, rgba(147, 197, 253, 0.75) 50%, rgba(96, 165, 250, 0.85) 100%) border-box;
+            box-shadow: inset 4px 0 0 rgba(96, 165, 250, 0.95), 0 0 10px rgba(96, 165, 250, 0.22);
+        }
+
+        #goals #goalList .accordion {
+            border-image: none;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            background:
+                linear-gradient(135deg, rgba(168, 85, 247, 0.06) 0%, rgba(168, 85, 247, 0.02) 100%) padding-box,
+                linear-gradient(#1a1a1a, #1a1a1a) padding-box,
+                linear-gradient(90deg, rgba(192, 132, 252, 0.75) 0%, rgba(217, 70, 239, 0.65) 50%, rgba(192, 132, 252, 0.75) 100%) border-box;
+            box-shadow: inset 4px 0 0 rgba(192, 132, 252, 0.85);
+        }
+
+        #goals #goalList .accordion:hover {
+            background:
+                linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(168, 85, 247, 0.03) 100%) padding-box,
+                linear-gradient(#303030, #303030) padding-box,
+                linear-gradient(90deg, rgba(192, 132, 252, 0.85) 0%, rgba(217, 70, 239, 0.75) 50%, rgba(192, 132, 252, 0.85) 100%) border-box;
+            box-shadow: inset 4px 0 0 rgba(192, 132, 252, 0.92), 0 0 10px rgba(192, 132, 252, 0.22);
+        }
+
         .task-item.completed {
             opacity: 0.6;
             background: #2a2a2a !important;
@@ -973,33 +1123,37 @@
         }
 
         /* Priority circle selector */
-        .priority-selector {
-            display: flex;
+        .modal .priority-selector {
+            display: flex !important;
             gap: 12px;
             align-items: center;
             padding: 8px 0;
+            background: transparent;
         }
 
-        .priority-circle {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 3px solid transparent;
-            position: relative;
+        .modal .priority-circle {
+            width: 32px !important;
+            height: 32px !important;
+            border-radius: 50% !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            border: 3px solid rgba(255, 255, 255, 0.3) !important;
+            position: relative !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+            display: block !important;
+            visibility: visible !important;
         }
 
-        .priority-circle.red {
-            background: #ef4444;
+        .modal .priority-circle.red {
+            background: #ef4444 !important;
         }
 
-        .priority-circle.yellow {
-            background: #f59e0b;
+        .modal .priority-circle.yellow {
+            background: #f59e0b !important;
         }
 
-        .priority-circle.green {
-            background: #22c55e;
+        .modal .priority-circle.green {
+            background: #22c55e !important;
         }
 
         .priority-circle:hover {
@@ -1139,8 +1293,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>Back On Track 26 v2</h1>
-            <p class="subtitle">Organize your tasks, projects, goals, and notes</p>
+            <h1 data-text="BOT26">BOT26</h1>
             <button id="installBtn" class="install-btn hidden" onclick="installPWA()">
                 📱 Install App
             </button>
@@ -1150,6 +1303,7 @@
             <button class="nav-tab active" onclick="switchTab('daily')" title="Current">📋</button>
             <button class="nav-tab" onclick="switchTab('projects')" title="Stream">🚀</button>
             <button class="nav-tab" onclick="switchTab('goals')" title="Vision">🎯</button>
+            <button class="nav-tab" onclick="switchTab('visual')" title="Visual">🎨</button>
             <button class="nav-tab" onclick="switchTab('notes')" title="Sparks">📝</button>
         </nav>
 
@@ -1158,7 +1312,7 @@
             <div class="section-card">
                 <div class="section-header">
                     <h2 class="section-title">Current</h2>
-                    <button class="add-btn current-btn" onclick="toggleAddForm('daily')">
+                    <button class="add-btn current-btn" onclick="openAddTaskModal()">
                         <span>+</span> Add Current
                     </button>
                 </div>
@@ -1204,6 +1358,27 @@
             </div>
         </section>
 
+        <section id="visual" class="content-section">
+            <div class="section-card">
+                <div class="section-header">
+                    <h2 class="section-title">Visual</h2>
+                    <button class="add-btn" onclick="openVisualModal()">
+                        <span>+</span> Add Visual
+                    </button>
+                </div>
+
+                <ul id="visualList" class="note-list"></ul>
+
+                <div id="visualEmpty" class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 11l6-6 3 3-6 6H9v-3z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21H5"/>
+                    </svg>
+                    <p>No visuals yet. Add your first drawing!</p>
+                </div>
+            </div>
+        </section>
+
         <!-- Ongoing Projects Section -->
         <section id="projects" class="content-section">
             <div class="section-card">
@@ -1216,7 +1391,7 @@
                 
                 <div id="projectsAddForm" class="input-group" style="display: none;">
                     <input type="text" class="input-field" id="projectInput" placeholder="Project name">
-                    <input type="text" class="input-field" id="projectDesc" placeholder="Brief description">
+                    <input type="text" class="input-field" id="projectDesc" placeholder="Project description">
                     <button class="add-btn" onclick="addProject()">Add</button>
                 </div>
 
@@ -1229,6 +1404,24 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                     </svg>
                     <p>No projects yet. Start by adding your first project!</p>
+                </div>
+            </div>
+
+            <!-- Ocean Section -->
+            <div class="section-card" style="margin-top: 20px;">
+                <div class="section-header">
+                    <h2 class="section-title">Ocean</h2>
+                </div>
+                
+                <ul id="oceanProjects" class="task-list">
+                    <!-- Completed projects will be added here dynamically -->
+                </ul>
+
+                <div id="oceanProjectsEmpty" class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 0 002 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    <p>No completed projects yet. Finish some projects to see them here!</p>
                 </div>
             </div>
         </section>
@@ -1269,6 +1462,10 @@
                     <button class="add-btn spark-btn" onclick="addNote()">
                         <span>+</span> Add Spark
                     </button>
+                </div>
+                
+                <div class="search-container" style="margin-bottom: 15px;">
+                    <input type="text" class="input-field" id="noteSearch" placeholder="Search notes..." oninput="searchNotes()" style="width: 100%;">
                 </div>
                 
                 <div id="notesAddForm" style="display: none;">
@@ -1369,6 +1566,52 @@
         </div>
     </div>
 
+    <div id="visualModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Visual</h2>
+                <button class="close-btn" onclick="closeVisualModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="visualTitleInput" class="input-field" placeholder="Title (optional)" style="margin-bottom: 12px;">
+                <canvas id="visualCanvas" class="visual-canvas"></canvas>
+                <div class="visual-controls">
+                    <div style="display: flex; gap: 10px; align-items: center; flex: 1;">
+                        <label for="visualBrushSize" style="min-width: 80px;">Brush</label>
+                        <input id="visualBrushSize" type="range" min="1" max="16" value="4" style="width: 100%;">
+                    </div>
+                    <button class="action-btn white-btn" onclick="clearVisualCanvas()">Clear</button>
+                </div>
+                <div class="modal-actions">
+                    <button class="add-btn" onclick="saveVisual()">Save</button>
+                    <button class="action-btn white-btn" onclick="closeVisualModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div id="addTaskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add Task</h2>
+                <button class="close-btn" onclick="closeAddTaskModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="addTaskInput" class="input-field" placeholder="Task description" style="margin-bottom: 15px;">
+                <div class="priority-selector" style="margin-bottom: 20px; display: flex !important; gap: 12px; align-items: center; padding: 8px 0;">
+                    <div class="priority-circle red" data-priority="red" onclick="selectPriority('red')" style="width: 32px !important; height: 32px !important; border-radius: 50% !important; cursor: pointer !important; background: #ef4444 !important; border: 3px solid rgba(255, 255, 255, 0.3) !important; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important; display: block !important; visibility: visible !important;"></div>
+                    <div class="priority-circle yellow selected" data-priority="yellow" onclick="selectPriority('yellow')" style="width: 32px !important; height: 32px !important; border-radius: 50% !important; cursor: pointer !important; background: #f59e0b !important; border: 3px solid rgba(255, 255, 255, 0.8) !important; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important; display: block !important; visibility: visible !important; transform: scale(1.15) !important;"></div>
+                    <div class="priority-circle green" data-priority="green" onclick="selectPriority('green')" style="width: 32px !important; height: 32px !important; border-radius: 50% !important; cursor: pointer !important; background: #22c55e !important; border: 3px solid rgba(255, 255, 255, 0.3) !important; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important; display: block !important; visibility: visible !important;"></div>
+                </div>
+                <div class="modal-actions">
+                    <button class="add-btn" onclick="addTaskFromModal()">Add Task</button>
+                    <button class="action-btn white-btn" onclick="closeAddTaskModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Edit Task Modal -->
     <div id="editTaskModal" class="modal">
         <div class="modal-content">
@@ -1378,10 +1621,10 @@
             </div>
             <div class="modal-body">
                 <input type="text" id="editTaskInput" class="input-field" placeholder="Task description" style="margin-bottom: 15px;">
-                <div class="priority-selector" style="margin-bottom: 20px;">
-                    <div class="priority-circle red" data-priority="red" onclick="selectEditPriority('red')"></div>
-                    <div class="priority-circle yellow" data-priority="yellow" onclick="selectEditPriority('yellow')"></div>
-                    <div class="priority-circle green" data-priority="green" onclick="selectEditPriority('green')"></div>
+                <div class="priority-selector" style="margin-bottom: 20px; display: flex !important; gap: 12px; align-items: center; padding: 8px 0;">
+                    <div class="priority-circle red" data-priority="red" onclick="selectEditPriority('red')" style="width: 32px !important; height: 32px !important; border-radius: 50% !important; cursor: pointer !important; background: #ef4444 !important; border: 3px solid rgba(255, 255, 255, 0.3) !important; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important; display: block !important; visibility: visible !important;"></div>
+                    <div class="priority-circle yellow selected" data-priority="yellow" onclick="selectEditPriority('yellow')" style="width: 32px !important; height: 32px !important; border-radius: 50% !important; cursor: pointer !important; background: #f59e0b !important; border: 3px solid rgba(255, 255, 255, 0.8) !important; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important; display: block !important; visibility: visible !important; transform: scale(1.15) !important;"></div>
+                    <div class="priority-circle green" data-priority="green" onclick="selectEditPriority('green')" style="width: 32px !important; height: 32px !important; border-radius: 50% !important; cursor: pointer !important; background: #22c55e !important; border: 3px solid rgba(255, 255, 255, 0.3) !important; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important; display: block !important; visibility: visible !important;"></div>
                 </div>
                 <div class="modal-actions">
                     <button class="add-btn" onclick="saveEditedTask()">Save Changes</button>
@@ -1449,7 +1692,8 @@
             dailyTasks: [],
             projects: [],
             goals: [],
-            notes: []
+            notes: [],
+            visuals: []
         };
 
         let currentEditingNoteId = null;
@@ -1626,6 +1870,7 @@
                 appData.projects.forEach(project => {
                     project.completed = project.completed !== undefined ? project.completed : false;
                 });
+                appData.visuals = appData.visuals || [];
             }
             console.log('Data loaded:', appData);
         }
@@ -1711,25 +1956,85 @@
             }
         }
 
+        // Modal functions for adding tasks
+        function openAddTaskModal() {
+            resetPrioritySelection();
+            document.getElementById('addTaskInput').value = '';
+            document.getElementById('addTaskModal').style.display = 'block';
+        }
+
+        function closeAddTaskModal() {
+            document.getElementById('addTaskModal').style.display = 'none';
+        }
+
+        function addTaskFromModal() {
+            const input = document.getElementById('addTaskInput');
+            const text = input.value.trim();
+            
+            if (text) {
+                const task = {
+                    id: Date.now(),
+                    text: text,
+                    priority: selectedPriority,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                };
+                
+                appData.dailyTasks.push(task);
+                saveData();
+                renderDailyTasks();
+                
+                input.value = '';
+                closeAddTaskModal();
+                resetPrioritySelection();
+            }
+        }
+
         // Priority selection functions
         function selectPriority(priority) {
             selectedPriority = priority;
             
-            // Update UI
-            document.querySelectorAll('#dailyAddForm .priority-circle').forEach(circle => {
+            // Reset all circles in both modals
+            document.querySelectorAll('#addTaskModal .priority-circle, #editTaskModal .priority-circle').forEach(circle => {
                 circle.classList.remove('selected');
+                circle.style.transform = 'scale(1)';
+                circle.style.borderColor = 'rgba(255, 255, 255, 0.3)';
             });
-            document.querySelector(`#dailyAddForm .priority-circle[data-priority="${priority}"]`).classList.add('selected');
+            
+            // Highlight selected circle in add modal
+            const addSelected = document.querySelector(`#addTaskModal .priority-circle[data-priority="${priority}"]`);
+            if (addSelected) {
+                addSelected.classList.add('selected');
+                addSelected.style.transform = 'scale(1.15)';
+                addSelected.style.borderColor = 'rgba(255, 255, 255, 0.8)';
+            }
+            
+            // Highlight selected circle in edit modal
+            const editSelected = document.querySelector(`#editTaskModal .priority-circle[data-priority="${priority}"]`);
+            if (editSelected) {
+                editSelected.classList.add('selected');
+                editSelected.style.transform = 'scale(1.15)';
+                editSelected.style.borderColor = 'rgba(255, 255, 255, 0.8)';
+            }
         }
 
         function selectEditPriority(priority) {
             selectedPriority = priority;
             
-            // Update UI
+            // Reset all circles in edit modal
             document.querySelectorAll('#editTaskModal .priority-circle').forEach(circle => {
                 circle.classList.remove('selected');
+                circle.style.transform = 'scale(1)';
+                circle.style.borderColor = 'rgba(255, 255, 255, 0.3)';
             });
-            document.querySelector(`#editTaskModal .priority-circle[data-priority="${priority}"]`).classList.add('selected');
+            
+            // Highlight selected circle
+            const selected = document.querySelector(`#editTaskModal .priority-circle[data-priority="${priority}"]`);
+            if (selected) {
+                selected.classList.add('selected');
+                selected.style.transform = 'scale(1.15)';
+                selected.style.borderColor = 'rgba(255, 255, 255, 0.8)';
+            }
         }
 
         function resetPrioritySelection() {
@@ -1902,20 +2207,25 @@
 
         // Render projects
         function renderProjects() {
-            const container = document.getElementById('projectList');
-            const emptyState = document.getElementById('projectsEmpty');
+            const activeContainer = document.getElementById('projectList');
+            const oceanContainer = document.getElementById('oceanProjects');
+            const activeEmpty = document.getElementById('projectsEmpty');
+            const oceanEmpty = document.getElementById('oceanProjectsEmpty');
             
-            if (appData.projects.length === 0) {
-                container.style.display = 'none';
-                emptyState.style.display = 'block';
-                return;
-            }
+            // Separate projects into active and completed
+            const activeProjects = appData.projects.filter(project => !project.completed);
+            const completedProjects = appData.projects.filter(project => project.completed);
             
-            container.style.display = 'block';
-            emptyState.style.display = 'none';
-            
-            container.innerHTML = appData.projects.map(project => `
-                <li class="project-item ${project.completed ? 'completed' : ''}" onclick="toggleProject(${project.id})">
+            // Render active projects
+            if (activeProjects.length === 0) {
+                activeContainer.style.display = 'none';
+                activeEmpty.style.display = 'block';
+            } else {
+                activeContainer.style.display = 'block';
+                activeEmpty.style.display = 'none';
+                
+                activeContainer.innerHTML = activeProjects.map(project => `
+                <li class="project-item" onclick="toggleProject(${project.id})">
                     <div class="item-content">
                         <div class="item-title">${project.name}</div>
                         <div class="item-meta">${project.description || 'No description'}</div>
@@ -1927,6 +2237,30 @@
                     </div>
                 </li>
             `).join('');
+            }
+            
+            // Render completed projects (Ocean)
+            if (completedProjects.length === 0) {
+                oceanContainer.style.display = 'none';
+                oceanEmpty.style.display = 'block';
+            } else {
+                oceanContainer.style.display = 'block';
+                oceanEmpty.style.display = 'none';
+                
+                oceanContainer.innerHTML = completedProjects.map(project => `
+                <li class="project-item completed" onclick="toggleProject(${project.id})">
+                    <div class="item-content">
+                        <div class="item-title">${project.name}</div>
+                        <div class="item-meta">${project.description || 'No description'}</div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="action-btn" onclick="editProject(event, ${project.id})">✏️</button>
+                        <button class="convert-btn" onclick="convertProjectToTask(event, ${project.id})">→ Task</button>
+                        <button class="action-btn" onclick="deleteProject(event, ${project.id})">🗑️</button>
+                    </div>
+                </li>
+            `).join('');
+            }
         }
 
         // Toggle project completion
@@ -2141,18 +2475,44 @@
         function renderNotes() {
             const container = document.getElementById('noteList');
             const emptyState = document.getElementById('notesEmpty');
+            const searchQuery = document.getElementById('noteSearch').value.toLowerCase().trim();
             
             console.log('Rendering notes, count:', appData.notes.length); // Debug log
             
-            if (appData.notes.length === 0) {
+            // Filter notes based on search
+            let filteredNotes = appData.notes;
+            if (searchQuery) {
+                filteredNotes = appData.notes.filter(note => {
+                    const titleMatch = note.title.toLowerCase().includes(searchQuery);
+                    const contentMatch = note.content.toLowerCase().includes(searchQuery);
+                    return titleMatch || contentMatch;
+                });
+            }
+            
+            if (filteredNotes.length === 0) {
                 container.innerHTML = '';
                 emptyState.style.display = 'block';
+                if (searchQuery) {
+                    emptyState.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                        </svg>
+                        <p>No notes found for "${searchQuery}"</p>
+                    `;
+                } else {
+                    emptyState.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                        </svg>
+                        <p>No notes yet. Start capturing your thoughts!</p>
+                    `;
+                }
                 return;
             }
             
             emptyState.style.display = 'none';
             
-            container.innerHTML = appData.notes.map(note => {
+            container.innerHTML = filteredNotes.map(note => {
                 // Make links clickable in preview
                 const contentPreview = note.content ? makeLinksClickable(note.content.substring(0, 50) + (note.content.length > 50 ? '...' : '')) : 'No content';
                 
@@ -2173,6 +2533,11 @@
             setupDragAndDrop();
             
             console.log('Notes rendered'); // Debug log
+        }
+
+        // Search notes function
+        function searchNotes() {
+            renderNotes();
         }
 
         // Setup drag and drop for notes
@@ -2309,9 +2674,8 @@
                 currentEditingNoteId = id;
                 document.getElementById('modalNoteTitle').value = note.title;
                 
-                // Convert URLs to clickable links
-                const contentWithLinks = makeLinksClickable(note.content || '');
-                document.getElementById('modalNoteContent').innerHTML = contentWithLinks;
+                // Load HTML content directly (preserves formatting)
+                document.getElementById('modalNoteContent').innerHTML = note.content || '';
                 
                 document.getElementById('modalNoteDate').textContent = new Date(note.createdAt).toLocaleString();
                 document.getElementById('noteModal').style.display = 'block';
@@ -2341,15 +2705,6 @@
 
         // Close note modal
         function closeNoteModal() {
-            if (currentEditingNoteId) {
-                const note = appData.notes.find(n => n.id === currentEditingNoteId);
-                // If note is empty (no title), remove it
-                if (note && !note.title.trim()) {
-                    appData.notes = appData.notes.filter(n => n.id !== currentEditingNoteId);
-                    saveData();
-                    renderNotes();
-                }
-            }
             document.getElementById('noteModal').style.display = 'none';
             currentEditingNoteId = null;
         }
@@ -2359,19 +2714,12 @@
             const title = document.getElementById('modalNoteTitle').value.trim();
             const content = document.getElementById('modalNoteContent').innerHTML;
             
-            // Strip HTML tags for storage (keep plain text with URLs)
-            const plainContent = stripHtml(content);
-            
             if (currentEditingNoteId) {
                 const note = appData.notes.find(n => n.id === currentEditingNoteId);
                 if (note) {
-                    // If title is empty, delete the note
-                    if (!title) {
-                        appData.notes = appData.notes.filter(n => n.id !== currentEditingNoteId);
-                    } else {
-                        note.title = title;
-                        note.content = plainContent;
-                    }
+                    // Always save the note, even without title
+                    note.title = title; // Can be empty
+                    note.content = content; // Save HTML content directly
                     saveData();
                     renderNotes();
                     closeNoteModal();
@@ -2676,6 +3024,212 @@
             renderProjects();
             renderGoals();
             renderNotes();
+            renderVisuals();
+        }
+
+        function renderVisuals() {
+            const container = document.getElementById('visualList');
+            const emptyState = document.getElementById('visualEmpty');
+
+            if (!appData.visuals || appData.visuals.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            container.innerHTML = appData.visuals
+                .slice()
+                .sort((a, b) => (b.updatedAt || b.createdAt || '').localeCompare(a.updatedAt || a.createdAt || ''))
+                .map(v => `
+                    <li class="note-item" data-visual-id="${v.id}" onclick="openVisualModal(${v.id})">
+                        <div class="item-content">
+                            <div class="item-title">${v.title ? v.title : 'Visual'}</div>
+                            <div class="item-meta">${new Date(v.updatedAt || v.createdAt).toLocaleDateString()}</div>
+                            <canvas class="visual-preview" data-preview-id="${v.id}" width="320" height="180" style="width: 100%; max-width: 420px; margin-top: 10px; background: #fff; border-radius: 10px; border: 1px solid #e5e7eb;"></canvas>
+                        </div>
+                        <div class="item-actions">
+                            <button class="action-btn" onclick="deleteVisual(event, ${v.id})">🗑️</button>
+                        </div>
+                    </li>
+                `).join('');
+
+            setTimeout(() => {
+                document.querySelectorAll('.visual-preview').forEach(c => {
+                    const id = Number(c.getAttribute('data-preview-id'));
+                    const v = appData.visuals.find(x => x.id === id);
+                    if (v) drawVisualToCanvas(c, v.strokes || []);
+                });
+            }, 0);
+        }
+
+        let currentVisualId = null;
+        let currentVisualStrokes = [];
+        let currentStroke = null;
+        let isDrawingVisual = false;
+
+        function openVisualModal(id) {
+            currentVisualId = typeof id === 'number' ? id : null;
+            const titleInput = document.getElementById('visualTitleInput');
+
+            if (currentVisualId) {
+                const v = appData.visuals.find(x => x.id === currentVisualId);
+                titleInput.value = v && v.title ? v.title : '';
+                currentVisualStrokes = v && v.strokes ? JSON.parse(JSON.stringify(v.strokes)) : [];
+            } else {
+                titleInput.value = '';
+                currentVisualStrokes = [];
+            }
+
+            document.getElementById('visualModal').style.display = 'block';
+            setupVisualCanvas();
+            redrawVisualCanvas();
+        }
+
+        function closeVisualModal() {
+            document.getElementById('visualModal').style.display = 'none';
+            currentVisualId = null;
+            currentVisualStrokes = [];
+            currentStroke = null;
+            isDrawingVisual = false;
+        }
+
+        function saveVisual() {
+            const title = document.getElementById('visualTitleInput').value.trim();
+            const now = new Date().toISOString();
+
+            if (!appData.visuals) appData.visuals = [];
+
+            if (currentVisualId) {
+                const v = appData.visuals.find(x => x.id === currentVisualId);
+                if (v) {
+                    v.title = title;
+                    v.strokes = currentVisualStrokes;
+                    v.updatedAt = now;
+                }
+            } else {
+                appData.visuals.push({
+                    id: Date.now(),
+                    title,
+                    strokes: currentVisualStrokes,
+                    createdAt: now,
+                    updatedAt: now
+                });
+            }
+
+            saveData();
+            renderVisuals();
+            closeVisualModal();
+        }
+
+        function deleteVisual(event, id) {
+            event.stopPropagation();
+            appData.visuals = (appData.visuals || []).filter(v => v.id !== id);
+            saveData();
+            renderVisuals();
+        }
+
+        function getVisualBrushSize() {
+            const el = document.getElementById('visualBrushSize');
+            const n = Number(el.value);
+            return Number.isFinite(n) ? n : 4;
+        }
+
+        function setupVisualCanvas() {
+            const canvas = document.getElementById('visualCanvas');
+            const rect = canvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            const w = Math.max(1, Math.floor(rect.width * dpr));
+            const h = Math.max(1, Math.floor(rect.height * dpr));
+
+            if (canvas.width !== w || canvas.height !== h) {
+                canvas.width = w;
+                canvas.height = h;
+            }
+
+            canvas.onpointerdown = onVisualPointerDown;
+            canvas.onpointermove = onVisualPointerMove;
+            canvas.onpointerup = onVisualPointerUp;
+            canvas.onpointercancel = onVisualPointerUp;
+            canvas.onpointerleave = onVisualPointerUp;
+        }
+
+        function getCanvasPoint(event, canvas) {
+            const rect = canvas.getBoundingClientRect();
+            const x = (event.clientX - rect.left) / rect.width;
+            const y = (event.clientY - rect.top) / rect.height;
+            return { x: Math.min(1, Math.max(0, x)), y: Math.min(1, Math.max(0, y)) };
+        }
+
+        function onVisualPointerDown(event) {
+            const canvas = document.getElementById('visualCanvas');
+            canvas.setPointerCapture(event.pointerId);
+            isDrawingVisual = true;
+            const p = getCanvasPoint(event, canvas);
+            currentStroke = {
+                color: '#000000',
+                size: getVisualBrushSize(),
+                points: [p]
+            };
+            currentVisualStrokes.push(currentStroke);
+            redrawVisualCanvas();
+        }
+
+        function onVisualPointerMove(event) {
+            if (!isDrawingVisual || !currentStroke) return;
+            const canvas = document.getElementById('visualCanvas');
+            const p = getCanvasPoint(event, canvas);
+            const last = currentStroke.points[currentStroke.points.length - 1];
+            const dx = p.x - last.x;
+            const dy = p.y - last.y;
+            if ((dx * dx + dy * dy) < 0.00002) return;
+            currentStroke.points.push(p);
+            redrawVisualCanvas();
+        }
+
+        function onVisualPointerUp() {
+            isDrawingVisual = false;
+            currentStroke = null;
+        }
+
+        function clearVisualCanvas() {
+            currentVisualStrokes = [];
+            currentStroke = null;
+            redrawVisualCanvas();
+        }
+
+        function redrawVisualCanvas() {
+            const canvas = document.getElementById('visualCanvas');
+            drawVisualToCanvas(canvas, currentVisualStrokes);
+        }
+
+        function drawVisualToCanvas(canvas, strokes) {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const rect = canvas.getBoundingClientRect();
+            const ratio = rect && rect.width ? (canvas.width / rect.width) : (window.devicePixelRatio || 1);
+
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            strokes.forEach(s => {
+                if (!s.points || s.points.length === 0) return;
+                ctx.strokeStyle = s.color || '#000000';
+                const size = Number(s.size) || 4;
+                ctx.lineWidth = size * ratio;
+                ctx.beginPath();
+                const first = s.points[0];
+                ctx.moveTo(first.x * canvas.width, first.y * canvas.height);
+                for (let i = 1; i < s.points.length; i++) {
+                    const p = s.points[i];
+                    ctx.lineTo(p.x * canvas.width, p.y * canvas.height);
+                }
+                ctx.stroke();
+            });
         }
 
         // Keyboard shortcuts
