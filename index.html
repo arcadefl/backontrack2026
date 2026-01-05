@@ -446,7 +446,8 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
             animation: fadeIn 0.3s ease;
         }
 
@@ -456,11 +457,45 @@
             padding: 30px;
             border-radius: 15px;
             width: 90%;
-            max-width: 600px;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid;
+            max-width: 800px;
+            border: 2px solid;
             border-image: linear-gradient(90deg, rgba(204, 77, 37, 0.5) 0%, rgba(255, 107, 53, 0.5) 50%, rgba(204, 77, 37, 0.5) 100%) 1;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
             animation: fadeIn 0.3s ease;
+        }
+
+        #editProjectModal .modal-content {
+            border-image: linear-gradient(90deg, rgba(59, 130, 246, 0.55) 0%, rgba(59, 130, 246, 0.55) 50%, rgba(59, 130, 246, 0.55) 100%) 1;
+        }
+
+        #editGoalModal .modal-content,
+        #editSubGoalModal .modal-content {
+            border-image: linear-gradient(90deg, rgba(192, 132, 252, 0.75) 0%, rgba(217, 70, 239, 0.65) 50%, rgba(192, 132, 252, 0.75) 100%) 1;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        #noteModal .modal-content {
+            width: 96vw;
+            max-width: 980px;
+            height: 92vh;
+            max-height: 92vh;
+            margin: 4vh auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #noteModal .modal-header {
+            position: relative;
+            flex: 0 0 auto;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+        }
+
+        #noteModal .modal-title-input {
+            padding-right: 44px;
         }
 
         .modal-header {
@@ -483,17 +518,13 @@
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--white);
-            border: none;
             background: transparent;
-            flex: 1;
+            border: none;
             outline: none;
-            padding: 5px;
-            border-radius: 5px;
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 8px;
             transition: background 0.3s ease;
-        }
-
-        .modal-title-input:focus {
-            background: #303030;
         }
 
         .formatting-toolbar {
@@ -752,6 +783,20 @@
             transition: all 0.3s ease;
         }
 
+        #noteModal .close-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            z-index: 2;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(26, 26, 26, 0.65);
+            backdrop-filter: blur(4px);
+        }
+
         .close-btn:hover {
             background: var(--light);
             color: var(--dark);
@@ -760,6 +805,21 @@
         .modal-body {
             line-height: 1.6;
             color: var(--white);
+        }
+
+        #noteModal .modal-body {
+            flex: 1 1 auto;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #noteModal #modalNoteContent {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .modal-meta {
@@ -1055,6 +1115,33 @@
                 linear-gradient(#303030, #303030) padding-box,
                 linear-gradient(90deg, rgba(192, 132, 252, 0.85) 0%, rgba(217, 70, 239, 0.75) 50%, rgba(192, 132, 252, 0.85) 100%) border-box;
             box-shadow: inset 4px 0 0 rgba(192, 132, 252, 0.92), 0 0 10px rgba(192, 132, 252, 0.22);
+        }
+
+        #goals #goalList .accordion {
+            overflow: hidden;
+        }
+
+        #goals #goalList .accordion-content {
+            background: transparent;
+        }
+
+        #goals .sub-goal-item {
+            border-left: 3px solid rgba(192, 132, 252, 0.9);
+            border-image: linear-gradient(90deg, rgba(192, 132, 252, 0.75) 0%, rgba(217, 70, 239, 0.65) 50%, rgba(192, 132, 252, 0.75) 100%) 1;
+        }
+
+        #goals .sub-goal-input {
+            border-image: linear-gradient(90deg, rgba(192, 132, 252, 0.75) 0%, rgba(217, 70, 239, 0.65) 50%, rgba(192, 132, 252, 0.75) 100%) 1;
+        }
+
+        #goals .add-sub-btn {
+            background: linear-gradient(135deg, #a855f7 0%, #9333ea 50%, #7c3aed 100%);
+            box-shadow: 0 2px 8px rgba(168, 85, 247, 0.28);
+        }
+
+        #goals .add-sub-btn:hover {
+            background: linear-gradient(135deg, #9333ea 0%, #7c3aed 50%, #6d28d9 100%);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.38);
         }
 
         .task-item.completed {
@@ -1490,7 +1577,7 @@
             <div class="section-card">
                 <div class="section-header">
                     <h2 class="section-title">Stream</h2>
-                    <button class="add-btn stream-btn" onclick="toggleAddForm('projects')">
+                    <button class="add-btn stream-btn" onclick="openAddProjectModal()">
                         <span>+</span> Add Stream
                     </button>
                 </div>
@@ -1537,7 +1624,7 @@
             <div class="section-card">
                 <div class="section-header">
                     <h2 class="section-title">Vision</h2>
-                    <button class="add-btn vision-btn" onclick="toggleAddForm('goals')">
+                    <button class="add-btn vision-btn" onclick="openAddGoalModal()">
                         <span>+</span> Add Vision
                     </button>
                 </div>
@@ -2060,7 +2147,7 @@
                     createdAt: new Date().toISOString()
                 };
                 
-                appData.dailyTasks.push(task);
+                appData.dailyTasks.unshift(task);
                 saveData();
                 renderDailyTasks();
                 
@@ -2095,7 +2182,7 @@
                     createdAt: new Date().toISOString()
                 };
                 
-                appData.dailyTasks.push(task);
+                appData.dailyTasks.unshift(task);
                 saveData();
                 renderDailyTasks();
                 
@@ -2289,6 +2376,7 @@
         // Delete task
         function deleteTask(event, id) {
             event.stopPropagation();
+            if (!confirmDeleteAction('task')) return;
             appData.dailyTasks = appData.dailyTasks.filter(t => t.id !== id);
             saveData();
             renderDailyTasks();
@@ -2310,7 +2398,7 @@
                     createdAt: new Date().toISOString()
                 };
                 
-                appData.projects.push(project);
+                appData.projects.unshift(project);
                 saveData();
                 renderProjects();
                 
@@ -2447,7 +2535,7 @@
                     fromProject: projectId
                 };
                 
-                appData.dailyTasks.push(task);
+                appData.dailyTasks.unshift(task);
                 saveData();
                 renderDailyTasks();
                 
@@ -2467,6 +2555,7 @@
         // Delete project
         function deleteProject(event, id) {
             event.stopPropagation();
+            if (!confirmDeleteAction('project')) return;
             appData.projects = appData.projects.filter(p => p.id !== id);
             saveData();
             renderProjects();
@@ -2486,7 +2575,7 @@
                     createdAt: new Date().toISOString()
                 };
                 
-                appData.goals.push(goal);
+                appData.goals.unshift(goal);
                 saveData();
                 renderGoals();
                 
@@ -2573,7 +2662,7 @@
                         createdAt: new Date().toISOString()
                     };
                     
-                    goal.subGoals.push(subGoal);
+                    goal.subGoals.unshift(subGoal);
                     saveData();
                     renderGoals();
                 }
@@ -2596,6 +2685,7 @@
         // Delete sub-goal
         function deleteSubGoal(event, goalId, subGoalId) {
             event.stopPropagation();
+            if (!confirmDeleteAction('sub-goal')) return;
             const goal = appData.goals.find(g => g.id === goalId);
             if (goal) {
                 goal.subGoals = goal.subGoals.filter(sg => sg.id !== subGoalId);
@@ -2607,6 +2697,7 @@
         // Delete goal
         function deleteGoal(event, id) {
             event.stopPropagation();
+            if (!confirmDeleteAction('goal')) return;
             appData.goals = appData.goals.filter(g => g.id !== id);
             saveData();
             renderGoals();
@@ -2674,8 +2765,9 @@
             emptyState.style.display = 'none';
             
             container.innerHTML = filteredNotes.map(note => {
-                // Make links clickable in preview
-                const contentPreview = note.content ? makeLinksClickable(note.content.substring(0, 50) + (note.content.length > 50 ? '...' : '')) : 'No content';
+                // Plain-text preview (no clickable links)
+                const plainContent = stripHtml(note.content || '');
+                const contentPreview = plainContent ? escapeHtml(plainContent.substring(0, 50) + (plainContent.length > 50 ? '...' : '')) : 'No content';
                 const noteColorClass = `note-color-${(note.color || 'grey')}`;
                 
                 return `
@@ -2822,11 +2914,69 @@
             return text.replace(urlPattern, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
         }
 
+        function linkifyHtml(html) {
+            const container = document.createElement('div');
+            container.innerHTML = html || '';
+
+            const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+            const textNodes = [];
+            while (walker.nextNode()) {
+                const node = walker.currentNode;
+                if (!node || !node.nodeValue) continue;
+                if (node.parentElement && node.parentElement.closest('a')) continue;
+                if (node.nodeValue.includes('http://') || node.nodeValue.includes('https://')) {
+                    textNodes.push(node);
+                }
+            }
+
+            textNodes.forEach(node => {
+                const text = node.nodeValue;
+                const urlPattern = /(https?:\/\/[^\s<]+)/g;
+                if (!urlPattern.test(text)) return;
+
+                const frag = document.createDocumentFragment();
+                let lastIndex = 0;
+                text.replace(urlPattern, (match, _g1, index) => {
+                    if (index > lastIndex) {
+                        frag.appendChild(document.createTextNode(text.slice(lastIndex, index)));
+                    }
+                    const a = document.createElement('a');
+                    a.href = match;
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
+                    a.textContent = match;
+                    frag.appendChild(a);
+                    lastIndex = index + match.length;
+                    return match;
+                });
+                if (lastIndex < text.length) {
+                    frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+                }
+
+                node.parentNode.replaceChild(frag, node);
+            });
+
+            return container.innerHTML;
+        }
+
         // Strip HTML tags for plain text storage
         function stripHtml(html) {
             const div = document.createElement('div');
             div.innerHTML = html;
             return div.textContent || div.innerText || '';
+        }
+
+        function escapeHtml(text) {
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function confirmDeleteAction(label) {
+            return window.confirm(`Are you sure you want to delete this ${label}?`);
         }
 
         // Open note modal
@@ -2837,13 +2987,15 @@
                 document.getElementById('modalNoteTitle').value = note.title;
                 
                 // Load HTML content directly (preserves formatting)
-                document.getElementById('modalNoteContent').innerHTML = note.content || '';
+                document.getElementById('modalNoteContent').innerHTML = linkifyHtml(note.content || '');
 
                 selectedNoteColor = note.color || 'grey';
                 selectNoteColor(selectedNoteColor);
                 
                 document.getElementById('modalNoteDate').textContent = new Date(note.createdAt).toLocaleString();
                 document.getElementById('noteModal').style.display = 'block';
+
+                document.body.classList.add('modal-open');
                 
                 // Add click handler for links in contenteditable
                 setupLinkClickHandlers();
@@ -2873,28 +3025,27 @@
         // Setup click handlers for links in contenteditable
         function setupLinkClickHandlers() {
             const contentDiv = document.getElementById('modalNoteContent');
-            const links = contentDiv.querySelectorAll('a');
-            
-            links.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    // Open link in new tab
-                    window.open(this.href, '_blank', 'noopener,noreferrer');
-                });
-            });
+            if (!contentDiv) return;
+            contentDiv.onclick = function(e) {
+                const link = e.target.closest('a');
+                if (!link) return;
+                e.preventDefault();
+                e.stopPropagation();
+                window.open(link.href, '_blank', 'noopener,noreferrer');
+            };
         }
 
         // Close note modal
         function closeNoteModal() {
             document.getElementById('noteModal').style.display = 'none';
             currentEditingNoteId = null;
+            document.body.classList.remove('modal-open');
         }
 
         // Save edited note
         function saveEditedNote() {
             const title = document.getElementById('modalNoteTitle').value.trim();
-            const content = document.getElementById('modalNoteContent').innerHTML;
+            const content = linkifyHtml(document.getElementById('modalNoteContent').innerHTML);
             
             if (currentEditingNoteId) {
                 const note = appData.notes.find(n => n.id === currentEditingNoteId);
@@ -3010,6 +3161,7 @@
         }
 
         async function deleteImage(imageId) {
+            if (!confirmDeleteAction('image')) return;
             try {
                 // Remove from IndexedDB
                 await deleteImageFromDB(imageId);
@@ -3090,10 +3242,29 @@
             const project = appData.projects.find(p => p.id === projectId);
             if (project) {
                 currentEditingProjectId = projectId;
+                const titleEl = document.querySelector('#editProjectModal .modal-title');
+                if (titleEl) titleEl.textContent = 'Edit Stream';
+                const actionBtn = document.querySelector('#editProjectModal .modal-actions .add-btn');
+                if (actionBtn) actionBtn.textContent = 'Save Changes';
                 document.getElementById('editProjectName').value = project.name;
                 document.getElementById('editProjectDesc').value = project.description || '';
                 document.getElementById('editProjectModal').style.display = 'block';
             }
+        }
+
+        function openAddProjectModal() {
+            currentEditingProjectId = null;
+            const titleEl = document.querySelector('#editProjectModal .modal-title');
+            if (titleEl) titleEl.textContent = 'Add Stream';
+            const actionBtn = document.querySelector('#editProjectModal .modal-actions .add-btn');
+            if (actionBtn) actionBtn.textContent = 'Add Stream';
+            document.getElementById('editProjectName').value = '';
+            document.getElementById('editProjectDesc').value = '';
+            document.getElementById('editProjectModal').style.display = 'block';
+            setTimeout(() => {
+                const el = document.getElementById('editProjectName');
+                if (el) el.focus();
+            }, 0);
         }
 
         function closeEditProjectModal() {
@@ -3105,16 +3276,28 @@
             const newName = document.getElementById('editProjectName').value.trim();
             const newDesc = document.getElementById('editProjectDesc').value.trim();
             
-            if (newName && currentEditingProjectId) {
+            if (!newName) return;
+
+            if (currentEditingProjectId) {
                 const project = appData.projects.find(p => p.id === currentEditingProjectId);
                 if (project) {
                     project.name = newName;
                     project.description = newDesc;
-                    saveData();
-                    renderProjects();
-                    closeEditProjectModal();
                 }
+            } else {
+                const project = {
+                    id: Date.now(),
+                    name: newName,
+                    description: newDesc,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                };
+                appData.projects.unshift(project);
             }
+
+            saveData();
+            renderProjects();
+            closeEditProjectModal();
         }
 
         // Edit Goal Functions
@@ -3123,9 +3306,27 @@
             const goal = appData.goals.find(g => g.id === goalId);
             if (goal) {
                 currentEditingGoalId = goalId;
+                const titleEl = document.querySelector('#editGoalModal .modal-title');
+                if (titleEl) titleEl.textContent = 'Edit Vision';
+                const actionBtn = document.querySelector('#editGoalModal .modal-actions .add-btn');
+                if (actionBtn) actionBtn.textContent = 'Save Changes';
                 document.getElementById('editGoalInput').value = goal.text;
                 document.getElementById('editGoalModal').style.display = 'block';
             }
+        }
+
+        function openAddGoalModal() {
+            currentEditingGoalId = null;
+            const titleEl = document.querySelector('#editGoalModal .modal-title');
+            if (titleEl) titleEl.textContent = 'Add Vision';
+            const actionBtn = document.querySelector('#editGoalModal .modal-actions .add-btn');
+            if (actionBtn) actionBtn.textContent = 'Add Vision';
+            document.getElementById('editGoalInput').value = '';
+            document.getElementById('editGoalModal').style.display = 'block';
+            setTimeout(() => {
+                const el = document.getElementById('editGoalInput');
+                if (el) el.focus();
+            }, 0);
         }
 
         function closeEditGoalModal() {
@@ -3136,15 +3337,27 @@
         function saveEditedGoal() {
             const newText = document.getElementById('editGoalInput').value.trim();
             
-            if (newText && currentEditingGoalId) {
+            if (!newText) return;
+
+            if (currentEditingGoalId) {
                 const goal = appData.goals.find(g => g.id === currentEditingGoalId);
                 if (goal) {
                     goal.text = newText;
-                    saveData();
-                    renderGoals();
-                    closeEditGoalModal();
                 }
+            } else {
+                const goal = {
+                    id: Date.now(),
+                    text: newText,
+                    completed: false,
+                    subGoals: [],
+                    createdAt: new Date().toISOString()
+                };
+                appData.goals.unshift(goal);
             }
+
+            saveData();
+            renderGoals();
+            closeEditGoalModal();
         }
 
         // Edit Sub-Goal Functions
@@ -3196,6 +3409,7 @@
         // Delete note
         function deleteNote(event, id) {
             event.stopPropagation();
+            if (!confirmDeleteAction('note')) return;
             appData.notes = appData.notes.filter(n => n.id !== id);
             saveData();
             renderNotes();
@@ -3308,6 +3522,7 @@
 
         function deleteVisual(event, id) {
             event.stopPropagation();
+            if (!confirmDeleteAction('visual')) return;
             appData.visuals = (appData.visuals || []).filter(v => v.id !== id);
             saveData();
             renderVisuals();
