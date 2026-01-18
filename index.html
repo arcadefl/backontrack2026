@@ -424,6 +424,39 @@
             cursor: pointer;
         }
 
+        .memory-day-event-row.done {
+            opacity: 0.6;
+            background: #202020;
+            border-color: rgba(107, 114, 128, 0.35);
+            border-left-color: rgba(107, 114, 128, 0.75);
+        }
+
+        .memory-event-check {
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fecaca;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex: 0 0 auto;
+        }
+
+        .memory-day-event-row.done .memory-event-check {
+            border-color: rgba(107, 114, 128, 0.35);
+            color: #d1d5db;
+        }
+
+        .memory-day-event-row-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
         .memory-day-event-row:last-child {
             margin-bottom: 0;
         }
@@ -513,6 +546,11 @@
             gap: 14px;
         }
 
+        .rhythm-item[data-rhythm-color="red"] {
+            border-image: linear-gradient(90deg, rgba(239, 68, 68, 0.55) 0%, rgba(248, 113, 113, 0.45) 50%, rgba(239, 68, 68, 0.55) 100%) 1;
+            border-left: 4px solid rgba(239, 68, 68, 0.8);
+        }
+
         .rhythm-item:hover {
             background: #303030;
             transform: translateX(5px);
@@ -525,8 +563,24 @@
             color: #86efac;
         }
 
+        .rhythm-item[data-rhythm-color="red"] .rhythm-count {
+            color: #fca5a5;
+        }
+
         #rhythmCalendarModal .modal-content {
             border-image: linear-gradient(90deg, rgba(34, 197, 94, 0.55) 0%, rgba(16, 185, 129, 0.45) 50%, rgba(34, 197, 94, 0.55) 100%) 1;
+        }
+
+        #rhythmCalendarModal[data-rhythm-color="red"] .modal-content {
+            border-image: linear-gradient(90deg, rgba(239, 68, 68, 0.55) 0%, rgba(248, 113, 113, 0.45) 50%, rgba(239, 68, 68, 0.55) 100%) 1;
+        }
+
+        #addRhythmModal .modal-content {
+            border-image: linear-gradient(90deg, rgba(34, 197, 94, 0.55) 0%, rgba(16, 185, 129, 0.45) 50%, rgba(34, 197, 94, 0.55) 100%) 1;
+        }
+
+        #addRhythmModal[data-rhythm-color="red"] .modal-content {
+            border-image: linear-gradient(90deg, rgba(239, 68, 68, 0.55) 0%, rgba(248, 113, 113, 0.45) 50%, rgba(239, 68, 68, 0.55) 100%) 1;
         }
 
         .calendar-header {
@@ -592,6 +646,11 @@
             box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.18) inset;
         }
 
+        .calendar-day.marked-red {
+            border-color: rgba(239, 68, 68, 0.55);
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.18) inset;
+        }
+
         .calendar-day.today {
             border-color: rgba(255, 255, 255, 0.42);
             box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.12) inset;
@@ -612,12 +671,21 @@
             text-shadow: 0 2px 8px rgba(34, 197, 94, 0.25);
         }
 
+        .calendar-x.red {
+            color: #ef4444;
+            text-shadow: 0 2px 8px rgba(239, 68, 68, 0.25);
+        }
+
         .calendar-day .day-num {
             position: relative;
             z-index: 1;
         }
 
         .calendar-day.marked .day-num {
+            opacity: 0.18;
+        }
+
+        .calendar-day.marked-red .day-num {
             opacity: 0.18;
         }
 
@@ -791,6 +859,171 @@
             margin-bottom: 10px;
         }
 
+        .notes-header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .notes-header-actions .add-btn {
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .notes-header-actions {
+                gap: 8px;
+            }
+
+            .notes-header-actions .add-btn {
+                padding: 10px 14px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .tribe-accordion {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .tribe-accordion.tribe-color-grey {
+            background: linear-gradient(0deg, rgba(107, 114, 128, 0.18), rgba(107, 114, 128, 0.18)), #121212;
+            border-left: 4px solid rgba(75, 85, 99, 0.95) !important;
+        }
+
+        .tribe-accordion.tribe-color-green {
+            background: linear-gradient(0deg, rgba(0, 210, 106, 0.18), rgba(0, 210, 106, 0.18)), #121212;
+            border-left: 4px solid rgba(34, 197, 94, 0.95) !important;
+        }
+
+        .tribe-accordion.tribe-color-red {
+            background: linear-gradient(0deg, rgba(255, 45, 45, 0.18), rgba(255, 45, 45, 0.18)), #121212;
+            border-left: 4px solid rgba(239, 68, 68, 0.95) !important;
+        }
+
+        .tribe-accordion.tribe-color-purple {
+            background: linear-gradient(0deg, rgba(176, 38, 255, 0.18), rgba(176, 38, 255, 0.18)), #121212;
+            border-left: 4px solid rgba(168, 85, 247, 0.95) !important;
+        }
+
+        .tribe-accordion.tribe-color-blue {
+            background: linear-gradient(0deg, rgba(29, 78, 216, 0.18), rgba(29, 78, 216, 0.18)), #121212;
+            border-left: 4px solid rgba(59, 130, 246, 0.95) !important;
+        }
+
+        .tribe-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 12px;
+            cursor: grab;
+            background: rgba(255, 255, 255, 0.04);
+            user-select: none;
+        }
+
+        .tribe-header-left {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .tribe-toggle {
+            flex: 0 0 auto;
+            width: 46px;
+            height: 34px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.04);
+            color: #e5e7eb;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .tribe-toggle:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .tribe-toggle .arrow {
+            display: inline-block;
+            transform: rotate(0deg);
+            transition: transform 180ms ease;
+        }
+
+        .tribe-accordion.open .tribe-toggle .arrow {
+            transform: rotate(180deg);
+        }
+
+        #modalNoteTribe {
+            height: 34px;
+            padding: 6px 10px;
+            line-height: 18px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #noteModal #modalNoteTribe.input-field {
+            height: 34px !important;
+            min-height: 34px !important;
+            max-height: 34px !important;
+            padding: 0 10px !important;
+            line-height: 34px !important;
+            box-sizing: border-box !important;
+            display: block !important;
+            font-size: 0.95rem !important;
+            -webkit-appearance: none !important;
+            appearance: none !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23e5e7eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-size: 16px 16px !important;
+            background-position: right 12px center !important;
+            padding-right: 40px !important;
+        }
+
+        .tribe-header:active {
+            cursor: grabbing;
+        }
+
+        .tribe-title {
+            font-weight: 800;
+            color: #e5e7eb;
+        }
+
+        .tribe-meta {
+            color: #9ca3af;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        .tribe-body {
+            display: none;
+            padding: 10px 10px 2px;
+            background: #121212;
+        }
+
+        .tribe-accordion.open .tribe-body {
+            display: block;
+        }
+
+        .tribe-body .note-list {
+            margin: 0;
+            padding: 0;
+        }
+
+        .tribe-empty {
+            color: #9ca3af;
+            padding: 8px 6px 12px;
+            font-size: 0.9rem;
+        }
+
         .task-item:hover, .project-item:hover, .goal-item:hover, .note-item:hover {
             background: #303030;
             transform: translateX(5px);
@@ -889,8 +1122,58 @@
             padding-bottom: 12px;
         }
 
-        #noteModal .modal-title-input {
-            padding-right: 44px;
+        #noteModal .modal-header .modal-title-input {
+            flex: 1 1 auto;
+            min-width: 0;
+            padding-right: 10px;
+        }
+
+        #noteModal .modal-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 0 0 auto;
+        }
+
+        #noteModal .note-menu-toggle {
+            width: 44px;
+            height: 44px;
+            min-height: 44px;
+            padding: 0;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.06) !important;
+            border: 1px solid rgba(255, 255, 255, 0.10) !important;
+            outline: none;
+        }
+
+        #noteModal .note-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.10) !important;
+        }
+
+        #noteModal .note-menu-toggle:active {
+            background: rgba(255, 255, 255, 0.10) !important;
+        }
+
+        #noteModal .note-menu-toggle:focus,
+        #noteModal .note-menu-toggle:focus-visible {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        #noteModal .note-menu-toggle svg {
+            width: 20px;
+            height: 20px;
+            stroke: #e5e7eb;
+        }
+
+        #noteModal.note-menu-hidden .note-menu-toggle svg {
+            stroke: #9ca3af;
+        }
+
+        #noteModal.note-menu-hidden .note-menu-toggle {
+            background: rgba(255, 255, 255, 0.04) !important;
         }
 
         .modal-header {
@@ -930,6 +1213,11 @@
             background: #303030;
             border-radius: 8px;
             flex-wrap: wrap;
+        }
+
+        .format-btn.active {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.22);
         }
 
         .format-btn {
@@ -1242,16 +1530,14 @@
         }
 
         #noteModal .close-btn {
-            position: absolute;
-            top: 6px;
-            right: 6px;
+            position: static;
             z-index: 2;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(26, 26, 26, 0.65);
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
             backdrop-filter: blur(4px);
         }
 
@@ -1278,6 +1564,68 @@
             min-height: 0;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+        }
+
+        #noteModal #modalNoteContent.checklist-mode {
+            padding: 10px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 8px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            margin-bottom: 6px;
+        }
+
+        .checklist-text {
+            flex: 1;
+            min-width: 0;
+            outline: none;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        .checklist-toggle {
+            flex: 0 0 auto;
+            width: 32px;
+            height: 32px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.05);
+            color: #e5e7eb;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checklist-item.done {
+            opacity: 0.75;
+        }
+
+        .checklist-item.done .checklist-text {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+
+        .checklist-item.done .checklist-toggle {
+            background: rgba(34, 197, 94, 0.18);
+            border-color: rgba(34, 197, 94, 0.38);
+            color: #86efac;
+        }
+
+        #noteModal.note-menu-hidden #modalNoteTribe,
+        #noteModal.note-menu-hidden .formatting-toolbar,
+        #noteModal.note-menu-hidden .priority-selector {
+            display: none !important;
+        }
+
+        #noteModal.note-menu-hidden .modal-body {
+            padding-top: 0;
         }
 
         .modal-meta {
@@ -2192,9 +2540,14 @@
             <div class="section-card">
                 <div class="section-header">
                     <h2 class="section-title">Sparks</h2>
-                    <button class="add-btn spark-btn" onclick="addNote()">
-                        <span>+</span> Add Spark
-                    </button>
+                    <div class="notes-header-actions">
+                        <button class="add-btn spark-btn" onclick="openAddTribeModal()">
+                            <span>+</span> Add Tribe
+                        </button>
+                        <button class="add-btn spark-btn" onclick="addNote()">
+                            <span>+</span> Add Spark
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="search-container" style="margin-bottom: 15px;">
@@ -2207,9 +2560,9 @@
                     <button class="add-btn" onclick="addNote()" style="width: 100%;">Save Note</button>
                 </div>
 
-                <ul id="noteList" class="note-list">
+                <div id="noteList" class="note-list">
                     <!-- Notes will be added here dynamically -->
-                </ul>
+                </div>
 
                 <div id="notesEmpty" class="empty-state">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -2227,9 +2580,20 @@
         <div class="modal-content">
             <div class="modal-header">
                 <input type="text" id="modalNoteTitle" class="modal-title-input" placeholder="Note title">
-                <button class="close-btn" onclick="closeNoteModal()">&times;</button>
+                <div class="modal-header-actions">
+                    <button id="noteMenuToggleBtn" class="action-btn white-btn note-menu-toggle" onclick="toggleNoteMenu()" aria-label="Hide menu">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                    <button class="close-btn" onclick="closeNoteModal()">&times;</button>
+                </div>
             </div>
             <div class="modal-body">
+                <select id="modalNoteTribe" class="input-field" style="margin-bottom: 12px;">
+                    <option value="">No Tribe</option>
+                </select>
                 <div class="formatting-toolbar">
                     <button class="format-btn" onclick="formatText('bold')" title="Bold">
                         <strong>B</strong>
@@ -2245,6 +2609,9 @@
                     </button>
                     <button class="format-btn" onclick="insertBulletList()" title="Bullet List">
                         • List
+                    </button>
+                    <button id="listModeBtn" class="format-btn" onclick="toggleNoteListMode()" title="List mode">
+                        ☑️
                     </button>
                     <button class="format-btn" onclick="clearFormatting()" title="Clear Formatting">
                         Clear
@@ -2308,6 +2675,57 @@
         </div>
     </div>
 
+    <!-- Add Tribe Modal -->
+    <div id="addTribeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add Tribe</h2>
+                <button class="close-btn" onclick="closeAddTribeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="addTribeName" class="input-field" placeholder="Tribe name" style="margin-bottom: 18px;">
+                <div class="priority-selector" style="margin: 0 0 14px; display: flex !important; gap: 12px; align-items: center; padding: 8px 0;">
+                    <div style="min-width: 60px; color: #9ca3af; font-size: 0.9rem;">Color</div>
+                    <div class="priority-circle grey selected" data-tribe-color="grey" onclick="selectTribeColor('grey')" style="background: #6b7280 !important;"></div>
+                    <div class="priority-circle green" data-tribe-color="green" onclick="selectTribeColor('green')" style="background: #00d26a !important;"></div>
+                    <div class="priority-circle red" data-tribe-color="red" onclick="selectTribeColor('red')" style="background: #ff2d2d !important;"></div>
+                    <div class="priority-circle purple" data-tribe-color="purple" onclick="selectTribeColor('purple')" style="background: #b026ff !important;"></div>
+                    <div class="priority-circle blue" data-tribe-color="blue" onclick="selectTribeColor('blue')" style="background: #1d4ed8 !important;"></div>
+                </div>
+                <div class="modal-actions">
+                    <button class="add-btn spark-btn" onclick="addTribeFromModal()">Add Tribe</button>
+                    <button class="action-btn white-btn" onclick="closeAddTribeModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Tribe Modal -->
+    <div id="editTribeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Tribe</h2>
+                <button class="close-btn" onclick="closeEditTribeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="editTribeName" class="input-field" placeholder="Tribe name" style="margin-bottom: 18px;">
+                <div class="priority-selector" style="margin: 0 0 14px; display: flex !important; gap: 12px; align-items: center; padding: 8px 0;">
+                    <div style="min-width: 60px; color: #9ca3af; font-size: 0.9rem;">Color</div>
+                    <div class="priority-circle grey" data-edit-tribe-color="grey" onclick="selectTribeColor('grey')" style="background: #6b7280 !important;"></div>
+                    <div class="priority-circle green" data-edit-tribe-color="green" onclick="selectTribeColor('green')" style="background: #00d26a !important;"></div>
+                    <div class="priority-circle red" data-edit-tribe-color="red" onclick="selectTribeColor('red')" style="background: #ff2d2d !important;"></div>
+                    <div class="priority-circle purple" data-edit-tribe-color="purple" onclick="selectTribeColor('purple')" style="background: #b026ff !important;"></div>
+                    <div class="priority-circle blue" data-edit-tribe-color="blue" onclick="selectTribeColor('blue')" style="background: #1d4ed8 !important;"></div>
+                </div>
+                <div class="modal-actions">
+                    <button class="add-btn spark-btn" onclick="saveEditedTribe()">Save Changes</button>
+                    <button class="action-btn delete-btn" onclick="deleteTribeFromModal()">🗑️ Delete</button>
+                    <button class="action-btn white-btn" onclick="closeEditTribeModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Add Rhythm Modal -->
     <div id="addRhythmModal" class="modal">
         <div class="modal-content">
@@ -2317,6 +2735,11 @@
             </div>
             <div class="modal-body">
                 <input type="text" id="addRhythmName" class="input-field" placeholder="Rhythm name" style="margin-bottom: 18px;">
+                <div class="priority-selector" style="margin: 0 0 14px; display: flex !important; gap: 12px; align-items: center; padding: 8px 0;">
+                    <div style="min-width: 60px; color: #9ca3af; font-size: 0.9rem;">Color</div>
+                    <div class="priority-circle green selected" data-rhythm-color="green" onclick="selectRhythmColor('green')"></div>
+                    <div class="priority-circle red" data-rhythm-color="red" onclick="selectRhythmColor('red')"></div>
+                </div>
                 <div class="modal-actions">
                     <button class="add-btn rhythm-btn" onclick="addRhythmFromModal()">Add Rhythm</button>
                     <button class="action-btn white-btn" onclick="closeAddRhythmModal()">Cancel</button>
@@ -2329,10 +2752,15 @@
     <div id="rhythmCalendarModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title" id="rhythmCalendarTitle">Rhythm</h2>
+                <h2 class="modal-title" id="rhythmCalendarTitle" contenteditable="true" spellcheck="false" onkeydown="onRhythmCalendarTitleKeyDown(event)" onblur="saveRhythmTitleFromCalendarTitle()">Rhythm</h2>
                 <button class="close-btn" onclick="closeRhythmCalendarModal()">&times;</button>
             </div>
             <div class="modal-body">
+                <div class="priority-selector" style="margin: 0 0 10px; display: flex !important; gap: 12px; align-items: center; padding: 8px 0;">
+                    <div style="min-width: 60px; color: #9ca3af; font-size: 0.9rem;">Color</div>
+                    <div class="priority-circle green" data-rhythm-edit-color="green" onclick="setCurrentRhythmColor('green')"></div>
+                    <div class="priority-circle red" data-rhythm-edit-color="red" onclick="setCurrentRhythmColor('red')"></div>
+                </div>
                 <div class="calendar-header">
                     <button class="calendar-nav-btn" onclick="changeRhythmMonth(-1)">◀</button>
                     <div class="calendar-month" id="rhythmCalendarMonth">Month</div>
@@ -2546,6 +2974,7 @@
             goals: [],
             rhythms: [],
             memoryEvents: [],
+            noteTribes: [],
             notes: [],
             visuals: []
         };
@@ -2768,12 +3197,43 @@
                 appData.rhythms = appData.rhythms || [];
                 appData.rhythms.forEach(r => {
                     r.markedDays = r.markedDays || {};
+                    r.color = (r.color === 'red' || r.color === 'green') ? r.color : 'green';
+
+                    // Migration:
+                    // - Old format: markedDays[monthKey] = [1,2,3]
+                    // - New format: markedDays[monthKey] = { 1: 'green' | 'red' }
+                    Object.keys(r.markedDays).forEach(monthKey => {
+                        const v = r.markedDays[monthKey];
+                        if (Array.isArray(v)) {
+                            const map = {};
+                            v.forEach(dayNum => {
+                                const d = Number(dayNum);
+                                if (d) map[d] = 'green';
+                            });
+                            r.markedDays[monthKey] = map;
+                        }
+                    });
                 });
                 appData.memoryEvents = appData.memoryEvents || [];
                 appData.memoryEvents.forEach(ev => {
                     ev.repeat = ev.repeat || 'none';
                     ev.exclusions = ev.exclusions || [];
                     ev.repeatUntil = ev.repeatUntil || null;
+                });
+                appData.memoryDone = appData.memoryDone || {};
+                appData.noteTribes = appData.noteTribes || [];
+                appData.noteTribes.forEach(t => {
+                    if (!t || typeof t !== 'object') return;
+                    t.id = t.id || Date.now();
+                    t.name = t.name || 'Tribe';
+                    t.color = t.color || 'grey';
+                    if (t.open === undefined) t.open = true;
+                });
+                appData.notes = appData.notes || [];
+                appData.notes.forEach(n => {
+                    if (!n || typeof n !== 'object') return;
+                    if (!('tribeId' in n)) n.tribeId = '';
+                    if (!('listMode' in n)) n.listMode = false;
                 });
                 appData.visuals = appData.visuals || [];
             }
@@ -3600,6 +4060,8 @@
                 title: '',
                 content: '',
                 color: 'grey',
+                tribeId: '',
+                listMode: false,
                 createdAt: new Date().toISOString()
             };
             
@@ -3609,7 +4071,7 @@
             renderNotes();
             
             // Open the modal for editing
-            openNoteModal(newNote.id);
+            openNoteModal(newNote.id, false);
         }
 
         // Render notes
@@ -3620,17 +4082,19 @@
             
             console.log('Rendering notes, count:', appData.notes.length); // Debug log
             
+            appData.noteTribes = appData.noteTribes || [];
+
             // Filter notes based on search
             let filteredNotes = appData.notes;
             if (searchQuery) {
                 filteredNotes = appData.notes.filter(note => {
-                    const titleMatch = note.title.toLowerCase().includes(searchQuery);
-                    const contentMatch = note.content.toLowerCase().includes(searchQuery);
+                    const titleMatch = (note.title || '').toLowerCase().includes(searchQuery);
+                    const contentMatch = (note.content || '').toLowerCase().includes(searchQuery);
                     return titleMatch || contentMatch;
                 });
             }
             
-            if (filteredNotes.length === 0) {
+            if (filteredNotes.length === 0 && (appData.noteTribes || []).length === 0) {
                 container.innerHTML = '';
                 emptyState.style.display = 'block';
                 if (searchQuery) {
@@ -3652,27 +4116,185 @@
             }
             
             emptyState.style.display = 'none';
-            
-            container.innerHTML = filteredNotes.map(note => {
-                // Plain-text preview (no clickable links)
+
+            const tribes = (appData.noteTribes || []).slice();
+
+            const renderNoteItem = (note) => {
                 const plainContent = stripHtml(note.content || '');
                 const contentPreview = plainContent ? escapeHtml(truncateText(plainContent, 20)) : 'No content';
                 const noteColorClass = `note-color-${(note.color || 'grey')}`;
-                
                 return `
-                <li class="note-item ${noteColorClass}" draggable="true" data-note-id="${note.id}" onclick="openNoteModal(${note.id})">
-                    <div class="item-content">
-                        <div class="item-title">${escapeHtml(truncateText(note.title || '', 20))}</div>
-                        <div class="item-meta">${contentPreview} • ${new Date(note.createdAt).toLocaleDateString()}</div>
-                    </div>
-                </li>
+                    <li class="note-item ${noteColorClass}" draggable="true" data-note-id="${note.id}" data-tribe-id="${note.tribeId || ''}" onclick="openNoteModal(${note.id})">
+                        <div class="item-content">
+                            <div class="item-title">${escapeHtml(truncateText(note.title || '', 20))}</div>
+                            <div class="item-meta">${contentPreview} • ${new Date(note.createdAt).toLocaleDateString()}</div>
+                        </div>
+                    </li>
+                `;
+            };
+
+            const ungroupedNotes = filteredNotes.filter(n => !n.tribeId);
+            const ungroupedHtml = `
+                <ul class="note-list" id="ungroupedNotes" data-tribe-id="">
+                    ${ungroupedNotes.map(renderNoteItem).join('')}
+                </ul>
             `;
+
+            const tribesHtml = tribes.map(t => {
+                const tribeNotes = filteredNotes.filter(n => String(n.tribeId || '') === String(t.id));
+                const open = (t.open !== false);
+                const tribeColorClass = `tribe-color-${(t.color || 'grey')}`;
+                return `
+                    <div class="tribe-accordion ${tribeColorClass}${open ? ' open' : ''}" draggable="true" data-tribe-id="${t.id}">
+                        <div class="tribe-header" data-tribe-id="${t.id}">
+                            <div class="tribe-header-left" onclick="openEditTribeModal(${t.id}); event.stopPropagation();">
+                                <div class="tribe-title">${escapeHtml(truncateText(t.name || 'Tribe', 30))}</div>
+                                <div class="tribe-meta">${tribeNotes.length}</div>
+                            </div>
+                            <button type="button" class="tribe-toggle" onclick="toggleTribeAccordion(${t.id}); event.stopPropagation();" aria-label="Toggle Tribe">
+                                <span class="arrow">▾</span>
+                            </button>
+                        </div>
+                        <div class="tribe-body" data-tribe-id="${t.id}">
+                            <ul class="note-list" data-tribe-id="${t.id}">
+                                ${tribeNotes.map(renderNoteItem).join('')}
+                            </ul>
+                            ${tribeNotes.length === 0 ? `<div class="tribe-empty">No sparks in this tribe yet.</div>` : ''}
+                        </div>
+                    </div>
+                `;
             }).join('');
+
+            container.innerHTML = tribesHtml + ungroupedHtml;
             
             // Add drag and drop event listeners
             setupDragAndDrop();
             
             console.log('Notes rendered'); // Debug log
+        }
+
+        function toggleTribeAccordion(tribeId) {
+            const tribe = (appData.noteTribes || []).find(t => t.id === tribeId);
+            if (!tribe) return;
+            tribe.open = !(tribe.open !== false);
+            saveData();
+            renderNotes();
+        }
+
+        function openAddTribeModal() {
+            const input = document.getElementById('addTribeName');
+            if (input) input.value = '';
+            selectTribeColor('grey');
+            openModal('addTribeModal');
+            setTimeout(() => {
+                if (input) input.focus();
+            }, 0);
+        }
+
+        function closeAddTribeModal() {
+            closeModal('addTribeModal');
+        }
+
+        function addTribeFromModal() {
+            const input = document.getElementById('addTribeName');
+            const name = (input ? input.value : '').trim();
+            if (!name) return;
+            const tribe = {
+                id: Date.now(),
+                name,
+                color: selectedTribeColor || 'grey',
+                open: true,
+                createdAt: new Date().toISOString()
+            };
+            appData.noteTribes = appData.noteTribes || [];
+            appData.noteTribes.unshift(tribe);
+            saveData();
+            renderNotes();
+            closeAddTribeModal();
+        }
+
+        let currentEditingTribeId = null;
+        let selectedTribeColor = 'grey';
+
+        function selectTribeColor(color) {
+            selectedTribeColor = color;
+
+            document.querySelectorAll('#addTribeModal .priority-circle[data-tribe-color]').forEach(circle => {
+                circle.classList.remove('selected');
+                circle.style.transform = 'scale(1)';
+                circle.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            });
+            const addSelected = document.querySelector(`#addTribeModal .priority-circle[data-tribe-color="${color}"]`);
+            if (addSelected) {
+                addSelected.classList.add('selected');
+                addSelected.style.transform = 'scale(1.15)';
+                addSelected.style.borderColor = 'rgba(255, 255, 255, 0.85)';
+            }
+
+            document.querySelectorAll('#editTribeModal .priority-circle[data-edit-tribe-color]').forEach(circle => {
+                circle.classList.remove('selected');
+                circle.style.transform = 'scale(1)';
+                circle.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            });
+            const editSelected = document.querySelector(`#editTribeModal .priority-circle[data-edit-tribe-color="${color}"]`);
+            if (editSelected) {
+                editSelected.classList.add('selected');
+                editSelected.style.transform = 'scale(1.15)';
+                editSelected.style.borderColor = 'rgba(255, 255, 255, 0.85)';
+            }
+        }
+
+        function openEditTribeModal(tribeId) {
+            const tribe = (appData.noteTribes || []).find(t => t.id === tribeId);
+            if (!tribe) return;
+            currentEditingTribeId = tribeId;
+            const input = document.getElementById('editTribeName');
+            if (input) input.value = tribe.name || '';
+            selectTribeColor(tribe.color || 'grey');
+            openModal('editTribeModal');
+            setTimeout(() => {
+                if (input) input.focus();
+            }, 0);
+        }
+
+        function closeEditTribeModal() {
+            closeModal('editTribeModal');
+            currentEditingTribeId = null;
+        }
+
+        function saveEditedTribe() {
+            if (!currentEditingTribeId) return;
+            const tribe = (appData.noteTribes || []).find(t => t.id === currentEditingTribeId);
+            if (!tribe) return;
+            const input = document.getElementById('editTribeName');
+            const name = (input ? input.value : '').trim();
+            if (!name) return;
+            tribe.name = name;
+            tribe.color = selectedTribeColor || tribe.color || 'grey';
+            saveData();
+            renderNotes();
+            closeEditTribeModal();
+        }
+
+        function deleteTribeFromModal() {
+            if (!currentEditingTribeId) return;
+            const tribeId = currentEditingTribeId;
+            confirmDeleteAction('tribe').then(ok => {
+                if (!ok) return;
+
+                appData.noteTribes = (appData.noteTribes || []).filter(t => t && String(t.id) !== String(tribeId));
+
+                (appData.notes || []).forEach(n => {
+                    if (!n || typeof n !== 'object') return;
+                    if (String(n.tribeId || '') === String(tribeId)) {
+                        n.tribeId = '';
+                    }
+                });
+
+                saveData();
+                renderNotes();
+                closeEditTribeModal();
+            });
         }
 
         // Search notes function
@@ -3683,7 +4305,10 @@
         // Setup drag and drop for notes
         function setupDragAndDrop() {
             const noteItems = document.querySelectorAll('.note-item');
-            
+            const tribeAccordions = document.querySelectorAll('.tribe-accordion');
+            const tribeBodies = document.querySelectorAll('.tribe-body');
+            const ungrouped = document.getElementById('ungroupedNotes');
+
             noteItems.forEach(item => {
                 item.addEventListener('dragstart', handleDragStart);
                 item.addEventListener('dragend', handleDragEnd);
@@ -3692,19 +4317,39 @@
                 item.addEventListener('dragenter', handleDragEnter);
                 item.addEventListener('dragleave', handleDragLeave);
             });
+
+            tribeAccordions.forEach(t => {
+                t.addEventListener('dragstart', handleTribeDragStart);
+                t.addEventListener('dragend', handleTribeDragEnd);
+                t.addEventListener('dragover', handleTribeDragOver);
+                t.addEventListener('drop', handleTribeDrop);
+            });
+
+            tribeBodies.forEach(b => {
+                b.addEventListener('dragover', handleDropZoneOver);
+                b.addEventListener('drop', handleDropZoneDrop);
+            });
+
+            if (ungrouped) {
+                ungrouped.addEventListener('dragover', handleDropZoneOver);
+                ungrouped.addEventListener('drop', handleDropZoneDrop);
+            }
         }
 
         let draggedElement = null;
+        let draggedKind = null; // 'note' | 'tribe'
 
         function handleDragStart(e) {
             draggedElement = this;
+            draggedKind = 'note';
             this.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/html', this.innerHTML);
+            e.dataTransfer.setData('text/plain', `note:${this.dataset.noteId}`);
         }
 
         function handleDragEnd(e) {
             this.classList.remove('dragging');
+            draggedKind = null;
             
             // Remove all drag-over classes
             document.querySelectorAll('.note-item').forEach(item => {
@@ -3751,9 +4396,11 @@
                 e.stopPropagation();
             }
             
+            if (draggedKind !== 'note') return false;
             if (draggedElement !== this) {
                 const draggedId = parseInt(draggedElement.dataset.noteId);
                 const targetId = parseInt(this.dataset.noteId);
+                const targetTribeId = this.dataset.tribeId || '';
                 
                 const draggedIndex = appData.notes.findIndex(n => n.id === draggedId);
                 const targetIndex = appData.notes.findIndex(n => n.id === targetId);
@@ -3766,6 +4413,9 @@
                     
                     // Remove dragged item
                     const [draggedNote] = appData.notes.splice(draggedIndex, 1);
+
+                    // Move into target tribe
+                    draggedNote.tribeId = targetTribeId;
                     
                     // Calculate new position
                     let newIndex = targetIndex;
@@ -3785,6 +4435,84 @@
                 }
             }
             
+            return false;
+        }
+
+        function handleDropZoneOver(e) {
+            if (draggedKind !== 'note') return;
+            if (e.preventDefault) e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleDropZoneDrop(e) {
+            if (e.stopPropagation) e.stopPropagation();
+            if (draggedKind !== 'note') return false;
+
+            const zoneTribeId = this.getAttribute('data-tribe-id') || '';
+            const draggedId = draggedElement ? parseInt(draggedElement.dataset.noteId) : null;
+            if (!draggedId) return false;
+
+            const draggedIndex = appData.notes.findIndex(n => n.id === draggedId);
+            if (draggedIndex === -1) return false;
+
+            const [draggedNote] = appData.notes.splice(draggedIndex, 1);
+            draggedNote.tribeId = zoneTribeId;
+
+            // Insert at end of the target group (preserves group ordering)
+            let insertAt = 0;
+            for (let i = appData.notes.length - 1; i >= 0; i--) {
+                const n = appData.notes[i];
+                const t = (n && typeof n === 'object' && 'tribeId' in n) ? (n.tribeId || '') : '';
+                if (String(t) === String(zoneTribeId || '')) {
+                    insertAt = i + 1;
+                    break;
+                }
+            }
+            appData.notes.splice(insertAt, 0, draggedNote);
+            saveData();
+            renderNotes();
+            return false;
+        }
+
+        let draggedTribeId = null;
+
+        function handleTribeDragStart(e) {
+            const header = this.querySelector('.tribe-header');
+            if (e.target !== this && header && header.contains(e.target) === false) return;
+            draggedKind = 'tribe';
+            draggedTribeId = this.getAttribute('data-tribe-id');
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', `tribe:${draggedTribeId}`);
+        }
+
+        function handleTribeDragEnd() {
+            this.classList.remove('dragging');
+            draggedTribeId = null;
+            draggedKind = null;
+        }
+
+        function handleTribeDragOver(e) {
+            if (draggedKind !== 'tribe') return;
+            if (e.preventDefault) e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleTribeDrop(e) {
+            if (e.stopPropagation) e.stopPropagation();
+            if (draggedKind !== 'tribe') return false;
+            const targetId = this.getAttribute('data-tribe-id');
+            if (!draggedTribeId || !targetId || draggedTribeId === targetId) return false;
+
+            const draggedIdx = (appData.noteTribes || []).findIndex(t => String(t.id) === String(draggedTribeId));
+            const targetIdx = (appData.noteTribes || []).findIndex(t => String(t.id) === String(targetId));
+            if (draggedIdx === -1 || targetIdx === -1) return false;
+
+            const arr = appData.noteTribes;
+            const [tribe] = arr.splice(draggedIdx, 1);
+            arr.splice(targetIdx, 0, tribe);
+            saveData();
+            renderNotes();
             return false;
         }
 
@@ -3953,11 +4681,14 @@
         }
 
         // Open note modal
-        async function openNoteModal(id) {
+        async function openNoteModal(id, defaultMenuHidden = true) {
             const note = appData.notes.find(n => n.id === id);
             if (note) {
+                setNoteMenuHidden(!!defaultMenuHidden);
                 currentEditingNoteId = id;
                 document.getElementById('modalNoteTitle').value = note.title;
+
+                populateTribeDropdown('modalNoteTribe', note.tribeId || '');
                 
                 // Load HTML content directly (preserves formatting)
                 document.getElementById('modalNoteContent').innerHTML = linkifyHtml(note.content || '');
@@ -3970,6 +4701,10 @@
                 
                 // Add click handler for links in contenteditable
                 setupLinkClickHandlers();
+
+                // Setup checklist behaviors
+                setupChecklistHandlers();
+                setNoteListMode(!!note.listMode, true);
                 
                 // Load images for this note
                 await loadNoteImages(id);
@@ -3998,6 +4733,14 @@
             const contentDiv = document.getElementById('modalNoteContent');
             if (!contentDiv) return;
             contentDiv.onclick = function(e) {
+                const toggleBtn = e.target.closest('.checklist-toggle');
+                if (toggleBtn) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const item = toggleBtn.closest('.checklist-item');
+                    if (item) item.classList.toggle('done');
+                    return;
+                }
                 const link = e.target.closest('a');
                 if (!link) return;
                 e.preventDefault();
@@ -4006,16 +4749,163 @@
             };
         }
 
+        let isNoteListMode = false;
+        let checklistHandlersInstalled = false;
+
+        function toggleNoteListMode() {
+            setNoteListMode(!isNoteListMode);
+        }
+
+        function setNoteListMode(enabled, fromOpen = false) {
+            isNoteListMode = !!enabled;
+            const contentDiv = document.getElementById('modalNoteContent');
+            if (contentDiv) {
+                contentDiv.classList.toggle('checklist-mode', isNoteListMode);
+                // Avoid nested contenteditable weirdness: container becomes non-editable in checklist mode.
+                contentDiv.setAttribute('contenteditable', isNoteListMode ? 'false' : 'true');
+            }
+
+            const btn = document.getElementById('listModeBtn');
+            if (btn) {
+                btn.classList.toggle('active', isNoteListMode);
+            }
+
+            if (!contentDiv) return;
+
+            if (isNoteListMode) {
+                const hasChecklist = !!contentDiv.querySelector('.checklist-item');
+                if (!hasChecklist) {
+                    // Convert existing content into checklist items
+                    // Use visual lines so it works no matter how the browser represents newlines.
+                    const visualText = String(contentDiv.innerText || '')
+                        .replace(/\u00A0/g, ' ');
+                    const lines = visualText
+                        .split(/\r?\n/)
+                        .map(s => s.trim())
+                        .filter(Boolean);
+
+                    const items = lines.length ? lines : [''];
+                    contentDiv.innerHTML = items.map(t => {
+                        const safe = escapeHtml(t);
+                        return `
+                            <div class="checklist-item">
+                                <div class="checklist-text" contenteditable="true">${safe}</div>
+                                <button type="button" class="checklist-toggle" aria-label="Toggle done">✓</button>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                // Ensure checklist text blocks remain editable
+                contentDiv.querySelectorAll('.checklist-text').forEach(el => {
+                    el.setAttribute('contenteditable', 'true');
+                });
+
+                if (!fromOpen) {
+                    const first = contentDiv.querySelector('.checklist-text');
+                    if (first) {
+                        setTimeout(() => first.focus(), 0);
+                    }
+                }
+            } else {
+                // Convert checklist items back to simple lines
+                const items = Array.from(contentDiv.querySelectorAll('.checklist-item .checklist-text'));
+                if (items.length) {
+                    const lines = items.map(el => stripHtml(el.innerHTML || '').trim());
+                    contentDiv.innerHTML = lines.map(t => escapeHtml(t)).join('<br>');
+                }
+            }
+        }
+
+        function setupChecklistHandlers() {
+            if (checklistHandlersInstalled) return;
+            const contentDiv = document.getElementById('modalNoteContent');
+            if (!contentDiv) return;
+
+            contentDiv.addEventListener('keydown', (e) => {
+                if (!isNoteListMode) return;
+                if (e.key !== 'Enter') return;
+
+                // e.target can be a text node in contenteditable; resolve the actual checklist text element.
+                let textEl = null;
+                const sel = window.getSelection ? window.getSelection() : null;
+                const anchorNode = sel && sel.anchorNode ? sel.anchorNode : null;
+                const anchorEl = anchorNode && anchorNode.nodeType === 1 ? anchorNode : (anchorNode ? anchorNode.parentElement : null);
+                if (anchorEl && anchorEl.closest) {
+                    textEl = anchorEl.closest('.checklist-text');
+                }
+                if (!textEl) {
+                    const tgt = e.target && e.target.nodeType === 1 ? e.target : (e.target ? e.target.parentElement : null);
+                    if (tgt && tgt.closest) textEl = tgt.closest('.checklist-text');
+                }
+                if (!textEl) return;
+
+                e.preventDefault();
+                const item = textEl.closest('.checklist-item');
+                if (!item) return;
+
+                const newItem = document.createElement('div');
+                newItem.className = 'checklist-item';
+                newItem.innerHTML = `
+                    <div class="checklist-text" contenteditable="true"></div>
+                    <button type="button" class="checklist-toggle" aria-label="Toggle done">✓</button>
+                `;
+                item.insertAdjacentElement('afterend', newItem);
+
+                const newText = newItem.querySelector('.checklist-text');
+                if (newText) {
+                    setTimeout(() => newText.focus(), 0);
+                }
+            }, true);
+
+            checklistHandlersInstalled = true;
+        }
+
         // Close note modal
         function closeNoteModal() {
             closeModal('noteModal');
             currentEditingNoteId = null;
+            setNoteMenuHidden(false);
+            setNoteListMode(false, true);
+        }
+
+        let isNoteMenuHidden = false;
+
+        function setNoteMenuHidden(hidden) {
+            isNoteMenuHidden = !!hidden;
+            const modal = document.getElementById('noteModal');
+            if (modal) {
+                modal.classList.toggle('note-menu-hidden', isNoteMenuHidden);
+            }
+
+            // Some elements use inline styles with !important; force-hide via inline style to win.
+            const tribeSelect = document.getElementById('modalNoteTribe');
+            const toolbar = document.querySelector('#noteModal .formatting-toolbar');
+            const colorPicker = document.querySelector('#noteModal .priority-selector');
+            [tribeSelect, toolbar, colorPicker].forEach(el => {
+                if (!el) return;
+                if (isNoteMenuHidden) {
+                    el.style.setProperty('display', 'none', 'important');
+                } else {
+                    el.style.removeProperty('display');
+                }
+            });
+
+            const btn = document.getElementById('noteMenuToggleBtn');
+            if (btn) {
+                btn.setAttribute('aria-label', isNoteMenuHidden ? 'Show menu' : 'Hide menu');
+            }
+        }
+
+        function toggleNoteMenu() {
+            setNoteMenuHidden(!isNoteMenuHidden);
         }
 
         // Save edited note
         function saveEditedNote() {
             const title = document.getElementById('modalNoteTitle').value.trim();
             const content = linkifyHtml(document.getElementById('modalNoteContent').innerHTML);
+            const tribeId = document.getElementById('modalNoteTribe').value;
             
             if (currentEditingNoteId) {
                 const note = appData.notes.find(n => n.id === currentEditingNoteId);
@@ -4024,11 +4914,23 @@
                     note.title = title; // Can be empty
                     note.content = content; // Save HTML content directly
                     note.color = selectedNoteColor || note.color || 'grey';
+                    note.tribeId = tribeId || '';
+                    note.listMode = !!isNoteListMode;
                     saveData();
                     renderNotes();
                     closeNoteModal();
                 }
             }
+        }
+
+        function populateTribeDropdown(selectId, selectedId) {
+            const select = document.getElementById(selectId);
+            if (!select) return;
+            const tribes = appData.noteTribes || [];
+            const options = [`<option value="">No Tribe</option>`]
+                .concat(tribes.map(t => `<option value="${t.id}">${escapeHtml(t.name || 'Tribe')}</option>`));
+            select.innerHTML = options.join('');
+            select.value = selectedId ? String(selectedId) : '';
         }
 
         // Delete note from modal
@@ -4455,8 +5357,10 @@
         function countRhythmMarks(rhythm) {
             if (!rhythm || !rhythm.markedDays) return 0;
             let total = 0;
-            Object.values(rhythm.markedDays).forEach(arr => {
-                if (Array.isArray(arr)) total += arr.length;
+            Object.values(rhythm.markedDays).forEach(v => {
+                if (v && typeof v === 'object' && !Array.isArray(v)) {
+                    total += Object.keys(v).length;
+                }
             });
             return total;
         }
@@ -4478,9 +5382,9 @@
                 .slice()
                 .sort((a, b) => (b.updatedAt || b.createdAt || '').localeCompare(a.updatedAt || a.createdAt || ''))
                 .map(r => `
-                    <li class="rhythm-item" data-rhythm-id="${r.id}" onclick="openRhythmCalendar(${r.id})">
+                    <li class="rhythm-item" data-rhythm-color="${(r.color === 'red' ? 'red' : 'green')}" data-rhythm-id="${r.id}" onclick="openRhythmCalendar(${r.id})">
                         <div class="item-content">
-                            <div class="item-title"><span class="rhythm-title-edit" contenteditable="true" spellcheck="false" onclick="event.stopPropagation()" onkeydown="onRhythmTitleKeyDown(event, ${r.id})" onblur="saveRhythmTitleFromElement(${r.id}, this)">${truncateText(r.name, 30)}</span></div>
+                            <div class="item-title">${truncateText(r.name, 30)}</div>
                             <div class="item-meta">Tap to open calendar</div>
                         </div>
                         <div class="rhythm-count">${countRhythmMarks(r)} X</div>
@@ -4488,30 +5392,31 @@
                 `).join('');
         }
 
-        function onRhythmTitleKeyDown(event, rhythmId) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                if (event.target && event.target.blur) event.target.blur();
-            }
+        let selectedRhythmColor = 'green';
+
+        function selectRhythmColor(color) {
+            selectedRhythmColor = (color === 'red') ? 'red' : 'green';
+            updateRhythmColorSelection();
         }
 
-        function saveRhythmTitleFromElement(rhythmId, el) {
-            const rhythm = (appData.rhythms || []).find(r => r.id === rhythmId);
-            if (!rhythm || !el) return;
-            const name = String(el.textContent || '').trim();
-            if (!name) {
-                el.textContent = rhythm.name;
-                return;
+        function updateRhythmColorSelection() {
+            document.querySelectorAll('#addRhythmModal [data-rhythm-color]').forEach(circle => {
+                circle.classList.remove('selected');
+            });
+            const selected = document.querySelector(`#addRhythmModal [data-rhythm-color="${selectedRhythmColor}"]`);
+            if (selected) selected.classList.add('selected');
+
+            const modal = document.getElementById('addRhythmModal');
+            if (modal) {
+                modal.setAttribute('data-rhythm-color', selectedRhythmColor);
             }
-            rhythm.name = name;
-            rhythm.updatedAt = new Date().toISOString();
-            saveData();
-            renderRhythms();
         }
 
         function openAddRhythmModal() {
             const input = document.getElementById('addRhythmName');
             if (input) input.value = '';
+            selectedRhythmColor = 'green';
+            updateRhythmColorSelection();
             openModal('addRhythmModal');
             setTimeout(() => {
                 if (input) input.focus();
@@ -4530,6 +5435,7 @@
             const rhythm = {
                 id: Date.now(),
                 name,
+                color: (selectedRhythmColor === 'red') ? 'red' : 'green',
                 markedDays: {},
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString()
@@ -4557,11 +5463,59 @@
             const title = document.getElementById('rhythmCalendarTitle');
             if (title) title.textContent = rhythm.name;
 
+            updateRhythmModalColorPicker(rhythm.color || 'green');
+
             const deleteBtn = document.getElementById('deleteRhythmBtn');
             if (deleteBtn) deleteBtn.style.display = 'inline-flex';
 
             renderRhythmCalendar();
             openModal('rhythmCalendarModal');
+        }
+
+        function updateRhythmModalColorPicker(color) {
+            const c = (color === 'red') ? 'red' : 'green';
+            document.querySelectorAll('#rhythmCalendarModal [data-rhythm-edit-color]').forEach(circle => {
+                circle.classList.toggle('selected', circle.getAttribute('data-rhythm-edit-color') === c);
+            });
+
+            const modal = document.getElementById('rhythmCalendarModal');
+            if (modal) {
+                modal.setAttribute('data-rhythm-color', c);
+            }
+        }
+
+        function setCurrentRhythmColor(color) {
+            if (!currentRhythmId) return;
+            const rhythm = (appData.rhythms || []).find(r => r.id === currentRhythmId);
+            if (!rhythm) return;
+            rhythm.color = (color === 'red') ? 'red' : 'green';
+            rhythm.updatedAt = new Date().toISOString();
+            saveData();
+            updateRhythmModalColorPicker(rhythm.color);
+            renderRhythms();
+        }
+
+        function onRhythmCalendarTitleKeyDown(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                if (event.target && event.target.blur) event.target.blur();
+            }
+        }
+
+        function saveRhythmTitleFromCalendarTitle() {
+            if (!currentRhythmId) return;
+            const rhythm = (appData.rhythms || []).find(r => r.id === currentRhythmId);
+            const titleEl = document.getElementById('rhythmCalendarTitle');
+            if (!rhythm || !titleEl) return;
+            const name = String(titleEl.textContent || '').trim();
+            if (!name) {
+                titleEl.textContent = rhythm.name;
+                return;
+            }
+            rhythm.name = name;
+            rhythm.updatedAt = new Date().toISOString();
+            saveData();
+            renderRhythms();
         }
 
         function closeRhythmCalendarModal() {
@@ -4605,7 +5559,9 @@
 
             const monthKey = getMonthKey(currentRhythmMonth);
             rhythm.markedDays = rhythm.markedDays || {};
-            const marked = new Set((rhythm.markedDays[monthKey] || []).map(n => Number(n)));
+            const dayStateMap = (rhythm.markedDays[monthKey] && typeof rhythm.markedDays[monthKey] === 'object' && !Array.isArray(rhythm.markedDays[monthKey]))
+                ? rhythm.markedDays[monthKey]
+                : {};
 
             const monthName = currentRhythmMonth.toLocaleString(undefined, { month: 'long', year: 'numeric' });
             monthLabel.textContent = monthName;
@@ -4639,10 +5595,12 @@
                     displayNum = dayNum - daysInMonth;
                 }
 
-                const isMarked = inMonth && marked.has(dayNum);
+                const state = inMonth ? (dayStateMap[dayNum] || null) : null;
+                const isMarked = state === 'green' || state === 'red';
+                const isRed = state === 'red';
                 const isToday = inMonth && todayDayNum && dayNum === todayDayNum;
-                const cls = `calendar-day${inMonth ? '' : ' muted'}${isToday ? ' today' : ''}${isMarked ? ' marked' : ''}`;
-                const x = isMarked ? `<div class="calendar-x">X</div>` : '';
+                const cls = `calendar-day${inMonth ? '' : ' muted'}${isToday ? ' today' : ''}${isMarked ? (isRed ? ' marked-red' : ' marked') : ''}`;
+                const x = isMarked ? `<div class="calendar-x${isRed ? ' red' : ''}">X</div>` : '';
                 const dataAttr = inMonth ? `data-day="${dayNum}"` : '';
                 html += `<div class="${cls}" ${dataAttr} onclick="onRhythmDayClick(event)"><div class="day-num">${displayNum}</div>${x}</div>`;
             }
@@ -4663,12 +5621,17 @@
 
             const monthKey = getMonthKey(currentRhythmMonth);
             rhythm.markedDays = rhythm.markedDays || {};
-            const arr = Array.isArray(rhythm.markedDays[monthKey]) ? rhythm.markedDays[monthKey].slice() : [];
-            const idx = arr.indexOf(day);
-            if (idx === -1) arr.push(day);
-            else arr.splice(idx, 1);
-            arr.sort((a, b) => a - b);
-            rhythm.markedDays[monthKey] = arr;
+            const dayStateMap = (rhythm.markedDays[monthKey] && typeof rhythm.markedDays[monthKey] === 'object' && !Array.isArray(rhythm.markedDays[monthKey]))
+                ? { ...rhythm.markedDays[monthKey] }
+                : {};
+            const current = dayStateMap[day] || null;
+            const next = current === null ? 'green' : (current === 'green' ? 'red' : null);
+            if (next === null) {
+                delete dayStateMap[day];
+            } else {
+                dayStateMap[day] = next;
+            }
+            rhythm.markedDays[monthKey] = dayStateMap;
             rhythm.updatedAt = new Date().toISOString();
 
             saveData();
@@ -4844,17 +5807,36 @@
                 return;
             }
 
+            appData.memoryDone = appData.memoryDone || {};
+
             container.innerHTML = occ.map(o => {
                 const ev = getEventById(o.eventId);
                 const repeat = ev ? (ev.repeat || 'none') : 'none';
                 const repeatLabel = repeat === 'none' ? '' : ` • ${repeat}`;
+                const doneKey = `${o.eventId}__${o.occurrenceKey}`;
+                const isDone = !!appData.memoryDone[doneKey];
                 return `
-                    <div class="memory-day-event-row" onclick="editMemoryEventFromOccurrence(${o.eventId}, '${o.occurrenceKey}')">
-                        <div class="memory-day-event-title">${truncateText(o.title, 60)}${repeatLabel}</div>
+                    <div class="memory-day-event-row${isDone ? ' done' : ''}" onclick="editMemoryEventFromOccurrence(${o.eventId}, '${o.occurrenceKey}')">
+                        <div class="memory-day-event-row-top">
+                            <div class="memory-day-event-title">${truncateText(o.title, 60)}${repeatLabel}</div>
+                            <div class="memory-event-check" onclick="toggleMemoryEventDone(event, ${o.eventId}, '${o.occurrenceKey}')">${isDone ? '✓' : '☐'}</div>
+                        </div>
                         <div class="memory-day-event-desc">${truncateText(o.description || '', 120) || ' '}</div>
                     </div>
                 `;
             }).join('');
+        }
+
+        function toggleMemoryEventDone(event, eventId, occurrenceKey) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            appData.memoryDone = appData.memoryDone || {};
+            const key = `${eventId}__${occurrenceKey}`;
+            appData.memoryDone[key] = !appData.memoryDone[key];
+            saveData();
+            renderMemoryDayEventsList();
         }
 
         function editMemoryEventFromOccurrence(eventId, occurrenceKey) {
