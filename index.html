@@ -1135,6 +1135,30 @@
             flex: 0 0 auto;
         }
 
+        #noteModal .note-delete-btn {
+            width: 44px;
+            height: 44px;
+            min-height: 44px;
+            padding: 0;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: rgba(239, 68, 68, 0.10) !important;
+            border: 1px solid rgba(239, 68, 68, 0.28) !important;
+            outline: none;
+        }
+
+        #noteModal .note-delete-btn:hover {
+            background: rgba(239, 68, 68, 0.16) !important;
+            border-color: rgba(239, 68, 68, 0.42) !important;
+        }
+
+        #noteModal .note-delete-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: #fecaca;
+        }
+
         #noteModal .note-menu-toggle {
             width: 44px;
             height: 44px;
@@ -1146,6 +1170,27 @@
             background: rgba(255, 255, 255, 0.06) !important;
             border: 1px solid rgba(255, 255, 255, 0.10) !important;
             outline: none;
+        }
+
+        #noteModal .note-done-btn {
+            width: 44px;
+            height: 44px;
+            min-height: 44px;
+            padding: 0;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.06) !important;
+            border: 1px solid rgba(255, 255, 255, 0.10) !important;
+            outline: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 22px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        #noteModal .note-done-btn:hover {
+            background: rgba(255, 255, 255, 0.10) !important;
         }
 
         #noteModal .note-menu-toggle:hover {
@@ -1163,9 +1208,9 @@
         }
 
         #noteModal .note-menu-toggle svg {
-            width: 20px;
-            height: 20px;
-            stroke: #e5e7eb;
+            width: 22px;
+            height: 22px;
+            stroke: rgba(255, 255, 255, 0.9);
         }
 
         #noteModal.note-menu-hidden .note-menu-toggle svg {
@@ -1634,6 +1679,19 @@
             border-top: 1px solid var(--light);
             font-size: 0.9rem;
             color: #6b7280;
+        }
+
+        #noteModal .modal-meta {
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+
+        #noteModal #imageAttachments {
+            margin-top: 10px;
+        }
+
+        #noteModal #imageAttachments:empty {
+            margin-top: 0;
         }
 
         @keyframes slideIn {
@@ -2581,13 +2639,22 @@
             <div class="modal-header">
                 <input type="text" id="modalNoteTitle" class="modal-title-input" placeholder="Note title">
                 <div class="modal-header-actions">
+                    <button id="noteDeleteBtn" class="action-btn note-delete-btn" onclick="deleteNoteFromModal()" aria-label="Delete spark">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                            <path d="M10 11v6"></path>
+                            <path d="M14 11v6"></path>
+                            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+                        </svg>
+                    </button>
                     <button id="noteMenuToggleBtn" class="action-btn white-btn note-menu-toggle" onclick="toggleNoteMenu()" aria-label="Hide menu">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"></path>
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg>
                     </button>
-                    <button class="close-btn" onclick="closeNoteModal()">&times;</button>
+                    <button class="action-btn white-btn note-done-btn" onclick="closeNoteModal()" aria-label="Done">✓</button>
                 </div>
             </div>
             <div class="modal-body">
@@ -2634,10 +2701,6 @@
                 </div>
                 <div class="modal-meta">
                     <strong>Created:</strong> <span id="modalNoteDate"></span>
-                </div>
-                <div class="modal-actions">
-                    <button class="add-btn" onclick="saveEditedNote()">Save Changes</button>
-                    <button class="action-btn white-btn" onclick="deleteNoteFromModal()">🗑️ Delete</button>
                 </div>
             </div>
         </div>
@@ -4071,7 +4134,7 @@
             renderNotes();
             
             // Open the modal for editing
-            openNoteModal(newNote.id, false);
+            openNoteModal(newNote.id, true);
         }
 
         // Render notes
@@ -4705,6 +4768,9 @@
                 // Setup checklist behaviors
                 setupChecklistHandlers();
                 setNoteListMode(!!note.listMode, true);
+
+                // Setup autosave handlers
+                setupNoteAutosaveHandlers();
                 
                 // Load images for this note
                 await loadNoteImages(id);
@@ -4726,6 +4792,8 @@
                 selected.style.transform = 'scale(1.15)';
                 selected.style.borderColor = 'rgba(255, 255, 255, 0.8)';
             }
+
+            scheduleNoteAutosave();
         }
 
         // Setup click handlers for links in contenteditable
@@ -4739,6 +4807,7 @@
                     e.stopPropagation();
                     const item = toggleBtn.closest('.checklist-item');
                     if (item) item.classList.toggle('done');
+                    scheduleNoteAutosave();
                     return;
                 }
                 const link = e.target.closest('a');
@@ -4815,6 +4884,8 @@
                     contentDiv.innerHTML = lines.map(t => escapeHtml(t)).join('<br>');
                 }
             }
+
+            if (!fromOpen) scheduleNoteAutosave();
         }
 
         function setupChecklistHandlers() {
@@ -4856,6 +4927,8 @@
                 if (newText) {
                     setTimeout(() => newText.focus(), 0);
                 }
+
+                scheduleNoteAutosave();
             }, true);
 
             checklistHandlersInstalled = true;
@@ -4863,10 +4936,68 @@
 
         // Close note modal
         function closeNoteModal() {
+            autosaveCurrentNoteNow();
             closeModal('noteModal');
             currentEditingNoteId = null;
             setNoteMenuHidden(false);
             setNoteListMode(false, true);
+        }
+
+        let noteAutosaveTimer = null;
+        let noteAutosaveHandlersInstalled = false;
+
+        function scheduleNoteAutosave() {
+            if (!currentEditingNoteId) return;
+            if (noteAutosaveTimer) clearTimeout(noteAutosaveTimer);
+            noteAutosaveTimer = setTimeout(() => {
+                autosaveCurrentNoteNow();
+            }, 250);
+        }
+
+        function autosaveCurrentNoteNow() {
+            if (!currentEditingNoteId) return;
+            const note = appData.notes.find(n => n.id === currentEditingNoteId);
+            if (!note) return;
+
+            const titleEl = document.getElementById('modalNoteTitle');
+            const contentEl = document.getElementById('modalNoteContent');
+            const tribeEl = document.getElementById('modalNoteTribe');
+
+            note.title = (titleEl ? titleEl.value : '').trim();
+            note.content = linkifyHtml(contentEl ? contentEl.innerHTML : '');
+            note.tribeId = (tribeEl ? tribeEl.value : '') || '';
+            note.color = selectedNoteColor || note.color || 'grey';
+            note.listMode = !!isNoteListMode;
+
+            saveData();
+            renderNotes();
+        }
+
+        function setupNoteAutosaveHandlers() {
+            if (noteAutosaveHandlersInstalled) return;
+
+            const titleEl = document.getElementById('modalNoteTitle');
+            const contentEl = document.getElementById('modalNoteContent');
+            const tribeEl = document.getElementById('modalNoteTribe');
+
+            if (titleEl) {
+                titleEl.addEventListener('input', scheduleNoteAutosave);
+                titleEl.addEventListener('blur', autosaveCurrentNoteNow);
+            }
+
+            // Capture input events coming from checklist-text or normal contenteditable
+            if (contentEl) {
+                contentEl.addEventListener('input', scheduleNoteAutosave, true);
+                contentEl.addEventListener('blur', autosaveCurrentNoteNow, true);
+            }
+
+            if (tribeEl) {
+                tribeEl.addEventListener('change', () => {
+                    scheduleNoteAutosave();
+                });
+            }
+
+            noteAutosaveHandlersInstalled = true;
         }
 
         let isNoteMenuHidden = false;
