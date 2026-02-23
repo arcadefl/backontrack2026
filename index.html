@@ -7,7 +7,7 @@
     <title>Back On Track 26</title>
     <link rel="manifest" href="./pwa-files/manifest.json">
     <link rel="apple-touch-icon" href="./pwa-files/icon-192.svg">
-    <link rel="icon" type="image/svg+xml" href="./pwa-files/icon-192.svg">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2764%27%20height%3D%2764%27%20viewBox%3D%270%200%2064%2064%27%3E%3Crect%20x%3D%276%27%20y%3D%276%27%20width%3D%2752%27%20height%3D%2752%27%20rx%3D%2712%27%20fill%3D%27%23ff6b35%27/%3E%3Ctext%20x%3D%2732%27%20y%3D%2739%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%2C%20sans-serif%27%20font-size%3D%2722%27%20font-weight%3D%27900%27%20fill%3D%27%230b0b0b%27%3EBOT%3C/text%3E%3C/svg%3E">
     <style>
         * {
             margin: 0;
@@ -557,13 +557,20 @@
         }
 
         .rhythm-count {
-            min-width: 64px;
+            min-width: 96px;
             text-align: right;
             font-weight: 800;
+            display: inline-flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rhythm-count .rhythm-count-green {
             color: #86efac;
         }
 
-        .rhythm-item[data-rhythm-color="red"] .rhythm-count {
+        .rhythm-count .rhythm-count-red {
             color: #fca5a5;
         }
 
@@ -4844,6 +4851,10 @@
             if (isNoteListMode) {
                 const hasChecklist = !!contentDiv.querySelector('.checklist-item');
                 if (!hasChecklist) {
+                    const note = currentEditingNoteId ? appData.notes.find(n => n.id === currentEditingNoteId) : null;
+                    const cached = note && Array.isArray(note.checklistState) ? note.checklistState : null;
+                    const cachedSnapshot = note && typeof note.checklistStateSnapshot === 'string' ? note.checklistStateSnapshot : null;
+
                     // Convert existing content into checklist items
                     // Use visual lines so it works no matter how the browser represents newlines.
                     const visualText = String(contentDiv.innerText || '')
@@ -4854,10 +4865,14 @@
                         .filter(Boolean);
 
                     const items = lines.length ? lines : [''];
-                    contentDiv.innerHTML = items.map(t => {
+                    const snapshot = items.join('\n');
+                    const canRestore = !!cached && cachedSnapshot === snapshot && cached.length === items.length;
+
+                    contentDiv.innerHTML = items.map((t, idx) => {
                         const safe = escapeHtml(t);
+                        const isDone = canRestore ? !!cached[idx].done : false;
                         return `
-                            <div class="checklist-item">
+                            <div class="checklist-item${isDone ? ' done' : ''}">
                                 <div class="checklist-text" contenteditable="true">${safe}</div>
                                 <button type="button" class="checklist-toggle" aria-label="Toggle done">✓</button>
                             </div>
@@ -4877,6 +4892,19 @@
                     }
                 }
             } else {
+                // Cache checklist done state before converting back to simple lines
+                const note = currentEditingNoteId ? appData.notes.find(n => n.id === currentEditingNoteId) : null;
+                if (note) {
+                    const items = Array.from(contentDiv.querySelectorAll('.checklist-item'));
+                    const state = items.map(it => {
+                        const textEl = it.querySelector('.checklist-text');
+                        const text = stripHtml(textEl ? (textEl.innerHTML || '') : '').trim();
+                        return { text, done: it.classList.contains('done') };
+                    });
+                    note.checklistState = state;
+                    note.checklistStateSnapshot = state.map(s => s.text).join('\n');
+                }
+
                 // Convert checklist items back to simple lines
                 const items = Array.from(contentDiv.querySelectorAll('.checklist-item .checklist-text'));
                 if (items.length) {
@@ -4895,7 +4923,7 @@
 
             contentDiv.addEventListener('keydown', (e) => {
                 if (!isNoteListMode) return;
-                if (e.key !== 'Enter') return;
+                if (e.key !== 'Enter' && e.key !== 'Backspace' && e.key !== 'Delete') return;
 
                 // e.target can be a text node in contenteditable; resolve the actual checklist text element.
                 let textEl = null;
@@ -4911,9 +4939,46 @@
                 }
                 if (!textEl) return;
 
-                e.preventDefault();
                 const item = textEl.closest('.checklist-item');
                 if (!item) return;
+
+                if (e.key === 'Backspace' || e.key === 'Delete') {
+                    const currentText = stripHtml(textEl.innerHTML || '').replace(/\u00A0/g, ' ').trim();
+                    if (currentText.length > 0) return;
+
+                    // Only remove the item when it's already empty.
+                    e.preventDefault();
+
+                    const allItems = Array.from(contentDiv.querySelectorAll('.checklist-item'));
+                    const idx = allItems.indexOf(item);
+                    item.remove();
+
+                    let focusEl = null;
+                    const remaining = Array.from(contentDiv.querySelectorAll('.checklist-item .checklist-text'));
+                    if (remaining.length === 0) {
+                        const newItem = document.createElement('div');
+                        newItem.className = 'checklist-item';
+                        newItem.innerHTML = `
+                            <div class="checklist-text" contenteditable="true"></div>
+                            <button type="button" class="checklist-toggle" aria-label="Toggle done">✓</button>
+                        `;
+                        contentDiv.appendChild(newItem);
+                        focusEl = newItem.querySelector('.checklist-text');
+                    } else {
+                        const prev = idx > 0 ? remaining[idx - 1] : null;
+                        const next = remaining[idx] || null;
+                        focusEl = prev || next;
+                    }
+
+                    if (focusEl) {
+                        setTimeout(() => focusEl.focus(), 0);
+                    }
+
+                    scheduleNoteAutosave();
+                    return;
+                }
+
+                e.preventDefault();
 
                 const newItem = document.createElement('div');
                 newItem.className = 'checklist-item';
@@ -5496,6 +5561,19 @@
             return total;
         }
 
+        function countRhythmMarksByState(rhythm) {
+            const res = { green: 0, red: 0 };
+            if (!rhythm || !rhythm.markedDays) return res;
+            Object.values(rhythm.markedDays).forEach(v => {
+                if (!v || typeof v !== 'object' || Array.isArray(v)) return;
+                Object.values(v).forEach(state => {
+                    if (state === 'green') res.green += 1;
+                    if (state === 'red') res.red += 1;
+                });
+            });
+            return res;
+        }
+
         function renderRhythms() {
             const list = document.getElementById('rhythmList');
             const empty = document.getElementById('rhythmsEmpty');
@@ -5512,15 +5590,22 @@
             list.innerHTML = rhythms
                 .slice()
                 .sort((a, b) => (b.updatedAt || b.createdAt || '').localeCompare(a.updatedAt || a.createdAt || ''))
-                .map(r => `
-                    <li class="rhythm-item" data-rhythm-color="${(r.color === 'red' ? 'red' : 'green')}" data-rhythm-id="${r.id}" onclick="openRhythmCalendar(${r.id})">
-                        <div class="item-content">
-                            <div class="item-title">${truncateText(r.name, 30)}</div>
-                            <div class="item-meta">Tap to open calendar</div>
-                        </div>
-                        <div class="rhythm-count">${countRhythmMarks(r)} X</div>
-                    </li>
-                `).join('');
+                .map(r => {
+                    const c = countRhythmMarksByState(r);
+                    return `
+                        <li class="rhythm-item" data-rhythm-color="${(r.color === 'red' ? 'red' : 'green')}" data-rhythm-id="${r.id}" onclick="openRhythmCalendar(${r.id})">
+                            <div class="item-content">
+                                <div class="item-title">${truncateText(r.name, 30)}</div>
+                                <div class="item-meta">Tap to open calendar</div>
+                            </div>
+                            <div class="rhythm-count">
+                                <span class="rhythm-count-green">${c.green}X</span>
+                                <span class="rhythm-count-red">${c.red}X</span>
+                            </div>
+                        </li>
+                    `;
+                })
+                .join('');
         }
 
         let selectedRhythmColor = 'green';
