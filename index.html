@@ -157,10 +157,14 @@
         }
 
         .nav-tabs {
+            --nav-size: clamp(34px, 9vw, 60px);
+            --nav-gap: clamp(4px, 1.6vw, 10px);
+
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: var(--nav-gap);
             margin-bottom: 30px;
+            padding: 0 10px;
             flex-wrap: nowrap;
         }
 
@@ -195,12 +199,20 @@
             font-weight: 600;
             transition: all 0.3s ease;
             box-shadow: var(--shadow);
-            width: 60px;
-            height: 60px;
+            width: var(--nav-size);
+            height: var(--nav-size);
+            padding: clamp(8px, 2.2vw, 15px);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--white);
+            flex: 0 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .nav-tab {
+                font-size: clamp(1.05rem, 4.2vw, 1.35rem);
+            }
         }
 
         .nav-tab:hover {
@@ -232,10 +244,6 @@
         .nav-tab.active[data-tab="memory"] {
             background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 50%, #991b1b 100%);
             box-shadow: 0 4px 15px rgba(239, 68, 68, 0.22);
-        }
-
-        .nav-tab.glow-red {
-            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.35), 0 0 16px rgba(239, 68, 68, 0.35);
         }
 
         .nav-tab.glow-orange {
@@ -285,6 +293,180 @@
         .content-section.page-next {
             transform: translateX(100%);
             visibility: visible;
+        }
+
+        .life-vector-bar {
+            position: relative;
+            height: 16px;
+            border-radius: 999px;
+            overflow: hidden;
+            background: linear-gradient(90deg,
+                rgba(239, 68, 68, 0.85) 0%,
+                rgba(239, 68, 68, 0.35) 28%,
+                rgba(255, 255, 255, 0.00) 50%,
+                rgba(34, 197, 94, 0.35) 72%,
+                rgba(34, 197, 94, 0.85) 100%
+            );
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.30);
+            margin: 14px 0 18px;
+        }
+
+        .life-vector-center-tick {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.70);
+            transform: translateX(-50%);
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+            z-index: 2;
+        }
+
+        .life-vector-marker {
+            position: absolute;
+            top: 50%;
+            width: 18px;
+            height: 18px;
+            transform: translate(-50%, -50%);
+            transition: left 240ms ease;
+            display: grid;
+            place-items: center;
+            color: rgba(255, 255, 255, 0.95);
+            filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.45));
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .life-vector-marker::before {
+            content: '▲';
+            font-weight: 900;
+            font-size: 16px;
+            line-height: 1;
+            transform: translateY(1px);
+        }
+
+        .life-vector-actions-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .life-vector-actions-grid {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+                gap: 10px;
+            }
+
+            .life-vector-actions-col {
+                gap: 10px;
+            }
+
+            .life-vector-actions-col .add-btn {
+                height: 44px;
+                min-height: 44px;
+                padding: 10px 10px;
+                font-size: 0.9rem;
+                white-space: nowrap;
+            }
+
+            .life-vector-action-list {
+                gap: 8px;
+            }
+
+            .life-vector-action-card {
+                padding: 10px 10px;
+                border-radius: 12px;
+                min-height: 44px;
+            }
+
+            .life-vector-action-name {
+                font-size: 0.92rem;
+            }
+
+            .life-vector-action-points {
+                padding: 5px 8px;
+                font-size: 0.85rem;
+            }
+        }
+
+        .life-vector-actions-col {
+            display: grid;
+            gap: 12px;
+        }
+
+        .life-vector-actions-col .add-btn {
+            width: 100%;
+            min-height: 48px;
+            height: 48px;
+            white-space: nowrap;
+        }
+
+        .life-vector-action-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .life-vector-action-card {
+            width: 100%;
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.04);
+            color: #e5e7eb;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 120ms ease, box-shadow 120ms ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            min-height: 48px;
+            min-width: 0;
+        }
+
+        .life-vector-action-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.20);
+        }
+
+        .life-vector-action-card:active {
+            transform: scale(0.99);
+        }
+
+        .life-vector-action-card.popping {
+            transform: scale(1.02);
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.22);
+        }
+
+        .life-vector-action-card.gain {
+            border-color: rgba(34, 197, 94, 0.28);
+            background: rgba(34, 197, 94, 0.12);
+        }
+
+        .life-vector-action-card.setback {
+            border-color: rgba(239, 68, 68, 0.28);
+            background: rgba(239, 68, 68, 0.12);
+        }
+
+        .life-vector-action-name {
+            font-weight: 900;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .life-vector-action-points {
+            font-weight: 900;
+            letter-spacing: 0.02em;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(0, 0, 0, 0.18);
+            flex: 0 0 auto;
         }
 
         .section-card {
@@ -2391,6 +2573,7 @@
             <button class="nav-tab" data-tab="projects" onclick="switchTab('projects')" title="Stream">🌊</button>
             <button class="nav-tab" data-tab="goals" onclick="switchTab('goals')" title="Vision">🎯</button>
             <button class="nav-tab" data-tab="rhythms" onclick="switchTab('rhythms')" title="Rhythms">🌿</button>
+            <button class="nav-tab" data-tab="lifeVector" onclick="switchTab('lifeVector')" title="Life Vector">🧭</button>
             <button class="nav-tab" data-tab="memory" onclick="switchTab('memory')" title="Memory">📅</button>
             <button class="nav-tab" data-tab="visual" onclick="switchTab('visual')" title="Visual">🎨</button>
             <button class="nav-tab" data-tab="notes" onclick="switchTab('notes')" title="Sparks">📝</button>
@@ -2444,6 +2627,36 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <p>No completed tasks yet. Finish some tasks to see them here!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="lifeVector" class="content-section">
+            <div class="section-card">
+                <div class="section-header">
+                    <h2 class="section-title">Life Vector</h2>
+                </div>
+
+                <div class="life-vector-bar" aria-label="Life Vector momentum">
+                    <div class="life-vector-center-tick"></div>
+                    <div id="lifeVectorMarker" class="life-vector-marker"></div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; color: #9ca3af; font-weight: 800; margin-bottom: 10px;">
+                    <div>Set Back</div>
+                    <div>Value: <span id="lifeVectorValue">0</span></div>
+                    <div>Gain</div>
+                </div>
+
+                <div class="life-vector-actions-grid">
+                    <div class="life-vector-actions-col">
+                        <button class="add-btn" onclick="openLifeVectorActionModal('setback')">Add Set Back</button>
+                        <div id="lifeVectorSetbacks" class="life-vector-action-list"></div>
+                    </div>
+                    <div class="life-vector-actions-col">
+                        <button class="add-btn" onclick="openLifeVectorActionModal('gain')">Add Gain</button>
+                        <div id="lifeVectorGains" class="life-vector-action-list"></div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -3036,6 +3249,24 @@
         </div>
     </div>
 
+    <div id="lifeVectorActionModal" class="modal" onclick="if(event.target===this) closeLifeVectorActionModal()">
+        <div class="modal-content" style="max-width: 520px;">
+            <div class="modal-header">
+                <h2 class="modal-title" id="lifeVectorActionTitle">Add Action</h2>
+                <button class="close-btn" onclick="closeLifeVectorActionModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="lifeVectorActionLabel" class="input-field" placeholder="Label (e.g. Gym)" style="margin-bottom: 14px;">
+                <input type="number" id="lifeVectorActionPoints" class="input-field" inputmode="numeric" placeholder="Points (e.g. 10)" style="margin-bottom: 18px;">
+
+                <div class="modal-actions">
+                    <button class="add-btn" onclick="saveLifeVectorActionFromModal()">Add</button>
+                    <button class="action-btn white-btn" onclick="closeLifeVectorActionModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Data storage
         let appData = {
@@ -3043,6 +3274,11 @@
             projects: [],
             goals: [],
             rhythms: [],
+            lifeVector: {
+                value: 0,
+                gains: [],
+                setbacks: []
+            },
             memoryEvents: [],
             noteTribes: [],
             notes: [],
@@ -3256,6 +3492,11 @@
             if (saved) {
                 appData = JSON.parse(saved);
                 // Ensure new properties exist for existing data
+                appData.lifeVector = appData.lifeVector && typeof appData.lifeVector === 'object' ? appData.lifeVector : { value: 0, gains: [], setbacks: [] };
+                if (typeof appData.lifeVector.value !== 'number') appData.lifeVector.value = 0;
+                appData.lifeVector.gains = Array.isArray(appData.lifeVector.gains) ? appData.lifeVector.gains : [];
+                appData.lifeVector.setbacks = Array.isArray(appData.lifeVector.setbacks) ? appData.lifeVector.setbacks : [];
+
                 appData.goals = appData.goals || [];
                 appData.goals.forEach(goal => {
                     goal.subGoals = goal.subGoals || [];
@@ -5545,9 +5786,119 @@
             renderProjects();
             renderGoals();
             renderRhythms();
+            renderLifeVector();
             renderMemory();
             renderNotes();
             renderVisuals();
+        }
+
+        function clampLifeVectorValue(v) {
+            const n = Number(v);
+            if (!Number.isFinite(n)) return 0;
+            return Math.max(-100, Math.min(100, n));
+        }
+
+        function renderLifeVector() {
+            const marker = document.getElementById('lifeVectorMarker');
+            const valueEl = document.getElementById('lifeVectorValue');
+            const gainsEl = document.getElementById('lifeVectorGains');
+            const setbacksEl = document.getElementById('lifeVectorSetbacks');
+            if (!marker || !gainsEl || !setbacksEl) return;
+
+            appData.lifeVector = appData.lifeVector && typeof appData.lifeVector === 'object' ? appData.lifeVector : { value: 0, gains: [], setbacks: [] };
+            appData.lifeVector.value = clampLifeVectorValue(appData.lifeVector.value);
+
+            const posPct = ((appData.lifeVector.value + 100) / 200) * 100;
+            marker.style.left = `${posPct}%`;
+            if (valueEl) valueEl.textContent = String(appData.lifeVector.value);
+
+            const gains = Array.isArray(appData.lifeVector.gains) ? appData.lifeVector.gains : [];
+            const setbacks = Array.isArray(appData.lifeVector.setbacks) ? appData.lifeVector.setbacks : [];
+
+            gainsEl.innerHTML = gains.map(a => {
+                const label = escapeHtml(a.label || 'Gain');
+                const delta = Number(a.delta) || 0;
+                const txt = `+${Math.abs(delta)}`;
+                return `<div class="life-vector-action-card gain" role="button" tabindex="0" onclick="applyLifeVectorAction(event, 'gain', ${a.id})"><div class="life-vector-action-name">${label}</div><div class="life-vector-action-points">${txt}</div></div>`;
+            }).join('');
+
+            setbacksEl.innerHTML = setbacks.map(a => {
+                const label = escapeHtml(a.label || 'Set Back');
+                const delta = Number(a.delta) || 0;
+                const txt = `-${Math.abs(delta)}`;
+                return `<div class="life-vector-action-card setback" role="button" tabindex="0" onclick="applyLifeVectorAction(event, 'setback', ${a.id})"><div class="life-vector-action-name">${label}</div><div class="life-vector-action-points">${txt}</div></div>`;
+            }).join('');
+        }
+
+        function applyLifeVectorAction(event, type, id) {
+            if (event && event.preventDefault) event.preventDefault();
+            const btn = event && event.currentTarget ? event.currentTarget : null;
+            if (btn && btn.classList) {
+                btn.classList.remove('popping');
+                void btn.offsetWidth;
+                btn.classList.add('popping');
+                setTimeout(() => btn.classList.remove('popping'), 140);
+            }
+
+            const lv = appData.lifeVector;
+            const list = type === 'setback' ? (lv.setbacks || []) : (lv.gains || []);
+            const action = list.find(a => a.id === id);
+            if (!action) return;
+            const delta = Number(action.delta) || 0;
+            lv.value = clampLifeVectorValue((Number(lv.value) || 0) + delta);
+            saveData();
+            renderLifeVector();
+        }
+
+        let pendingLifeVectorActionType = 'gain';
+
+        function openLifeVectorActionModal(type) {
+            pendingLifeVectorActionType = (type === 'setback') ? 'setback' : 'gain';
+
+            const title = document.getElementById('lifeVectorActionTitle');
+            if (title) title.textContent = pendingLifeVectorActionType === 'setback' ? 'Add Set Back' : 'Add Gain';
+
+            const labelEl = document.getElementById('lifeVectorActionLabel');
+            const pointsEl = document.getElementById('lifeVectorActionPoints');
+            if (labelEl) labelEl.value = '';
+            if (pointsEl) pointsEl.value = '';
+
+            openModal('lifeVectorActionModal');
+            setTimeout(() => {
+                if (labelEl && labelEl.focus) labelEl.focus();
+            }, 0);
+        }
+
+        function closeLifeVectorActionModal() {
+            closeModal('lifeVectorActionModal');
+        }
+
+        function saveLifeVectorActionFromModal() {
+            const labelEl = document.getElementById('lifeVectorActionLabel');
+            const pointsEl = document.getElementById('lifeVectorActionPoints');
+            const label = (labelEl ? labelEl.value : '').trim();
+            const rawPoints = pointsEl ? Number(pointsEl.value) : NaN;
+            if (!label) return;
+            if (!Number.isFinite(rawPoints) || rawPoints === 0) return;
+
+            appData.lifeVector = appData.lifeVector && typeof appData.lifeVector === 'object' ? appData.lifeVector : { value: 0, gains: [], setbacks: [] };
+            const lv = appData.lifeVector;
+
+            const magnitude = Math.abs(rawPoints);
+            const delta = pendingLifeVectorActionType === 'setback' ? -magnitude : magnitude;
+            const action = { id: Date.now(), label, delta };
+
+            if (pendingLifeVectorActionType === 'setback') {
+                lv.setbacks = Array.isArray(lv.setbacks) ? lv.setbacks : [];
+                lv.setbacks.unshift(action);
+            } else {
+                lv.gains = Array.isArray(lv.gains) ? lv.gains : [];
+                lv.gains.unshift(action);
+            }
+
+            saveData();
+            renderLifeVector();
+            closeLifeVectorActionModal();
         }
 
         function countRhythmMarks(rhythm) {
@@ -6409,7 +6760,7 @@
         }
 
         // Mobile swipe navigation
-        const TAB_ORDER = ['daily', 'projects', 'goals', 'rhythms', 'memory', 'visual', 'notes'];
+        const TAB_ORDER = ['daily', 'projects', 'goals', 'rhythms', 'lifeVector', 'memory', 'visual', 'notes'];
         let touchStartX = 0;
         let touchStartY = 0;
         let touchLastX = 0;
