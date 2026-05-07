@@ -3267,6 +3267,25 @@
         </div>
     </div>
 
+    <div id="lifeVectorEditModal" class="modal" onclick="if(event.target===this) closeLifeVectorEditModal()">
+        <div class="modal-content" style="max-width: 520px;">
+            <div class="modal-header">
+                <h2 class="modal-title" id="lifeVectorEditTitle">Edit Action</h2>
+                <button class="close-btn" onclick="closeLifeVectorEditModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="lifeVectorEditLabel" class="input-field" placeholder="Label" style="margin-bottom: 14px;">
+                <input type="number" id="lifeVectorEditPoints" class="input-field" inputmode="numeric" placeholder="Points" style="margin-bottom: 18px;">
+
+                <div class="modal-actions">
+                    <button class="add-btn" onclick="saveLifeVectorEditFromModal()">Save Changes</button>
+                    <button class="action-btn delete-btn" onclick="deleteLifeVectorEditFromModal()">🗑️ Delete</button>
+                    <button class="action-btn white-btn" onclick="closeLifeVectorEditModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Data storage
         let appData = {
@@ -3295,6 +3314,11 @@
         let currentEditingSubGoalId = null;
         let currentEditingSubGoalParentId = null;
         let selectedPriority = 'yellow'; // Default priority
+
+        let lifeVectorLongPressTimer = null;
+        let lifeVectorSuppressClickUntil = 0;
+        let pendingLifeVectorEditType = 'gain';
+        let pendingLifeVectorEditId = null;
 
         // Sound effects using Web Audio API
         function playCompletionSound() {
@@ -5819,19 +5843,38 @@
                 const label = escapeHtml(a.label || 'Gain');
                 const delta = Number(a.delta) || 0;
                 const txt = `+${Math.abs(delta)}`;
-                return `<div class="life-vector-action-card gain" role="button" tabindex="0" onclick="applyLifeVectorAction(event, 'gain', ${a.id})"><div class="life-vector-action-name">${label}</div><div class="life-vector-action-points">${txt}</div></div>`;
+                return `<div class="life-vector-action-card gain" role="button" tabindex="0" onpointerdown="startLifeVectorLongPress(event, 'gain', ${a.id})" onpointerup="cancelLifeVectorLongPress()" onpointercancel="cancelLifeVectorLongPress()" onpointerleave="cancelLifeVectorLongPress()" onclick="applyLifeVectorAction(event, 'gain', ${a.id})"><div class="life-vector-action-name">${label}</div><div class="life-vector-action-points">${txt}</div></div>`;
             }).join('');
 
             setbacksEl.innerHTML = setbacks.map(a => {
                 const label = escapeHtml(a.label || 'Set Back');
                 const delta = Number(a.delta) || 0;
                 const txt = `-${Math.abs(delta)}`;
-                return `<div class="life-vector-action-card setback" role="button" tabindex="0" onclick="applyLifeVectorAction(event, 'setback', ${a.id})"><div class="life-vector-action-name">${label}</div><div class="life-vector-action-points">${txt}</div></div>`;
+                return `<div class="life-vector-action-card setback" role="button" tabindex="0" onpointerdown="startLifeVectorLongPress(event, 'setback', ${a.id})" onpointerup="cancelLifeVectorLongPress()" onpointercancel="cancelLifeVectorLongPress()" onpointerleave="cancelLifeVectorLongPress()" onclick="applyLifeVectorAction(event, 'setback', ${a.id})"><div class="life-vector-action-name">${label}</div><div class="life-vector-action-points">${txt}</div></div>`;
             }).join('');
+        }
+
+        function startLifeVectorLongPress(event, type, id) {
+            cancelLifeVectorLongPress();
+            pendingLifeVectorEditType = (type === 'setback') ? 'setback' : 'gain';
+            pendingLifeVectorEditId = id;
+
+            lifeVectorLongPressTimer = setTimeout(() => {
+                lifeVectorSuppressClickUntil = Date.now() + 900;
+                openLifeVectorEditModal(pendingLifeVectorEditType, pendingLifeVectorEditId);
+            }, 600);
+        }
+
+        function cancelLifeVectorLongPress() {
+            if (lifeVectorLongPressTimer) {
+                clearTimeout(lifeVectorLongPressTimer);
+                lifeVectorLongPressTimer = null;
+            }
         }
 
         function applyLifeVectorAction(event, type, id) {
             if (event && event.preventDefault) event.preventDefault();
+            if (Date.now() < lifeVectorSuppressClickUntil) return;
             const btn = event && event.currentTarget ? event.currentTarget : null;
             if (btn && btn.classList) {
                 btn.classList.remove('popping');
@@ -5848,6 +5891,70 @@
             lv.value = clampLifeVectorValue((Number(lv.value) || 0) + delta);
             saveData();
             renderLifeVector();
+        }
+
+        function openLifeVectorEditModal(type, id) {
+            appData.lifeVector = appData.lifeVector && typeof appData.lifeVector === 'object' ? appData.lifeVector : { value: 0, gains: [], setbacks: [] };
+            const lv = appData.lifeVector;
+            const list = type === 'setback' ? (lv.setbacks || []) : (lv.gains || []);
+            const action = list.find(a => a.id === id);
+            if (!action) return;
+
+            pendingLifeVectorEditType = (type === 'setback') ? 'setback' : 'gain';
+            pendingLifeVectorEditId = id;
+
+            const title = document.getElementById('lifeVectorEditTitle');
+            if (title) title.textContent = pendingLifeVectorEditType === 'setback' ? 'Edit Set Back' : 'Edit Gain';
+
+            const labelEl = document.getElementById('lifeVectorEditLabel');
+            const pointsEl = document.getElementById('lifeVectorEditPoints');
+            if (labelEl) labelEl.value = action.label || '';
+            if (pointsEl) pointsEl.value = String(Math.abs(Number(action.delta) || 0));
+
+            openModal('lifeVectorEditModal');
+            setTimeout(() => {
+                if (labelEl && labelEl.focus) labelEl.focus();
+            }, 0);
+        }
+
+        function closeLifeVectorEditModal() {
+            closeModal('lifeVectorEditModal');
+        }
+
+        function saveLifeVectorEditFromModal() {
+            const labelEl = document.getElementById('lifeVectorEditLabel');
+            const pointsEl = document.getElementById('lifeVectorEditPoints');
+            const label = (labelEl ? labelEl.value : '').trim();
+            const rawPoints = pointsEl ? Number(pointsEl.value) : NaN;
+            if (!label) return;
+            if (!Number.isFinite(rawPoints) || rawPoints === 0) return;
+
+            appData.lifeVector = appData.lifeVector && typeof appData.lifeVector === 'object' ? appData.lifeVector : { value: 0, gains: [], setbacks: [] };
+            const lv = appData.lifeVector;
+            const listName = pendingLifeVectorEditType === 'setback' ? 'setbacks' : 'gains';
+            lv[listName] = Array.isArray(lv[listName]) ? lv[listName] : [];
+            const action = lv[listName].find(a => a.id === pendingLifeVectorEditId);
+            if (!action) return;
+
+            const magnitude = Math.abs(rawPoints);
+            action.label = label;
+            action.delta = pendingLifeVectorEditType === 'setback' ? -magnitude : magnitude;
+
+            saveData();
+            renderLifeVector();
+            closeLifeVectorEditModal();
+        }
+
+        function deleteLifeVectorEditFromModal() {
+            appData.lifeVector = appData.lifeVector && typeof appData.lifeVector === 'object' ? appData.lifeVector : { value: 0, gains: [], setbacks: [] };
+            const lv = appData.lifeVector;
+            const listName = pendingLifeVectorEditType === 'setback' ? 'setbacks' : 'gains';
+            lv[listName] = Array.isArray(lv[listName]) ? lv[listName] : [];
+            lv[listName] = lv[listName].filter(a => a.id !== pendingLifeVectorEditId);
+
+            saveData();
+            renderLifeVector();
+            closeLifeVectorEditModal();
         }
 
         let pendingLifeVectorActionType = 'gain';
